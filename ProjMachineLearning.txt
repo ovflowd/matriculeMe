@@ -1,0 +1,115 @@
+ //////////http://spark.apache.org/docs/latest/programming-guide.html
+
+Para gerar todas as combinações?
+map() 
+
+
+
+Adicionar pesos
+ foreach(func)
+
+
+ordenar
+takeOrdered(n, [ordering])
+
+
+Utilizar memory-only
+
+Nao esquecer modulo livre
+
+
+
+////////PSEUDO CODE
+
+
+import org.apache.spark.SparkContext
+import org.apache.spark.SparkConf
+
+
+bloco = sc.~~ pega list<Disciplina>(aluno);
+
+Class Grades : Disciplina
+{
+List<Disciplinas> listaOrdenada = new List<Disciplinas>;
+List<Disciplina,int> pertencentes = new List<Disciplina,int>{};
+int total = 0;
+Array<int> horario = new array<int>[108];
+int metricatotal = 0;
+
+}
+
+
+
+private void Disciplina::GeraMetrica() 
+{
+	bool valida = true;
+	foreach(int C in D.Prerequisitos)	
+	{
+		if(!historicoAprovado.Contains(C))
+			{
+			valida = false;	
+			}
+	}
+	if(valida)
+		{
+		D.metrica = PerfilporDepartamento(D.departamento,aluno.perfil) + PesoSemestre(D.semestrefluxo,aluno.semestre) + Tipo(D.tipo);
+		}
+		
+}
+
+
+
+private Grades GetGrid(Grades grade) ////          
+{
+if(grade.listaOrdenada!=null)
+	{
+		Grades selecionado = null;
+		if(grade.listaOrdenada.first().metrica < Aluno.IRA - grade.total)
+			{
+			sc.foreach(int T in grade.listaOrdenada.first().Turmas)
+				{  
+					Grades aux;
+					bool valid;
+					foreach(int h in T.horarios)
+						{
+							if(horario[h-1]!=0)
+							{valid=false;}
+						}
+					if(valid)
+						{
+						foreach(int h in T.horarios)
+							{
+bb								horario[h]==grade.listaOrdenada.first().codigoDisciplina;
+							}
+							aux = GetGrid(grade.listaOrdenada.Popfirst(),
+								grade.pertencente.append(grade.listaOrdenada.first(),T),
+								grade.total+grade.listaOrdenada.first().metrica,
+								horario,
+								metricaTotal+grade.listaOrdenada.first().metrica);
+							
+						}
+					if(aux.listaOrdenada.first().metrica > selecionado.listaOrdenada.first().metrica)
+					{selecionado = aux;}
+
+			        }
+			return selecionado;
+			}
+
+		else
+			{
+				selecionado = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),grade.pertencente,grade.total,grade.horario));
+			}
+			return selecionado;
+	}
+else
+{return grade;}
+	
+}
+
+disciplineList = bloco.map(lambda d -> d.GeraMetrica()).filter(d -> d.metrica>0);
+
+orderDisciplineList  = listadisciplinas.takeOrdered(listadiciplinas.lenght(),descending);
+megagrid = new Grades(new List<List<Disciplinas>>orderDisciplineList);
+grid = GetGrid(megagrid);
+
+result = grid.peprtencentes;
