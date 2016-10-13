@@ -22,35 +22,42 @@ Nao esquecer modulo livre
 ////////PSEUDO CODE
 
 
-import org.apache.spark.SparkContext
+import org.apache.spark.SparkContext //Necessario pra rodar Spark stuffz
 import org.apache.spark.SparkConf
 
 
-bloco = sc.~~ pega list<Disciplina>(aluno);
+bloco = sc.~~ pega list<Disciplina>(aluno); //funcao de carga do conteudo do aluno e historico a definir
 
-Class Grades : Disciplina
+Class Grades : Disciplina /////Classe Manipula as informações do algoritmo
 {
-List<Disciplinas> listaOrdenada = new List<Disciplinas>;
-List<Disciplina,int> pertencentes = new List<Disciplina,int>{};
-int total = 0;
-Array<int> horario = new array<int>[108];
-int metricatotal = 0;
+List<Disciplinas> listaOrdenada;
+List<Disciplina,int> pertencentes ;
+Array<int> horario;
+int metricaTotal;
+int totalCreditos;
+
+public Grades(List<Disciplinas> l= new List<Disciplinas>(),List<Disciplina,int> p= new List<Disciplina,int>(){},Array<int> h=new array<int>[108], int m= 0,int t=0)
+	{
+	listaOrdenada = l;
+	pertencentes = p;
+	horario = h;
+	metricaTotal = m;
+	totalCreditos = t;
+	}
 
 }
 
-
-
-private void Disciplina::GeraMetrica() 
+private void Disciplina::GeraMetrica(Disciplina D) 
 {
 	bool valida = true;
-	foreach(int C in D.Prerequisitos)	
+	foreach(int C in D.Prerequisitos)	//Varre Prerequisitos para validar a posibilidade de cursar
 	{
 		if(!historicoAprovado.Contains(C))
 			{
 			valida = false;	
 			}
 	}
-	if(valida)
+	if(valida & D.vagas>0) //ja tem pre requisitos e existem vagas
 		{
 		D.metrica = PerfilporDepartamento(D.departamento,aluno.perfil) + PesoSemestre(D.semestrefluxo,aluno.semestre) + Tipo(D.tipo);
 		}
@@ -59,45 +66,59 @@ private void Disciplina::GeraMetrica()
 
 
 
-private Grades GetGrid(Grades grade) ////          
+private Grades GetGrid(Grades grade) //// Funcao geradora da grade final         
 {
-if(grade.listaOrdenada!=null)
+
+if(grade.listaOrdenada!=null) // se nao alcancou a folha da arvore  
 	{
-		Grades selecionado = null;
-		if(grade.listaOrdenada.first().metrica < Aluno.IRA - grade.total)
+		Grades selecionado = grade;
+		if(grade.listaOrdenada.first().metrica < Aluno.IRA - grade.total) //existe creditos disponiveis
 			{
-			sc.foreach(int T in grade.listaOrdenada.first().Turmas)
+			sc.foreach(int T in grade.listaOrdenada.first().Turmas) ////Paralelismo das arvores para cada turma da disciplina em questão
 				{  
-					Grades aux;
-					bool valid;
+					Grades auxInclude,auxExclude,auxSelecionado = new Grades(null,horario);
+					bool valid = true;
 					foreach(int h in T.horarios)
 						{
 							if(horario[h-1]!=0)
-							{valid=false;}
+							{ valid=false;}
 						}
 					if(valid)
 						{
-						foreach(int h in T.horarios)
+						foreach(int h in T.horarios) //se valido altera horario
 							{
-bb								horario[h]==grade.listaOrdenada.first().codigoDisciplina;
+								auxSelecionado.horario[h]==grade.listaOrdenada.first().codigoDisciplina;
 							}
-							aux = GetGrid(grade.listaOrdenada.Popfirst(),
-								grade.pertencente.append(grade.listaOrdenada.first(),T),
-								grade.total+grade.listaOrdenada.first().metrica,
-								horario,
-								metricaTotal+grade.listaOrdenada.first().metrica);
-							
-						}
-					if(aux.listaOrdenada.first().metrica > selecionado.listaOrdenada.first().metrica)
-					{selecionado = aux;}
+						//Ramo que inclui essa disciplina
+						auxInclude = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),
+							grade.pertencente.append(grade.listaOrdenada.first(),T),
+							auxSelecionado.horario,
+							metricaTotal+grade.listaOrdenada.first().metrica,
+							totalCreditos+grade.listaOrdenada.first().credito));
+
+						if(grade.grade.listaOrdenada.first().metrica<100) //Poda soluções das arvores, exclue ramos que não incluem disciplinas mandatorias
+							{
+							auxExclude = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),
+							grade.pertencente,
+							horario,
+							metricaTotal,
+							totalCreditos));
+							}
+						} 
+					if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 solucões (incluir ou nao)
+					{auxSelecionado = auxExclude;}
+					else
+					{auxSelecionado = auxInclude;}
+					if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas interações retorna a melhor
+					{selecionado = auxSelecionado;}
 
 			        }
 			return selecionado;
 			}
 
-		else
+		else   ///Se a solução não pode incluir essa disciplinas pois estoura o número de creditos
 			{
-				selecionado = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),grade.pertencente,grade.total,grade.horario));
+				selecionado = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),grade.pertencente,grade.horario,grade.metricaTotal,grade.totalCreditos));
 			}
 			return selecionado;
 	}
@@ -106,10 +127,9 @@ else
 	
 }
 
-disciplineList = bloco.map(lambda d -> d.GeraMetrica()).filter(d -> d.metrica>0);
+disciplineList = bloco.map(lambda d -> d.GeraMetrica()).filter(d -> d.metrica>0); // varre entradas, atribui pesos e filtra apenas elementos que podem ser cursados para lista ponderada
 
-orderDisciplineList  = listadisciplinas.takeOrdered(listadiciplinas.lenght(),descending);
-megagrid = new Grades(new List<List<Disciplinas>>orderDisciplineList);
-grid = GetGrid(megagrid);
+orderDisciplineList  = listadisciplinas.takeOrdered(listadiciplinas.lenght(),descending);//ordena
+megagrid = new Grades(new List<Disciplinas>orderDisciplineList);//instancia classe inicial
+ return grid = GetGrid(megagrid);
 
-result = grid.peprtencentes;
