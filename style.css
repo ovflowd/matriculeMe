@@ -1,0 +1,13 @@
+/* Empty. Add your own CSS if you like */
+
+.col {
+	border-style:solid;
+	border-width:1px;
+	border-color:lightgreen;
+	font-size:10px;
+}
+
+
+h1 {
+	text-align:center;
+}
