@@ -1,6 +1,6 @@
  //////////http://spark.apache.org/docs/latest/programming-guide.html
 
-Para gerar todas as combinações?
+Para gerar todas as combinaÃ§Ãµes?
 map() 
 
 
@@ -28,19 +28,19 @@ import org.apache.spark.SparkConf
 
 bloco = sc.~~ pega list<Disciplina>(aluno); //funcao de carga do conteudo do aluno e historico a definir
 
-Class Grades : Disciplina /////Classe Manipula as informações do algoritmo
+Class Grades : Disciplina /////Classe Manipula as informaÃ§Ãµes do algoritmo
 List<Disciplinas> listaOrdenada;
 List<Disciplina,int> pertencentes ;
 Array<int> horario;
 int metricatotal;
 
-public Grades(List<Disciplinas> l= new List<Disciplinas>(),List<Disciplina,int> p= new List<Disciplina,int>(){},Array<int> h=new array<int>[108], int m= 0)
+public Grades(List<Disciplinas> l= new List<Disciplinas>(),List<Disciplina,int> p= new List<Disciplina,int>(){},Array<int> h=new array<int>[108], int m= 0,int t=0)
 {
 listaOrdenada = l;
-pertencentes = p; //disciplinas "com" da árvore
+pertencentes = p; //disciplinas "com" da Ã¡rvore
 horario = h;
-metricatotal = m; //métrica resultante das pertencentes
-total = t; //total de créditos
+metricatotal = m; //mÃ©trica resultante das pertencentes
+total = t; //total de crÃ©ditos
 }
 
 
@@ -49,13 +49,14 @@ private void Disciplina::GeraMetrica() //gera a listaOrdenada
 {
 	bool valida = true;
 	foreach(int C in D.Prerequisitos)	
-	{
-		if(!historicoAprovado.Contains(C))
+	{//tratar entre ou de listaDePrerequisitos
+	foreach(string req in C.split("+"))
+		if(!historicoAprovado.Contains(req))
 			{
 			valida = false;	
 			}
 	}
-	if(valida)
+	if(valida & D.vagas>0) //ja tem pre requisitos e existem vagas
 		{
 		d.metrica = PerfilporDepartamento(d.departamento,aluno.perfil) + PesoSemestre(D.semestrefluxo,aluno.semestre) + Tipo(D.tipo) + Preferencia(aluno.preferencia);
 		}
@@ -72,15 +73,19 @@ if(grade.listaOrdenada!=null) // se nao alcancou o no final
 		Grades selecionado = grade;
 		if(grade.listaOrdenada.first().metrica < 30- grade.total) //existe creditos disponiveis
 			{
-			sc.foreach(int T in grade.listaOrdenada.first().Turmas) ////Paralelismo das arvores para cada turma da disciplina em questão
+			sc.foreach(int T in grade.listaOrdenada.first().Turmas) ////Paralelismo das arvores para cada turma da disciplina em questÃ£o
 				{  
 					Grades auxInclude,auxExclude,auxSelecionado = new Grades(null,horario);
 					bool valid;
-					foreach(int h in T.horarios)
+					
+					foreach(int dia in T.horarios.dia)
+					{
+					for(int slot = 9^dia.day+dia.start; slot =< 9^dia.day+dia.end; slot++) 
 						{
-							if(horario[h-1]!=0)
+							if(horario[slot]!=0)
 							{ valid=false;}
 						}
+					}	
 					if(valid)
 						{
 						foreach(int h in T.horarios) //se valido altera horario
@@ -93,26 +98,29 @@ if(grade.listaOrdenada!=null) // se nao alcancou o no final
 							auxSelecionado.horario,
 							metricaTotal+grade.listaOrdenada.first().metrica));
 
-						if(grade.total>10) //Poda soluções das arvores que excluem as disciplinas iniciais ate o nível de 10 creditos totais
+						if(grade.total>10 | grade.grade.listaOrdenada.first().metrica<100) //Poda soluÃ§Ãµes das arvores que excluem as disciplinas iniciais ate o nÃ­vel de 10 creditos totais ou que tem um peso muito grande
 							{
 							auxExclude = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),
 							grade.pertencente,
 							horario,
 							metricaTotal));
 							}
+						if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 solucÃµes (incluir ou nao)
+						{auxSelecionado = auxExclude;}
+						else
+						{auxSelecionado = auxInclude;}
 						} 
-					if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 solucões (incluir ou nao)
-					{auxSelecionado = auxExclude;}
-					else
-					{auxSelecionado = auxInclude;}
-					if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas interações retorna a melhor
+					
+					
+					
+					if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas interaÃ§Ãµes retorna a melhor
 					{selecionado = auxSelecionado;}
 
 			        }
 			return selecionado;
 			}
 
-		else
+		else //creditos insuficientes
 			{
 				selecionado = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),grade.pertencente,grade.total,grade.horario));
 			}
