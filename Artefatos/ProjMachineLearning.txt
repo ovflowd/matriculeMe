@@ -39,15 +39,16 @@ int totalCreditos;
 public Grades(List<Disciplinas> l= new List<Disciplinas>(),List<Disciplina,int> p= new List<Disciplina,int>(){},Array<int> h=new array<int>[108], int m= 0,int t=0)
 	{
 	listaOrdenada = l;
-	pertencentes = p;
-	horario = h;
-	metricaTotal = m;
-	totalCreditos = t;
+pertencentes = p; //disciplinas "com" da árvore
+horario = h;
+metricatotal = m; //métrica resultante das pertencentes
+total = t; //total de créditos
+}
 	}
 
 }
 
-private void Disciplina::GeraMetrica(Disciplina D) 
+private void GeraMetrica(Disciplina D) 
 {
 	bool valida = true;
 	foreach(int C in D.Prerequisitos)	//Varre Prerequisitos para validar a posibilidade de cursar
@@ -59,7 +60,7 @@ private void Disciplina::GeraMetrica(Disciplina D)
 	}
 	if(valida & D.vagas>0) //ja tem pre requisitos e existem vagas
 		{
-		D.metrica = PerfilporDepartamento(D.departamento,aluno.perfil) + PesoSemestre(D.semestrefluxo,aluno.semestre) + Tipo(D.tipo);
+		D.metrica = PerfilporDepartamento(D.departamento,aluno.perfil) + PesoSemestre(D.semestrefluxo,aluno.semestre) + Tipo(D.tipo)+ Preferencia(aluno.preferencia);
 		}
 		
 }
@@ -78,11 +79,15 @@ if(grade.listaOrdenada!=null) // se nao alcancou a folha da arvore
 				{  
 					Grades auxInclude,auxExclude,auxSelecionado = new Grades(null,horario);
 					bool valid = true;
-					foreach(int h in T.horarios)
+					
+					foreach(int dia in T.horarios.dia)
+					{
+					for(int slot = 9^dia.day+dia.start; slot =< 9^dia.day+dia.end; slot++) 
 						{
-							if(horario[h-1]!=0)
+							if(horario[slot]!=0)
 							{ valid=false;}
 						}
+					}	
 					if(valid)
 						{
 						foreach(int h in T.horarios) //se valido altera horario
@@ -96,7 +101,7 @@ if(grade.listaOrdenada!=null) // se nao alcancou a folha da arvore
 							metricaTotal+grade.listaOrdenada.first().metrica,
 							totalCreditos+grade.listaOrdenada.first().credito));
 
-						if(grade.grade.listaOrdenada.first().metrica<100) //Poda soluções das arvores, exclue ramos que não incluem disciplinas mandatorias
+						if(grade.total>10 | grade.grade.listaOrdenada.first().metrica<100) ////Poda soluções das arvores que excluem as disciplinas iniciais ate o nível de 10 creditos totais ou que tem um peso muito grande / que não incluem disciplinas mandatorias
 							{
 							auxExclude = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),
 							grade.pertencente,
