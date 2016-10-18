@@ -1,0 +1,131 @@
+ //////////http://spark.apache.org/docs/latest/programming-guide.html
+
+Para gerar todas as combinações?
+map() 
+
+
+
+Adicionar pesos
+ foreach(func)
+
+
+ordenar
+takeOrdered(n, [ordering])
+
+
+Utilizar memory-only
+
+Nao esquecer modulo livre
+
+
+
+////////PSEUDO CODE
+
+
+import org.apache.spark.SparkContext //Necessario pra rodar Spark stuffz
+import org.apache.spark.SparkConf
+
+
+bloco = sc.~~ pega list<Disciplina>(aluno); //funcao de carga do conteudo do aluno e historico a definir
+
+Class Grades : Disciplina /////Classe Manipula as informações do algoritmo
+List<Disciplinas> listaOrdenada;
+List<Disciplina,int> pertencentes ;
+Array<int> horario;
+int metricatotal;
+
+public Grades(List<Disciplinas> l= new List<Disciplinas>(),List<Disciplina,int> p= new List<Disciplina,int>(){},Array<int> h=new array<int>[108], int m= 0)
+{
+listaOrdenada = l;
+pertencentes = p; //disciplinas "com" da árvore
+horario = h;
+metricatotal = m; //métrica resultante das pertencentes
+total = t; //total de créditos
+}
+
+
+
+private void Disciplina::GeraMetrica() //gera a listaOrdenada
+{
+	bool valida = true;
+	foreach(int C in D.Prerequisitos)	
+	{
+		if(!historicoAprovado.Contains(C))
+			{
+			valida = false;	
+			}
+	}
+	if(valida)
+		{
+		d.metrica = PerfilporDepartamento(d.departamento,aluno.perfil) + PesoSemestre(D.semestrefluxo,aluno.semestre) + Tipo(D.tipo) + Preferencia(aluno.preferencia);
+		}
+		
+}
+
+
+
+private Grades GetGrid(Grades grade) //// Funcao geradora da grade final         
+{
+
+if(grade.listaOrdenada!=null) // se nao alcancou o no final  
+	{
+		Grades selecionado = grade;
+		if(grade.listaOrdenada.first().metrica < 30- grade.total) //existe creditos disponiveis
+			{
+			sc.foreach(int T in grade.listaOrdenada.first().Turmas) ////Paralelismo das arvores para cada turma da disciplina em questão
+				{  
+					Grades auxInclude,auxExclude,auxSelecionado = new Grades(null,horario);
+					bool valid;
+					foreach(int h in T.horarios)
+						{
+							if(horario[h-1]!=0)
+							{ valid=false;}
+						}
+					if(valid)
+						{
+						foreach(int h in T.horarios) //se valido altera horario
+							{
+								auxSelecionado.horario[h]==grade.listaOrdenada.first().codigoDisciplina;
+							}
+						//Ramo que inclui essa disciplina
+						auxInclude = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),
+							grade.pertencente.append(grade.listaOrdenada.first(),T),
+							auxSelecionado.horario,
+							metricaTotal+grade.listaOrdenada.first().metrica));
+
+						if(grade.total>10) //Poda soluções das arvores que excluem as disciplinas iniciais ate o nível de 10 creditos totais
+							{
+							auxExclude = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),
+							grade.pertencente,
+							horario,
+							metricaTotal));
+							}
+						} 
+					if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 solucões (incluir ou nao)
+					{auxSelecionado = auxExclude;}
+					else
+					{auxSelecionado = auxInclude;}
+					if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas interações retorna a melhor
+					{selecionado = auxSelecionado;}
+
+			        }
+			return selecionado;
+			}
+
+		else
+			{
+				selecionado = GetGrid(new Grades(grade.listaOrdenada.Popfirst(),grade.pertencente,grade.total,grade.horario));
+			}
+			return selecionado;
+	}
+else
+{return grade;}
+	
+}
+
+disciplineList = bloco.map(lambda d -> d.GeraMetrica()).filter(d -> d.metrica>0); // varre entradas, atribui pesos e filtra apenas elementos que podem ser cursados para lista ponderada
+
+orderDisciplineList  = listadisciplinas.takeOrdered(listadiciplinas.lenght(),descending);//ordena
+megagrid = new Grades(new List<Disciplinas>orderDisciplineList);//instancia classe inicial
+ return grid = GetGrid(megagrid);
+
