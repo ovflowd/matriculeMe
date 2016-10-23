@@ -1,0 +1,246 @@
+# Example YAML to get you started quickly.
+# Be aware that YAML has indentation based scoping.
+# Code completion support is available so start typing for available options.
+swagger: '2.0'
+
+# This is your document metadata
+info:
+  version: "1.0.0"
+  title: Data Mining API
+host: localhost:8080
+basePath: /datamining
+schemes:
+  - http
+  - https
+produces:
+  - application/json
+
+definitions:
+  departamento:
+    type: object
+    properties:
+      codigo:
+        type: integer
+      nome:
+        type: string
+  disciplina:
+    type: object
+    properties:
+      nome:
+        type: string
+      codigo:
+        type: integer
+      credito:
+        type: integer
+      departamento:
+        type: integer
+      requisito:
+        type: array
+        items: 
+          type: string
+  curso:
+    type: object
+    properties:
+      nome:
+        type: string
+      codigo:
+        type: integer
+      creditos_limite:
+        type: integer
+  curriculo:
+    type: object
+    properties:
+      disciplina:
+        type: integer
+      curso:
+        type: integer
+      semestre_disciplina:
+        type: integer
+  oferta:
+    type: object
+    properties:
+      disciplina:
+        type: integer
+        description: FK
+      semestre:
+        type: integer
+        description: FK
+      vagas:
+        type: integer
+  turma:
+    type: object
+    properties:
+      cod_turma:
+        type: string
+      cod_disciplina:
+        type: integer
+      horario:
+        type: string
+      professor:
+        type: string
+      campus:
+        type: integer
+      vaga_reserva:
+        type: integer
+      vagas:
+        type: integer
+      tipo_reserva:
+        type: integer
+        description: FK
+  historico:
+    type: object
+    properties:
+      html_historico:
+        type: string
+      matri_aluno:
+        type: integer
+      mencao:
+        type: array
+        items:
+          type: string
+      cod_disciplina:
+        type: array
+        items:
+          type: integer    
+  aluno:
+    type: object
+    properties:
+      nome:
+        type: string
+      matricula:
+        type: integer
+      ira:
+        type: number
+        format: double
+      semestre_atual:
+        type: integer
+      curso:
+        type: integer
+# Describe your paths here
+paths:
+  # This is a path endpoint. Change it.
+  /departamento:
+    # This is a HTTP operation
+    get:
+      operationId: "getDepartamentos"
+      parameters:
+      - in: query
+        name: "departamento"
+        required: false
+        type: number
+      responses:
+        200:
+          description: "Array de departamentos"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/departamento"
+  /disciplina:
+    # This is a HTTP operation
+    get:
+      operationId: "getDisciplinas"
+      parameters:
+      - in: query
+        name: "disciplina"
+        required: false
+        type: number
+      responses:
+        200:
+          description: "Array de disciplinas"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/disciplina"
+  /curso:
+    # This is a HTTP operation
+    get:
+      operationId: "getCursos"
+      parameters:
+      - in: query
+        name: "curso"
+        required: false
+        type: number
+      responses:
+        200:
+          description: "Array de cursos"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/curso"
+  /curriculo:
+    # This is a HTTP operation
+    get:
+      operationId: "getCurriculo"
+      parameters:
+      - in: query
+        name: "curriculo"
+        required: false
+        type: number
+      responses:
+        200:
+          description: "Array de currículos"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/curriculo"
+  /oferta:
+    # This is a HTTP operation
+    get:
+      operationId: "getOfertas"
+      parameters:
+      - in: query
+        name: "oferta"
+        required: false
+        type: number
+      responses:
+        200:
+          description: "Array de ofertas"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/oferta"
+  /turma:
+    # This is a HTTP operation
+    get:
+      operationId: "getTurmas"
+      parameters:
+      - in: query
+        name: "turma"
+        required: false
+        type: number
+      responses:
+        200:
+          description: "Array de turmas"
+          schema:
+            type: array
+            items:
+              $ref: "#/definitions/turma"
+  /historico:
+    # This is a HTTP operation
+    get:
+      operationId: "getHistorico"
+      parameters:
+      - in: query
+        name: "html_historico"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Histórico do Aluno"
+          schema:
+            $ref: "#/definitions/historico"
+  /aluno:
+    # This is a HTTP operation
+    get:
+      operationId: "getAluno"
+      parameters:
+      - in: query
+        name: "html_historico"
+        required: true
+        type: string
+      responses:
+        200:
+          description: "Informações do aluno"
+          schema:
+            $ref: "#/definitions/aluno"
+              
