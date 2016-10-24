@@ -314,8 +314,28 @@ paths:
         200:
           description: Oferta Adicionada
         403:
-          description: Permissãp Negada
-      
+          description: Permissão Negada
+    put:
+      tags:
+        - Atualizar Oferta
+      parameters:
+        - name: curriculo
+          in: query
+          description: Id do Currículo (FK)
+          type: number
+        - name: semestre
+          in: query
+          description: Id do Semestre (FK)
+          type: number
+        - name: vagas
+          in: query
+          description: Número de Vagas (????)
+          type: number
+      responses:
+        200:
+          description: Oferta Atualizada.
+        400:
+          description: Oferta não encontrada.
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
