@@ -1,0 +1,198 @@
+---
+swagger: '2.0'
+
+################################################################################
+#                              API Information                                 #
+################################################################################
+info:
+  version: v1
+  title: matriculeMe API
+  description: |
+    MatriculeMe é uma solução de código fonte aberta para a resolução de diversos problemas do Matricula Web da Universidade de Brasília. O matriculeMe auxilia o estudante através de funcionalidades como geração de grades de horárias a partir de sugestões criadas pelo próprio sistema.
+  
+    ## Objetivos
+      A criação de uma documentação de API do núcleo básico do **matriculeMe**. A API designará as comunicações básicas realizadas pelo sistema com a interface mobile. A API é pública.
+    
+    ## Segurança
+    A proposta de segurança ainda não foi implementada.
+
+################################################################################
+#                  Host, Base Path, Schemes and Content Types                  #
+################################################################################
+host: website:80
+basePath: /
+schemes:
+  - http
+produces:
+  - application/json
+consumes:
+  - application/json
+
+
+################################################################################
+#                                   Parameters                                 #
+################################################################################
+parameters:
+  aluno-id:
+    name: aluno-id
+    description: Id do Aluno
+    in: path
+    required: true
+    type: number
+################################################################################
+#                                           Paths                              #
+################################################################################
+paths:
+  /login/:
+    get:
+      description: Realizar Login do Usuário
+      tags:
+        - Login de Usuário
+      parameters:
+        - name: matricula
+          in: query
+          required: true
+          description: Matrícula do Usuário
+          type: number
+        - name: password-aplicativo
+          in: query
+          required: true
+          description: Senha do Aplicativo
+          type: string
+      responses:
+        200:
+          description: Autenticação com Sucesso
+        403:
+          description: Senha Incorreta
+        404:
+          description: Conta Inexistente
+    post:
+      tags:
+        - Adicionar Login de Usuário
+      parameters:
+        - name: auth
+          in: body
+          description: A matrícula do usuário e as senhas
+          required: true
+          schema:
+              type: object
+              properties:
+                matricula:
+                  type: string
+                password-aplicativo:
+                  type: string
+                password-matriculaweb:
+                  type: string
+      description: Cadastrar Login do Usuário
+      responses:
+        200:
+          description: Conta Criada com Sucesso
+        403:
+          description: Matricula já existe na Base de Dados
+        404:
+          description: Aluno Inexistente
+  /aluno/:
+    get:
+      tags:
+        - Informações do Aluno
+      parameters:
+        - name: matricula
+          in: query
+          description: O nome de usuário
+          type: string
+        - name: id
+          in: query
+          description: O id do usuário
+          type: number
+      responses:
+        200:
+          description: Dados da Conta
+          schema:
+            $ref: '#/definitions/aluno'
+    post:
+      tags:
+        - Adicionar Aluno
+      parameters:
+        - name: dados
+          in: body
+          description: Dados do Aluno
+          required: true
+          schema:
+            type: object
+            properties:
+              nome:
+                type: string
+              matricula:
+                type: number
+              curso:
+                type: number
+      responses:
+        200:
+          description: Aluno Cadastrado
+        403:
+          description: Aluno já cadastrado
+  /aluno/{aluno-id}:
+    put:
+      tags:
+        - Atualizar dados do Aluno
+      parameters:
+        - $ref: '#/parameters/aluno-id'
+        - name: matricula
+          type: number
+          description: Matricula do Aluno
+          in: query
+        - name: ira
+          type: number
+          description: IRA do Aluno
+          in: query
+        - name: semestre-atual
+          in: query
+          description: Semestre atual do Aluno
+          type: number
+        - name: curso
+          description: Curso do Aluno
+          in: query
+          type: number
+        - name: interesse
+          description: Interesse do Aluno
+          in: query
+          type: string
+      responses:
+        200:
+          description: Aluno Atualizado
+        404:
+          description: Aluno Inexistente
+          
+        
+################################################################################
+#                                 Definitions                                  #
+################################################################################
+definitions:
+  curso:
+    type: object
+    properties:
+      id:
+        type: number
+      nome:
+        type: string
+      codigo:
+        type: number
+      creditos_limite:
+        type: number
+  aluno:
+    type: object
+    properties:
+      id:
+        type: number
+      nome:
+        type: string
+      matricula:
+        type: string
+      ira:
+        type: number
+      semestre_atual:
+        type: number
+      curso:
+        $ref: '#/definitions/curso'
+      interesse:
+        type: string
