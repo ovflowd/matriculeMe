@@ -43,7 +43,9 @@ parameters:
 #                                           Paths                              #
 ################################################################################
 paths:
-  /login/:
+  /login/{aluno-id}:
+    parameters:
+      - $ref: '#/parameters/aluno-id'
     get:
       description: Realizar Login do Usuário
       tags:
@@ -162,8 +164,39 @@ paths:
           description: Aluno Atualizado
         404:
           description: Aluno Inexistente
-          
-        
+  /perfil/{aluno-id}:
+    get:
+      description: Dados do Perfil de Alunos
+      tags:
+        - Dados do Perfil de Alunos
+      parameters:
+        - $ref: '#/parameters/aluno-id'
+      responses:
+        200:
+          description: Dados do Perfil
+          schema:
+            $ref: '#/definitions/perfil'
+        404:
+          description: Aluno Inexistente
+    put:
+      description: Atualizar Dados do Perfil de ALunos
+      tags:
+        - Atualizar Perfil do Aluno
+      parameters:
+        - $ref: '#/parameters/aluno-id'
+        - name: departamento
+          in: query
+          type: number
+          description: Nome do Departamento
+        - name: metrica
+          in: query
+          type: number
+          description: Metrica do Perfil
+      responses:
+        200:
+          description: Perfil do Aluno Cadastrado
+        404:
+          description: Aluno Inexistente
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -196,3 +229,14 @@ definitions:
         $ref: '#/definitions/curso'
       interesse:
         type: string
+  perfil:
+    type: object
+    properties:
+      id:
+        type: number
+      aluno-id:
+        type: number
+      departamento:
+        type: number
+      metrica:
+        type: number
