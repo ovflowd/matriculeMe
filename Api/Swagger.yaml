@@ -234,6 +234,8 @@ paths:
     get:
       tags:
         - Dados do Histórico
+      description:
+        Dados Histórico
       parameters:
         - name: id
           in: query
@@ -241,14 +243,14 @@ paths:
           type: number
         - name: aluno
           in: query
-          description: Id do Aluno
+          description: Id do Aluno (FK)
           type: number
         - name: mencao
           in: query
-          description: Id da Menção
+          description: Id da Menção (FK)
           type: number
         - name: oferta
-          description: Id da Oferta
+          description: Id da Oferta (FK)
           type: number
           in: query
       responses:
@@ -258,6 +260,62 @@ paths:
             $ref: '#/definitions/historico'
         404:
           description: Histórico não Encontrado
+  /oferta/:
+    get:
+      description: Dados da Oferta
+      tags:
+        - Dados da Oferta
+      parameters:
+        - name: id
+          in: query
+          type: number
+          description: Id do Registro de Oferta
+        - name: curriculo
+          in: query
+          type: number
+          description: Id do Currículo (FK)
+        - name: semestre
+          in: query
+          type: number
+          description: Id do Semestre (FK)
+        - name: vagas
+          in: query
+          type: number
+          description: Número de Vagas (???)
+      responses:
+        200:
+          description: Dados da Oferta
+          schema:
+            $ref: '#/definitions/oferta'
+        404:
+          description: Oferta não encontrada
+    post:
+      description: Inserir Oferta
+      tags:
+        - Inserir Ofertas
+      parameters:
+        - name: dados
+          in: body
+          description: Dados da Oferta
+          required: true
+          schema:
+            type: object
+            properties:
+              curriculo:
+                type: number
+                description: Id do Currículo (FK)
+              semestre:
+                type: number
+                description: Id do Semestre (FK)
+              vagas:
+                type: number
+                description: Número de Vagas (???)
+      responses:
+        200:
+          description: Oferta Adicionada
+        403:
+          description: Permissãp Negada
+      
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
