@@ -217,12 +217,12 @@ paths:
               aluno:
                 type: number
                 description: Id do Aluno (FK)
-              mencao:
+              departamento:
                 type: number
-                description: Id da Menção (FK)
-              oferta:
+                description: Id do Departamento (FK)
+              metrica:
                 type: number
-                description: Id da Oferta (FK)
+                description: Métrica do Perfil
       responses:
         200:
           description: Perfil Inserido
@@ -230,6 +230,34 @@ paths:
           description: Perfil já existe
         404:
           description: Aluno Inexistente
+  /historico/:
+    get:
+      tags:
+        - Dados do Histórico
+      parameters:
+        - name: id
+          in: query
+          description: Id do Registro do Histórico
+          type: number
+        - name: aluno
+          in: query
+          description: Id do Aluno
+          type: number
+        - name: mencao
+          in: query
+          description: Id da Menção
+          type: number
+        - name: oferta
+          description: Id da Oferta
+          type: number
+          in: query
+      responses:
+        200:
+          description: Dados do Histórico
+          schema:
+            $ref: '#/definitions/historico'
+        404:
+          description: Histórico não Encontrado
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -239,37 +267,148 @@ definitions:
     properties:
       id:
         type: number
+        description: Id do Registro
       nome:
         type: string
+        description: Nome do Curso
       codigo:
         type: number
+        description: Código do Curso
       creditos_limite:
         type: number
+        description: Limite de Créditos
   aluno:
     type: object
     properties:
       id:
         type: number
+        description: Id do Registro
       nome:
         type: string
+        description: Nome do Aluno
       matricula:
         type: string
+        description: Matrícula do Aluno
       ira:
         type: number
+        description: IRA do Aluno
       semestre_atual:
         type: number
+        description: Semestre Atual
       curso:
         $ref: '#/definitions/curso'
       interesse:
         type: string
+        description: Interesse do Aluno
   perfil:
     type: object
     properties:
       id:
         type: number
+        description: Id do Registro
       aluno-id:
-        type: number
+        $ref: '#/definitions/aluno'
       departamento:
-        type: number
+        $ref: '#/definitions/departamento'
       metrica:
         type: number
+        description: Valor da Métrica
+  mencao:
+    type: object
+    properties:
+      id:
+        type: number
+        description: Id do Registro
+      aluno:
+        $ref: '#/definitions/aluno'
+      mencao:
+        type: number
+        description: Valor da Menção
+      oferta:
+        type: number
+        description: Id da Oferta (FK)
+  departamento:
+    type: object
+    properties:
+      id:
+        type: number
+        description: Id do Registro
+      nome:
+        type: string
+        description: Nome do Departamento
+      descricao:
+        type: string
+        description: Descrição do Departamento
+      codigo:
+        type: number
+        description: Código do Departamento
+  historico:
+    type: object
+    properties:
+      id:
+        type: number
+        description: Id do Registro
+      mencao:
+        $ref: '#/definitions/mencao'
+      oferta:
+        $ref: '#/definitions/oferta'
+  oferta:
+    type: object
+    properties:
+      id:
+        type: number
+        description: Id do Registro
+      curriculo:
+        $ref: '#/definitions/curriculo'
+      semestre:
+        type: number
+      vagas:
+        type: number
+        description: Numero de Vagas disponíveis (Necessário??)
+  curriculo:
+    type: object
+    properties:
+      id:
+        type: number
+        description: Id do Registro
+      disciplina:
+        $ref: '#/definitions/disciplina'
+      curso:
+        $ref: '#/definitions/curso'
+      semestre-disciplina:
+        type: number
+        description: Semestre da Disciplina
+      departamento:
+        $ref: '#/definitions/departamento'
+  disciplina:
+    type: object
+    properties:
+      id:
+        type: number
+        description: Id do Registro
+      nome:
+        type: string
+        description: Nome da Disciplina
+      credito:
+        type: number
+        description: Quantidade de Créditos
+      requisito:
+        type: number
+        description: Id do Requisito (FK)
+      codigo:
+        type: number
+        description: Código da Disciplina
+  requisito:
+    type: object
+    properties:
+      id:
+        type: number
+        description: Id do Registro
+      tipo:
+        type: number
+        description: Tipo de Requisito (Co, Pre, Nenhum)
+      disciplina:
+        $ref: '#/definitions/disciplina'
+      codigo:
+        type: string
+        description: Código do Requisito (???)
