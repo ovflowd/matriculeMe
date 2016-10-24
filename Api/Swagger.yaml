@@ -81,10 +81,13 @@ paths:
               properties:
                 matricula:
                   type: string
+                  description: Matrícula do Aluno
                 password-aplicativo:
                   type: string
+                  description: Senha do Aplicativo
                 password-matriculaweb:
                   type: string
+                  description: Senha do MatriculaWEB
       description: Cadastrar Login do Usuário
       responses:
         200:
@@ -124,10 +127,13 @@ paths:
             properties:
               nome:
                 type: string
+                description: Nome do Aluno
               matricula:
                 type: number
+                description: Número de Matricula
               curso:
                 type: number
+                description: Id do Curso (FK)
       responses:
         200:
           description: Aluno Cadastrado
@@ -165,12 +171,12 @@ paths:
         404:
           description: Aluno Inexistente
   /perfil/{aluno-id}:
+    parameters:
+      - $ref: '#/parameters/aluno-id'
     get:
       description: Dados do Perfil de Alunos
       tags:
         - Dados do Perfil de Alunos
-      parameters:
-        - $ref: '#/parameters/aluno-id'
       responses:
         200:
           description: Dados do Perfil
@@ -183,7 +189,6 @@ paths:
       tags:
         - Atualizar Perfil do Aluno
       parameters:
-        - $ref: '#/parameters/aluno-id'
         - name: departamento
           in: query
           type: number
@@ -195,6 +200,34 @@ paths:
       responses:
         200:
           description: Perfil do Aluno Cadastrado
+        404:
+          description: Aluno Inexistente
+    post:
+      description: Inserção de Perfil
+      tags:
+        - Inserir Perfil
+      parameters:
+        - name: dados
+          in: body
+          description: Dados do Perfil
+          required: true
+          schema:
+            type: object
+            properties:
+              aluno:
+                type: number
+                description: Id do Aluno (FK)
+              mencao:
+                type: number
+                description: Id da Menção (FK)
+              oferta:
+                type: number
+                description: Id da Oferta (FK)
+      responses:
+        200:
+          description: Perfil Inserido
+        403:
+          description: Perfil já existe
         404:
           description: Aluno Inexistente
 ################################################################################
