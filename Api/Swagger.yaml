@@ -413,10 +413,10 @@ paths:
           in: query
           type: number
           description: Id do Registro (PK)
-        - name: nome
+        - name: aluno
           in: query
           type: string
-          description: Nome do Departamento
+          description: nome do aluno
         - name: descricao
           in: query
           type: string
@@ -432,6 +432,44 @@ paths:
             $ref: '#/definitions/departamento'
         404:
           description: Departamento não encontrado
+  /sugestao/:
+    get:
+      description:
+        Sugestoes de disciplinas
+      tags:
+        - Dados das sugestoes
+      parameters:
+        - name: id
+          in: query
+          type: number
+          description: Id do Registro (PK)
+        - name: nome
+          in: query
+          type: number
+          description: Id do aluno (FK)
+        - name: curriculo
+          in: query
+          type: number
+          description: Id do curriculo (FK)
+        - name: prioridade
+          in: query
+          type: number
+          description: prioridade da disciplina ofertada de acordo com os parametros do machine learning
+        - name: vagas
+          in: query
+          type: boolean
+          description: existencia de vagas
+        - name: creditos
+          in: query
+          type: number
+          description: quantidade de creditos da disciplina
+      responses:
+        200:
+          description: Dados de Sugestões
+          schema:
+            $ref: '#/definitions/sugestao'
+        404:
+          description: Sugestão não encontrada.      
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -579,3 +617,33 @@ definitions:
       tipo:
         type: number
         description: Tipo de Requisito (Co, Pre, Nenhum)
+  motivo:
+    type: object
+    properties:
+      id:
+        type: number
+        description: Id do Registro (PK)
+      descricao:
+        type: string
+        description: Descrição do Motivo da Sugestão
+  sugestao:
+    type: object
+    properties:
+      id:
+        type: number
+        description: Id do Registro (PK)
+      prioridade:
+        type: number
+        description: prioridade da sugestao (muito ou pouco recomendavel de acordo com os parametros de machine learning)
+      vagas:
+        type: boolean
+        description: existencia ou nao de vagas
+      creditos:
+        type: number
+        description: creditos da disciplina
+      aluno:
+        $ref: '#/definitions/aluno'
+      curriculo:
+        $ref: '#/definitions/curriculo'
+      motivo:
+        $ref: '#/definitions/motivo'
