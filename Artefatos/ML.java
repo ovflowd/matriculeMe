@@ -4,8 +4,8 @@
 import java.util.*;
 import java.math.*;
 public class ML {
-	public int PerfilporDepartamento(int dDep,int dAluno){return 0;}
-	public int PesoSemestre(int sDepartamento,int sAluno){return 0;}
+	
+	public int PesoSemestre(int sDepartamento,int sAluno){return Math.max(sAluno - sDepartamento,0);}
 	public int PesoTipo(int tipo){return tipo*10;}
 	public class Turma
 	{
@@ -15,7 +15,29 @@ public class ML {
 		
 	}
 	
-	public class Disciplina
+	public Disciplina[] LoadDisciplinas()
+	{
+		return new Disciplina[0];
+	}
+	public Aluno LoadAluno()
+	{
+		
+		return new Aluno();
+	}
+	
+	static public int[] GeraPerfil(Disciplina[] listDisciplina)
+	{
+		int[] perfil = new int[99];
+		int[] auxValue = new int[99];
+		for(Disciplina disciplina : listDisciplina)
+		{
+			perfil[disciplina.departamento] += disciplina.nota;
+			auxValue[disciplina.departamento] ++;
+		}
+		for(int i =0; i<99;i++) {perfil[i] = perfil[i]/Math.max(1,auxValue[i]);}
+		return perfil;
+	}
+	public class Disciplina implements Comparable<Disciplina>
 	{
 		String[] Prerequisitos;
 		int creditos;
@@ -26,28 +48,73 @@ public class ML {
 		int vagas;
 		int metrica;
 		int semestrefluxo;
-		public int Preferencia(int[] prefList)
-		{
-		for(int code : prefList)	
-		{	if(codigo == code)
-				{return 200;}}
+		int nota;
+		
+		//Retorna lista decrescente
+		
+		@Override
+		public int compareTo(Disciplina o) {
 			
-		return 0;
+			if (this.metrica > o.metrica) {
+				return -11;
+			} else if (this.metrica == o.metrica) {
+				return 0;
+			} else {
+				return 1;
+			}
 		}
+		
+		public int Preferencia(int[] prefList)
+			{
+			for(int code : prefList)	
+			{	if(codigo == code)
+					{return 200;}}
+				
+			return 0;
+			}
+		
+		private void GeraMetrica(Aluno aluno) 
+		{
+			boolean valida = false;
+			for(String C : this.Prerequisitos)	
+			{
+				//tratar entre ou de listaDePrerequisitos
+			String[] requisitos = C.split("+");
+			for(String req : requisitos)
+				for(int ha: aluno.historicoAprovado)
+				{
+				if(String.valueOf(ha).equals(req))
+					{
+					valida = true;	
+					}
+				}
+			if(valida & this.vagas>0) //ja tem pre requisitos e existem vagas
+				{
+				this.metrica = aluno.PerfilporDepartamento(this.departamento) + PesoSemestre(this.semestrefluxo,aluno.semestre) + PesoTipo(this.tipo)+ this.Preferencia(aluno.preferencia);
+				}
+			else
+				this.metrica = 0;
+			}	
+		}
+
+
 	}
+	
 	public class Aluno
 	{
 		int[] preferencia;
 		int semestre;
 		int[] historicoAprovado;
+		String[] historico;
 		int[] perfil;
-		public int perfilDep(int D){return perfil[D];}
+		public int PerfilporDepartamento(int dDep){return perfil[dDep];}
+		
 		
 		
 	}
 	public class Grades /////Classe Manipula as informações do algoritmo
 	{
-		LinkedList<Disciplina> listaOrdenada;
+		LinkedList<Disciplina> listaOrdenada = null;
 		String pertencentes = "";
 		String[] horario = new String[108];
 		int metricaTotal = 0;
@@ -61,43 +128,24 @@ public class ML {
 		metricaTotal = m; //métrica resultante das pertencentes
 		totalCreditos = t; //total de créditos
 		}
+		
 		public Grades(LinkedList<Disciplina> l)
 		{
 		listaOrdenada = l;
 		}
+		
+		
 		public Grades(String[] h)
 		{
 		horario = h;
 		}
+		
+		
+		
 	}
 
 	
-
-	private void GeraMetrica(Disciplina D,Aluno aluno) 
-	{
-		boolean valida = false;
-		for(String C : D.Prerequisitos)	
-		{
-			//tratar entre ou de listaDePrerequisitos
-		String[] requisitos = C.split("+");
-		for(String req : requisitos)
-			for(int ha: aluno.historicoAprovado)
-			{
-			if(String.valueOf(ha).equals(req))
-				{
-				valida = true;	
-				}
-			}
-		if(valida & D.vagas>0) //ja tem pre requisitos e existem vagas
-			{
-			D.metrica = PerfilporDepartamento(D.departamento,aluno.perfilDep(D.departamento)) + PesoSemestre(D.semestrefluxo,aluno.semestre) + PesoTipo(D.tipo)+ D.Preferencia(aluno.preferencia);
-			}
-		}	
-	}
-
-
-
-	private Grades GetGrid(Grades grade) //// Funcao geradora da grade final         
+	public Grades GetGrid(Grades grade) //// Funcao geradora da grade final         
 	{
 		 // se nao alcancou a folha da arvore
 	if(grade.listaOrdenada.isEmpty())  
@@ -173,15 +221,30 @@ public class ML {
 	}
 
 
+	
 
-	public static void main(String[] args) {
-		bloco = new list<Disciplina>(aluno); //funcao de carga do conteudo do aluno e historico a definir
 
-		disciplineList = bloco.map(d -> d.GeraMetrica()).filter(d -> d.metrica>0); // varre entradas, atribui pesos e filtra apenas elementos que podem ser cursados para lista ponderada
 
-		LinkedList<Disciplina>orderDisciplineList  = listadisciplinas.takeOrdered(listadiciplinas.lenght(),descending);//ordena
-		megagrid = new Grades(new orderDisciplineList);//instancia classe inicial
-		return grid = GetGrid(megagrid);
+	public Grades main(String[] args) {
+		Disciplina[] bloco = LoadDisciplinas(); //funcao de carga do conteudo do aluno e historico a definir
+		Aluno cliente = LoadAluno();
+		cliente.perfil = GeraPerfil(bloco);
+		LinkedList<Disciplina> disciplineList = new LinkedList<Disciplina>();
+		// varre entradas, atribui pesos e filtra apenas elementos que podem ser cursados para lista ponderada
+		for(Disciplina disc : bloco)
+			{ 
+			disc.GeraMetrica(cliente);
+			if(disc.metrica>0)
+				{
+				disciplineList.addLast(disc);
+				}
+			}
+		//ordena lista
+		Collections.sort(disciplineList);
+		//instancia  inicio de operacoes
+		return GetGrid(new Grades(disciplineList));
+		
+		//PROFIT
 	}
 
 }
