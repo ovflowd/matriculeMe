@@ -39,6 +39,12 @@ parameters:
     in: path
     required: true
     type: number
+  disciplina-origem:
+    name: disciplina-origem
+    description: Discplina Origem
+    in: path
+    required: true
+    type: number
 ################################################################################
 #                                           Paths                              #
 ################################################################################
@@ -257,7 +263,7 @@ paths:
         200:
           description: Dados do Histórico
           schema:
-            $ref: '#/definitions/historico'
+            $ref: '#/definitions/disciplinas_cursadas'
         404:
           description: Histórico não Encontrado
   /oferta/:
@@ -270,10 +276,10 @@ paths:
           in: query
           type: number
           description: Id do Registro de Oferta
-        - name: curriculo
+        - name: disciplina
           in: query
           type: number
-          description: Id do Currículo (FK)
+          description: Id da Disciplina (FK)
         - name: semestre
           in: query
           type: number
@@ -301,15 +307,12 @@ paths:
           schema:
             type: object
             properties:
-              curriculo:
+              disciplina:
                 type: number
-                description: Id do Currículo (FK)
+                description: Id da Disciplna (FK)
               semestre:
                 type: number
                 description: Id do Semestre (FK)
-              vagas:
-                type: number
-                description: Número de Vagas (???)
       responses:
         200:
           description: Oferta Adicionada
@@ -319,23 +322,56 @@ paths:
       tags:
         - Atualizar Oferta
       parameters:
-        - name: curriculo
+        - name: disciplina
           in: query
-          description: Id do Currículo (FK)
+          description: Id da Disciplina (FK)
           type: number
         - name: semestre
           in: query
           description: Id do Semestre (FK)
-          type: number
-        - name: vagas
-          in: query
-          description: Número de Vagas (????)
           type: number
       responses:
         200:
           description: Oferta Atualizada.
         400:
           description: Oferta não encontrada.
+  /curriculo/:
+    get:
+      description: 
+        Receber Currículo
+      tags:
+        - Dados Currículo
+      parameters:
+        - name: disciplina
+          in: query
+          type: number
+          description: Id da Disciplina (FK)
+        - name: curso
+          in: query
+          type: number
+          description: Id do Curso (FK)
+      responses:
+        200:
+          description: Dados do Currículo
+          schema:
+            $ref: '#/definitions/curriculo'
+        404:
+          description: Currículo não Encontrado
+  /requisito/{disciplina-origem}:
+    get:
+      description:
+        Requisitos de Disciplinas
+      tags:
+        - Requisitos de Disciplinas
+      parameters:
+        - $ref: '#/parameters/disciplina-origem'
+      responses:
+        200:
+          description: Dados do Currículo
+          schema:
+            $ref: '#/definitions/requisito'
+        404:
+          description: Disciplina não encontrada
 ################################################################################
 #                                 Definitions                                  #
 ################################################################################
@@ -420,12 +456,14 @@ definitions:
       codigo:
         type: number
         description: Código do Departamento
-  historico:
+  disciplinas_cursadas:
     type: object
     properties:
       id:
         type: number
         description: Id do Registro
+      aluno:
+        $ref: '#/definitions/aluno'
       mencao:
         $ref: '#/definitions/mencao'
       oferta:
@@ -436,13 +474,10 @@ definitions:
       id:
         type: number
         description: Id do Registro
-      curriculo:
-        $ref: '#/definitions/curriculo'
+      disciplina:
+        $ref: '#/definitions/disciplina'
       semestre:
         type: number
-      vagas:
-        type: number
-        description: Numero de Vagas disponíveis (Necessário??)
   curriculo:
     type: object
     properties:
@@ -456,8 +491,6 @@ definitions:
       semestre-disciplina:
         type: number
         description: Semestre da Disciplina
-      departamento:
-        $ref: '#/definitions/departamento'
   disciplina:
     type: object
     properties:
@@ -470,23 +503,19 @@ definitions:
       credito:
         type: number
         description: Quantidade de Créditos
-      requisito:
-        type: number
-        description: Id do Requisito (FK)
       codigo:
         type: number
         description: Código da Disciplina
+      departamento:
+        $ref: '#/definitions/departamento'
   requisito:
     type: object
     properties:
-      id:
-        type: number
-        description: Id do Registro
+      disciplina_origem:
+        $ref: '#/definitions/disciplina'
+      disciplina_requisito:
+        type: string
+        description: Disciplinas Requisitadas (1+1)
       tipo:
         type: number
         description: Tipo de Requisito (Co, Pre, Nenhum)
-      disciplina:
-        $ref: '#/definitions/disciplina'
-      codigo:
-        type: string
-        description: Código do Requisito (???)
