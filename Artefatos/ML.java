@@ -168,7 +168,7 @@ public class ML {
 		String[] historico;
 		int[] perfil;
 		public int PerfilporDepartamento(int dDep){return perfil[dDep];}
-		
+		int login;
 		
 		
 	}
