@@ -3,6 +3,7 @@
 //import org.apache.spark.SparkConf
 import java.util.*;
 import java.math.*;
+import java.lang.*;
 public class ML {
 	
 	public int PesoSemestre(int sDepartamento,int sAluno){return Math.max(sAluno - sDepartamento,0);}
@@ -12,6 +13,7 @@ public class ML {
 		int[] day;
 		int[] start;
 		int[] end;
+		int vagas;
 		
 	}
 	
@@ -27,29 +29,57 @@ public class ML {
 	
 	static public int[] GeraPerfil(Disciplina[] listDisciplina)
 	{
-		int[] perfil = new int[99];
-		int[] auxValue = new int[99];
+		Map<int,int> perfil = new HashMap<int,int>()[76];
+		int[] auxPerfil = new int[76];
+		int[] auxValue = new int[76];
+		int aux = 0;
 		for(Disciplina disciplina : listDisciplina)
 		{
-			perfil[disciplina.departamento] += disciplina.nota;
+			if(perfil.keys().contains(disciplina.departamento))
+			{
+				
+			}
+			else
+			{//disciplina ainda nao mapeada
+				perfil.put(disciplina.departamento,aux);
+				aux++;
+			}
+			
+			perfil[perfil.get(disciplina.departamento)] += disciplina.nota;
 			auxValue[disciplina.departamento] ++;
 		}
-		for(int i =0; i<99;i++) {perfil[i] = perfil[i]/Math.max(1,auxValue[i]);}
-		return perfil;
+		for(int i =0; i<76;i++) {auxPerfil[i] = auxPerfil[i]/Math.max(1,auxValue[i]);}
+		return auxPerfil;
 	}
-	public class Disciplina implements Comparable<Disciplina>
+	
+	public Interface IOferta
+	{
+		int id;
+		Turma[] turmas;
+		int semestrefluxo;
+		
+	}
+	
+	
+	public class Disciplina implements Comparable<Disciplina>,IOferta
 	{
 		String[] Prerequisitos;
+		char[20] nome;
+		int id;
 		int creditos;
 		int codigo;
 		int tipo; //Coorequisito
 		int departamento;
 		Turma[] turmas;
-		int vagas;
+		bool vagasExistentes;
 		int metrica;
 		int semestrefluxo;
 		int nota;
 		
+		public Disciplina()
+		{
+			for(
+		}
 		//Retorna lista decrescente
 		
 		@Override
@@ -88,7 +118,7 @@ public class ML {
 					valida = true;	
 					}
 				}
-			if(valida & this.vagas>0) //ja tem pre requisitos e existem vagas
+			if(valida & this.vagasExistentes=true) //ja tem pre requisitos e existem vagas
 				{
 				this.metrica = aluno.PerfilporDepartamento(this.departamento) + PesoSemestre(this.semestrefluxo,aluno.semestre) + PesoTipo(this.tipo)+ this.Preferencia(aluno.preferencia);
 				}
@@ -112,7 +142,7 @@ public class ML {
 		
 		
 	}
-	public class Grades /////Classe Manipula as informações do algoritmo
+	public class Grades /////Classe Manipula as informaÃ§Ãµes do algoritmo
 	{
 		LinkedList<Disciplina> listaOrdenada = null;
 		String pertencentes = "";
@@ -123,10 +153,10 @@ public class ML {
 		public Grades(LinkedList<Disciplina> l,String p,String[] h, int m, int t)
 		{
 		listaOrdenada = l;
-		pertencentes = p; //disciplinas "com" da árvore
+		pertencentes = p; //disciplinas "com" da Ã¡rvore
 		horario = h;
-		metricaTotal = m; //métrica resultante das pertencentes
-		totalCreditos = t; //total de créditos
+		metricaTotal = m; //mÃ©trica resultante das pertencentes
+		totalCreditos = t; //total de crÃ©ditos
 		}
 		
 		public Grades(LinkedList<Disciplina> l)
@@ -156,7 +186,7 @@ public class ML {
 			if(first.metrica < 30 - grade.totalCreditos)
 			{
 				int turmaId = 0;
-				for(Turma oferta : first.turmas) ////Paralelismo das arvores para cada turma da disciplina em questão
+				for(Turma oferta : first.turmas) ////Paralelismo das arvores para cada turma da disciplina em questÃ£o
 					{  
 						turmaId++;
 						Grades auxInclude = new Grades(grade.horario);
@@ -189,7 +219,7 @@ public class ML {
 								grade.metricaTotal+first.metrica,
 								grade.totalCreditos+first.creditos));
 
-							if(grade.metricaTotal>10 | first.metrica<100) ////Poda soluções das arvores que excluem as disciplinas iniciais ate o nível de 10 creditos totais ou que tem um peso muito grande / que não incluem disciplinas mandatorias
+							if(grade.metricaTotal>10 | first.metrica<100) ////Poda soluÃ§Ãµes das arvores que excluem as disciplinas iniciais ate o nÃ­vel de 10 creditos totais ou que tem um peso muito grande / que nÃ£o incluem disciplinas mandatorias
 								{
 								auxExclude = GetGrid(new Grades(grade.listaOrdenada,
 								grade.pertencentes,
@@ -198,18 +228,18 @@ public class ML {
 								grade.totalCreditos));
 								}
 							} 
-						if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 solucões (incluir ou nao)
+						if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 solucÃµes (incluir ou nao)
 						{auxSelecionado = auxExclude;}
 						else
 						{auxSelecionado = auxInclude;}
-						if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas interações retorna a melhor
+						if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas interaÃ§Ãµes retorna a melhor
 						{selecionado = auxSelecionado;}
 
 				        }
 				return selecionado;
 				}
 
-			else   ///Se a solução não pode incluir essa disciplinas pois estoura o número de creditos
+			else   ///Se a soluÃ§Ã£o nÃ£o pode incluir essa disciplinas pois estoura o nÃºmero de creditos
 				{
 					selecionado = GetGrid(new Grades(grade.listaOrdenada,grade.pertencentes,grade.horario,grade.metricaTotal,grade.totalCreditos));
 				}
@@ -226,8 +256,11 @@ public class ML {
 
 
 	public Grades main(String[] args) {
-		Disciplina[] bloco = LoadDisciplinas(); //funcao de carga do conteudo do aluno e historico a definir
 		Aluno cliente = LoadAluno();
+		int curso = cliente.curso;
+		
+		Disciplina[] bloco = LoadDisciplinasACursar(curso); //funcao de carga do conteudo do aluno e historico a definir
+		
 		cliente.perfil = GeraPerfil(bloco);
 		LinkedList<Disciplina> disciplineList = new LinkedList<Disciplina>();
 		// varre entradas, atribui pesos e filtra apenas elementos que podem ser cursados para lista ponderada
