@@ -4,7 +4,7 @@ import io.selendroid.*;
 public class HistBot {
 
 	SelendroidCapabilities capa = new SelendroidCapabilities();
-
+	capa.setEmulator(true);
 	WebDriver driver = new SelendroidDriver(capa);
 	capa.setEmulator(true);
 	driver.get("https://wwwsec.serverweb.unb.br/graduacao/sec/login.aspx");
