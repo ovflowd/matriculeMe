@@ -6,6 +6,7 @@ public class HistBot {
 	SelendroidCapabilities capa = new SelendroidCapabilities();
 
 	WebDriver driver = new SelendroidDriver(capa);
+	capa.setEmulator(true);
 	driver.get("https://wwwsec.serverweb.unb.br/graduacao/sec/login.aspx");
 	WebDriverWait wait = new WebDriverWait(driver, TimeSpan.FromSeconds(30));
 	//Espera ate 30 secs para elemento aparecer na tela
