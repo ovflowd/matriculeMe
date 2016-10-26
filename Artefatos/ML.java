@@ -10,13 +10,24 @@ public class ML {
 	public int PesoTipo(int tipo){return tipo*10;}
 	public class Turma
 	{
-		int[] day;
-		int[] start;
-		int[] end;
+		HorarioAula[] horarios;
 		int vagas;
+		int vaga_reserva;
+		int oferta;
+		int tipo_reserva_id;
+		int professor;
+		char[5] codigo;
+		int id;
 		
 	}
 	
+	public class HorarioAula()
+	{	
+		char[10] dia;
+		char[10] horario_inicio;
+		char[10] horario_final;
+		
+	}
 	public Disciplina[] LoadDisciplinas()
 	{
 		return new Disciplina[0];
@@ -35,16 +46,12 @@ public class ML {
 		int aux = 0;
 		for(Disciplina disciplina : listDisciplina)
 		{
-			if(perfil.keys().contains(disciplina.departamento))
+			if(!perfil.keys().contains(disciplina.departamento))
 			{
-				
-			}
-			else
-			{//disciplina ainda nao mapeada
+			//disciplina ainda nao mapeada
 				perfil.put(disciplina.departamento,aux);
-				aux++;
+				aux++;	
 			}
-			
 			perfil[perfil.get(disciplina.departamento)] += disciplina.nota;
 			auxValue[disciplina.departamento] ++;
 		}
@@ -60,10 +67,27 @@ public class ML {
 		
 	}
 	
-	
-	public class Disciplina implements Comparable<Disciplina>,IOferta
+	public Interface IDisciplina
 	{
-		String[] Prerequisitos;
+		requisitos[] Prerequisitos;
+		char[20] nome;
+		int id;
+		int creditos;
+		int codigo;
+				
+	}
+	
+	public clase requisitos
+	{
+		int disciplina_origem;
+		Char[20] disciplina_requisito;
+		int tipo;
+		
+	}
+	
+	public class Disciplina implements Comparable<Disciplina>,IOferta,IDisciplina
+	{
+		requisitos[] Prerequisitos; //disciplina
 		char[20] nome;
 		int id;
 		int creditos;
@@ -71,14 +95,20 @@ public class ML {
 		int tipo; //Coorequisito
 		int departamento;
 		Turma[] turmas;
-		bool vagasExistentes;
+		bool vagasExistentes=true;
 		int metrica;
 		int semestrefluxo;
 		int nota;
 		
 		public Disciplina()
 		{
-			for(
+			for(Turma t : turmas)
+			{
+				if(t.vaga=0)
+				{
+					vagasExistentes=false;
+				}
+			}
 		}
 		//Retorna lista decrescente
 		
@@ -106,10 +136,10 @@ public class ML {
 		private void GeraMetrica(Aluno aluno) 
 		{
 			boolean valida = false;
-			for(String C : this.Prerequisitos)	
+			for(requisitos C : this.Prerequisitos)	
 			{
 				//tratar entre ou de listaDePrerequisitos
-			String[] requisitos = C.split("+");
+			String[] requisitos = C.disciplina_requisito.toString().split("+");
 			for(String req : requisitos)
 				for(int ha: aluno.historicoAprovado)
 				{
@@ -194,10 +224,10 @@ public class ML {
 						Grades auxSelecionado = new Grades(grade.horario);
 						boolean valid = true;
 						
-						for(int aloc = 0 ; aloc < oferta.day.length ; aloc++)
+						for(int aloc = 0 ; aloc < oferta.horario.length ; aloc++)
 						{
 							
-						for(int slot = (int) Math.pow(9, oferta.day[aloc]) + oferta.start[aloc]; slot < (int) Math.pow(9, oferta.day[aloc])+oferta.start[aloc]; slot++) 
+						for(int slot = (int) Math.pow(9, oferta.horario.dia[aloc]) + oferta.horario.horario_inicio[aloc]; slot < (int) Math.pow(9, oferta.horario.dia[aloc])+oferta.horario.horario_final[aloc]; slot++) 
 							{
 								if(grade.horario[slot].equals(null))
 								{ valid=false;}
