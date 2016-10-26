@@ -1,12 +1,31 @@
 /* Empty. Add your own CSS if you like */
 
 .col {
-	border-style:solid;
-	border-width:1px;
-	border-color:lightgreen;
-	font-size:10px;
+	border-style: solid;
+	border-width: 1px;
+	border-color: silver;
+	font-size: 10px;
+	text-align: center;
 }
 
+.pag{
+  background-image: url("../img/Logomakr_6ZICy2.png");
+}
+
+.dia {
+  background-color: #E7F3D6;
+}
+
+.largura{
+	height: 30px;
+	width: 400px;
+	margin:auto;
+	border:2px solid #007aff;
+}
+
+.horas{
+  background-color: #007aff;
+}
 
 h1 {
 	text-align:center;
