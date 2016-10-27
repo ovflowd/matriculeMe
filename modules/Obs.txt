@@ -1,0 +1,14 @@
+Obs: Tabelas emergenciais referentes a funcionalidade de autenticação foram adicionadas e outras alteradas:
+  - Login foi alterada: aluno_id FK foi movida para a tabela aluno, foi removida a relação desta com a tabela token, o atributo
+  senha_aplicativo foi renomeado para password e deixou de ser do tipo Integer e passou a ser do tipo String, e o atributo 
+  senha_matricula foi renomeado para access_key.
+  - Token foi alterada: o atributo login_id não existe mais, foi adicionado um atributo do tipo String chamado token, e foi adicio-
+  nado um atributo do tipo Long chamado time.
+  - User foi criada: contem relações com as tabelas Login e Token incluindo as FK's para essas tabelas.
+  -Url foi criada;
+  
+  A tabela aluno recebeu uma FK para a tabela login;
+  
+  Na tabela requisito foi criado um atributo id do tipo Integer (antes a FK estava sinalizada como sendo a própria PK da tabela, no
+  caso, o atributo disciplina_origem continha ambos "sinais" FK e PK) pois o Hibernate não aceitou ambas especificações em um atri-
+  buto;
