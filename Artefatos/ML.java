@@ -215,15 +215,15 @@ public class ML {
 			//existe creditos disponiveis
 			if(first.metrica < 30 - grade.totalCreditos)
 			{
+				Grades auxInclude = new Grades(grade.horario);
+				Grades auxExclude = new Grades(grade.horario);
+				Grades auxSelecionado = new Grades(grade.horario);
 				int turmaId = 0;
 				for(Turma oferta : first.turmas) ////Paralelismo das arvores para cada turma da disciplina em questão
 					{  
 						turmaId++;
-						Grades auxInclude = new Grades(grade.horario);
-						Grades auxExclude = new Grades(grade.horario);
-						Grades auxSelecionado = new Grades(grade.horario);
 						boolean valid = true;
-						
+						Grades auxIncludeInter = new Grades(grade.horario);
 						for(int aloc = 0 ; aloc < oferta.horario.length ; aloc++)
 						{
 							
@@ -233,7 +233,7 @@ public class ML {
 								{ valid=false;}
 							}
 						}	
-						if(valid)
+						if(valid) //existe vaga, caso não exista pula ramo de solução
 							{
 							for(int aloc = 0 ; aloc < oferta.day.length ; aloc++)//se valido altera horario
 							{
@@ -243,29 +243,34 @@ public class ML {
 								}
 							}
 							//Ramo que inclui essa disciplina
-							auxInclude = GetGrid(new Grades(grade.listaOrdenada,
+							auxIncludeInter = GetGrid(new Grades(grade.listaOrdenada,
 								grade.pertencentes.concat(String.valueOf(first.codigo)),
 								auxSelecionado.horario,
 								grade.metricaTotal+first.metrica,
 								grade.totalCreditos+first.creditos));
-
-							if(grade.metricaTotal>10 | first.metrica<100) ////Poda soluções das arvores que excluem as disciplinas iniciais ate o nível de 10 creditos totais ou que tem um peso muito grande / que não incluem disciplinas mandatorias
-								{
-								auxExclude = GetGrid(new Grades(grade.listaOrdenada,
-								grade.pertencentes,
-								auxSelecionado.horario,
-								grade.metricaTotal,
-								grade.totalCreditos));
-								}
+							if(auxIncludeInter.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as possíves solucões incluindo
+								{auxInclude = auxIncludeInter;}
+							
 							} 
-						if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 solucões (incluir ou nao)
+						
+					
+				      		}
+				//ramo que não inclui esta disciplina
+				if(grade.metricaTotal>10 | first.metrica<100) ////Poda soluções das arvores, excluem as disciplinas iniciais ate o nível de 10 creditos totais ou que tem um peso muito grande / que não incluem disciplinas mandatorias
+					{
+					auxExclude = GetGrid(new Grades(grade.listaOrdenada,
+					grade.pertencentes,
+					auxSelecionado.horario,
+					grade.metricaTotal,
+					grade.totalCreditos));
+					}
+					
+					if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 solucões (incluir ou nao)
 						{auxSelecionado = auxExclude;}
-						else
+					else
 						{auxSelecionado = auxInclude;}
-						if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas interações retorna a melhor
-						{selecionado = auxSelecionado;}
-
-				        }
+				if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas interações retorna a melhor
+					{selecionado = auxSelecionado;}
 				return selecionado;
 				}
 
@@ -275,7 +280,7 @@ public class ML {
 				}
 				return selecionado;
 		}
-	else
+	else ///No folha, lista vazia
 	{return grade;}
 		
 	}
