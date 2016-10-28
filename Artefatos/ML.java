@@ -4,6 +4,8 @@
 import java.util.*;
 import java.math.*;
 import java.lang.*;
+import com.google.gson.gson;
+
 public class ML {
 	
 	public int PesoSemestre(int sDepartamento,int sAluno){return Math.max(sAluno - sDepartamento,0);}
@@ -81,7 +83,7 @@ public class ML {
 	{
 		int disciplina_origem;
 		Char[20] disciplina_requisito;
-		int tipo;
+		int tipo; //coorequisito ou pre
 		
 	}
 	
@@ -92,10 +94,10 @@ public class ML {
 		int id;
 		int creditos;
 		int codigo;
-		int tipo; //Coorequisito
+		//int tipo; //
 		int departamento;
 		Turma[] turmas;
-		bool vagasExistentes=true;
+		bool vagasExistentes=false;
 		int metrica;
 		int semestrefluxo;
 		int nota;
@@ -104,9 +106,9 @@ public class ML {
 		{
 			for(Turma t : turmas)
 			{
-				if(t.vaga=0)
+				if(t.vaga!=0 & (t.tipo_reserva_id=0 | tipo))
 				{
-					vagasExistentes=false;
+					vagasExistentes=true;
 				}
 			}
 		}
@@ -116,7 +118,7 @@ public class ML {
 		public int compareTo(Disciplina o) {
 			
 			if (this.metrica > o.metrica) {
-				return -11;
+				return -1;
 			} else if (this.metrica == o.metrica) {
 				return 0;
 			} else {
@@ -137,18 +139,19 @@ public class ML {
 		{
 			boolean valida = false;
 			for(requisitos C : this.Prerequisitos)	
-			{
+			{if(C.tipo==1)
+			{Console} //Juntas disciplinas se nao foram cursadas (super disciplina)
 				//tratar entre ou de listaDePrerequisitos
 			String[] requisitos = C.disciplina_requisito.toString().split("+");
 			for(String req : requisitos)
 				for(int ha: aluno.historicoAprovado)
 				{
-				if(String.valueOf(ha).equals(req))
+				if(String.valueOf(ha).equals(req) | C.tipo==0) //prerequisito
 					{
 					valida = true;	
 					}
 				}
-			if(valida & this.vagasExistentes=true) //ja tem pre requisitos e existem vagas
+			if(valida & this.vagasExistentes==true) //ja tem pre requisitos e existem vagas
 				{
 				this.metrica = aluno.PerfilporDepartamento(this.departamento) + PesoSemestre(this.semestrefluxo,aluno.semestre) + PesoTipo(this.tipo)+ this.Preferencia(aluno.preferencia);
 				}
@@ -164,7 +167,7 @@ public class ML {
 	{
 		int[] preferencia;
 		int semestre;
-		int[] historicoAprovado;
+		disciplinas_cursadas[] historicoAprovado;
 		String[] historico;
 		int[] perfil;
 		public int PerfilporDepartamento(int dDep){return perfil[dDep];}
@@ -221,7 +224,7 @@ public class ML {
 				int turmaId = 0;
 				for(Turma oferta : first.turmas) ////Paralelismo das arvores para cada turma da disciplina em questão
 					{  
-						turmaId++;
+						
 						boolean valid = true;
 						Grades auxIncludeInter = new Grades(grade.horario);
 						for(int aloc = 0 ; aloc < oferta.horario.length ; aloc++)
@@ -239,12 +242,12 @@ public class ML {
 							{
 							for(int slot = (int) Math.pow(9, oferta.day[aloc]) + oferta.start[aloc]; slot < (int) Math.pow(9, oferta.day[aloc])+oferta.start[aloc]; slot++) 
 								{
-								auxSelecionado.horario[slot]=String.valueOf(first.codigo+String.valueOf(turmaId));
+								auxSelecionado.horario[slot]=String.valueOf(first.codigo+"-"+String.valueOf(oferta.codigo));
 								}
 							}
 							//Ramo que inclui essa disciplina
 							auxIncludeInter = GetGrid(new Grades(grade.listaOrdenada,
-								grade.pertencentes.concat(String.valueOf(first.codigo)),
+								grade.pertencentes.concat(String.valueOf(first.codigo)+"-"+String.valueOf(oferta.codigo)+"|"),
 								auxSelecionado.horario,
 								grade.metricaTotal+first.metrica,
 								grade.totalCreditos+first.creditos));
