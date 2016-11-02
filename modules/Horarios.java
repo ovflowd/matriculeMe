@@ -54,4 +54,11 @@ public class Horarios {
 	public Turmas getTurmas(){
 		return turmaId;
 	}
+	public void setDia(String dia){
+		this.dia = dia;
+	}
+	
+	public String getDia(){
+		return dia;
+	}
 }
