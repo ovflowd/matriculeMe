@@ -19,7 +19,16 @@ public class Turma {
 	private String vagas;
 	
 	public void extrairVagas() throws IOException{
-		Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/oferta_dados.aspx?cod="+codDisc).get();
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/oferta_dados.aspx?cod="+codDisc).get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
 		String compInic = "Turma Vagas Turno Horário/Local Professor Obs";
@@ -117,14 +126,6 @@ public class Turma {
 
 	public void setCodDisc(String codDisc) {
 		this.codDisc = codDisc;
-	}
-
-	public String getCodTurma() {
-		return turmas;
-	}
-
-	public void setCodTurma(String codTurma) {
-		this.turmas = codTurma;
 	}
 
 	public String getCampus() {

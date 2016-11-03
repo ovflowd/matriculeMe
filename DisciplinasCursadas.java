@@ -13,11 +13,12 @@ import org.jsoup.nodes.Element;
 
 public class DisciplinasCursadas {
 	private int matriAluno;
-	private String codigo;
+	private transient String cod;
+	private int codigo;
 	private String mencao;
 	
 	public void converter(){
-		
+		setCodigo(Integer.parseInt(getCod()));
 	}
 	
 	/*
@@ -64,11 +65,11 @@ public class DisciplinasCursadas {
 		this.matriAluno = matriAluno;
 	}
 
-	public String getCodigo() {
+	public int getCodigo() {
 		return codigo;
 	}
 
-	public void setCodigo(String codigo) {
+	public void setCodigo(int codigo) {
 		this.codigo = codigo;
 	}
 
@@ -78,6 +79,14 @@ public class DisciplinasCursadas {
 
 	public void setMencao(String mencao) {
 		this.mencao = mencao;
+	}
+
+	public String getCod() {
+		return cod;
+	}
+
+	public void setCod(String cod) {
+		this.cod = cod;
 	}
 	
 }

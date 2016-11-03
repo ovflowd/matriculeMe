@@ -25,7 +25,16 @@ public class Disciplina {
 	}
 	
 	public void extrairCreditos() throws IOException{
-		Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/oferta_dados.aspx?cod="+getCodDisc()+"&dep="+getCodDpto()).get();
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/oferta_dados.aspx?cod="+getCodDisc()+"&dep="+getCodDpto()).get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
 		String compInic = "(Teor-Prat-Ext-Est)";
@@ -42,7 +51,16 @@ public class Disciplina {
 	}
 	
 	public void extrairPreReq() throws IOException{
-		Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/disciplina.aspx?cod="+getCodDisc()).get();
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/disciplina.aspx?cod="+getCodDisc()).get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
 		String compInic = "Vigência:";

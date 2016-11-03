@@ -12,7 +12,16 @@ public class CriadorFluxo {
 	ArrayList<String[]> fluxo = new ArrayList<String[]>();
 	
 	public void extrairOpt(String codHab) throws IOException{
-		Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/curriculo.aspx?cod="+codHab).get();
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/curriculo.aspx?cod="+codHab).get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
 		String inic = "DISCIPLINASOPTATIVAS";
@@ -44,7 +53,16 @@ public class CriadorFluxo {
 	}
 	
 	public void extrairFluxo(String codHab) throws IOException{
-		Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/fluxo.aspx?cod="+codHab).get();
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/fluxo.aspx?cod="+codHab).get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
 		//Rodar 5x o ite.next

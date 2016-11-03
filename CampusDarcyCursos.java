@@ -16,7 +16,16 @@ public class CampusDarcyCursos {
 	
 	public void extrairCursos() throws IOException{
 		for(int k = 1; k < 5; k++){
-			Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/curso_rel.aspx?cod="+k).get();
+			int flag = 0;
+			Document doc = null;
+			while(flag == 0){
+				try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/curso_rel.aspx?cod="+k).get();
+				flag = 1;
+				}
+				catch(Exception e){
+					System.out.println("Erro");
+				}
+			}
 			Element table = doc.select("TD").first();
 			Iterator<Element> ite = table.select("tr").iterator();
 			String compInicio = "Modalidade Código Denominação Turno";

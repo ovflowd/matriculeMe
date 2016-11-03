@@ -11,7 +11,16 @@ import org.jsoup.nodes.Element;
 public class Curso {
 	
 	public ArrayList<String> extrairHab(String codCurso) throws IOException{
-		Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/curso_dados.aspx?cod="+codCurso).get();
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/curso_dados.aspx?cod="+codCurso).get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
 		//Rodar 5x o ite.next

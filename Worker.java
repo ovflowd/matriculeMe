@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
 
+import javax.xml.ws.http.HTTPException;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -11,7 +13,7 @@ import org.jsoup.nodes.Element;
 public class Worker {
 	private ArrayList<Departamento> departamentos = new ArrayList<Departamento>();
 	private ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
-	private ArrayList<Turma> turmas = new ArrayList<Turma>();
+	private ArrayList<Turmas> turmas = new ArrayList<Turmas>();
 	private ArrayList<Curriculo> curriculos = new ArrayList<Curriculo>();
 	private ArrayList<Habilitacao> habilitacoes = new ArrayList<Habilitacao>();
 	private ArrayList<DisciplinasCursadas> disciplinasCursadas = new ArrayList<DisciplinasCursadas>();
@@ -46,11 +48,12 @@ public class Worker {
 			Habilitacao temp; 
 			codHab = extrator.extrairHab(cursos.codCurso.get(i));
 			for(int j = 0; j < codHab.size(); j++){
-				System.out.println(cursos.curso.get(i));
+				//System.out.println(cursos.curso.get(i));
 				temp = new Habilitacao();
 				temp.setNomeCurso(cursos.curso.get(i));
 				temp.setCodHab(codHab.get(j));
 				temp.extrairCredLimite();
+				temp.converter();
 				habilitacoes.add(temp);
 			}
 		}
@@ -80,7 +83,16 @@ public class Worker {
 		
 		for(int i = 0; i < departamentos.size(); i++){
 			if(!(departamentos.get(i).getCod().equals("377")||departamentos.get(i).getCod().equals("372"))){
-				Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/oferta_dis.aspx?cod="+departamentos.get(i).getCod()).get();
+				int flag = 0;
+				Document doc = null;
+				while(flag == 0){
+					try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/oferta_dis.aspx?cod="+departamentos.get(i).getCod()).get();
+					flag = 1;
+					}
+					catch(Exception e){
+						System.out.println("Erro");
+					}
+				}
 				Element table = doc.select("TD").first();
 				Iterator<Element> ite2 = table.select("tr").iterator();
 				while(!(ite2.next().text()).equals("Código Denominação Ementa"));
@@ -123,7 +135,24 @@ public class Worker {
 			//professor
 			temp.extrairVagas();
 			//conversão
-			turmas.add(temp);
+			Turmas temp1 = null;
+			String[] divTemp = temp.getTurmas().split(";");
+			String[] divTemp2 = temp.getHorario().split(";");
+			String[] divVagas = temp.getVagas().split(";");
+			String controle = divTemp[0];
+			String hora = "";
+			int j = 0;
+			int k = 0;
+			while(j < divTemp.length){			
+				while(controle.equals(divTemp[j]) && j < divTemp.length){
+					hora += divTemp2[j] + ";";
+					j++;
+				}
+				temp1 = new Turmas(controle, temp.getProfDisc(), temp.getCampus(), hora, temp.getCodDisc(), divVagas[k]);
+				turmas.add(temp1);
+				k++;
+				controle = divTemp[j];
+			}
 		}
 	}
 	
@@ -163,7 +192,7 @@ public class Worker {
 			}
 		for(int i = 0; i < codDisc.size(); i++){
 			DisciplinasCursadas temp = new DisciplinasCursadas();
-			temp.setCodigo(codDisc.get(i));
+			temp.setCod(codDisc.get(i));
 			temp.setMencao(mencao.get(i));
 			temp.converter();
 			disciplinasCursadas.add(temp);
@@ -187,11 +216,11 @@ public class Worker {
 	}
 
 
-	public ArrayList<Turma> getTurmas() {
+	public ArrayList<Turmas> getTurmas() {
 		return turmas;
 	}
 
-	public void setTurmas(ArrayList<Turma> turmas) {
+	public void setTurmas(ArrayList<Turmas> turmas) {
 		this.turmas = turmas;
 	}
 

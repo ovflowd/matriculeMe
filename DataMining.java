@@ -177,10 +177,10 @@ public class DataMining {
 		jsonEnviar += "]";
 		//System.out.print("\\");
 		//guardar2 = guardar2.replaceAll("\\", "");
-		ClientRest cliente = new ClientRest();
-		cliente.enviarDados(jsonEnviar);
-		System.out.println(jsonEnviar);
-		return "OK";
+		//ClientRest cliente = new ClientRest();
+		//cliente.enviarDados(jsonEnviar);
+		//System.out.println(jsonEnviar);
+		return jsonEnviar;
 	}
 } 
 

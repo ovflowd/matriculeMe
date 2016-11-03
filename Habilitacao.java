@@ -9,11 +9,25 @@ import org.jsoup.nodes.Element;
 
 public class Habilitacao {
 	private String nomeCurso;
-	private String codHab;
+	private transient String codHab;
+	private int codigo;
 	private int credLimite;
 	
+	public void converter(){
+		setCodigo(Integer.parseInt(getCodHab()));
+	}
+	
 	public void extrairCredLimite() throws IOException{
-		Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/curriculo.aspx?cod="+getCodHab()).get();
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/curriculo.aspx?cod="+getCodHab()).get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
 		String compInic = "Créditosporperíodo:";
@@ -45,6 +59,14 @@ public class Habilitacao {
 	}
 	public void setCredLimite(int credLimite) {
 		this.credLimite = credLimite;
+	}
+
+	public int getCodigo() {
+		return codigo;
+	}
+
+	public void setCodigo(int codigo) {
+		this.codigo = codigo;
 	}
 	
 }

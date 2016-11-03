@@ -14,7 +14,16 @@ public class CampusDarcyOferta {
 	ArrayList<String> codDepto = new ArrayList<String>();
 	
 	public void extrairDepartamentos() throws IOException{
-		Document doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/oferta_dep.aspx?cod=1").get();
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/oferta_dep.aspx?cod=1").get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
 		String inic = "Código Sigla Denominação";
