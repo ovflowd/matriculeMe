@@ -95,9 +95,9 @@ public class Worker {
 				}
 				Element table = doc.select("TD").first();
 				Iterator<Element> ite2 = table.select("tr").iterator();
-				while(!(ite2.next().text()).equals("Código Denominação Ementa"));
+				while(!(ite2.next().text()).equals("CÃ³digo DenominaÃ§Ã£o Ementa"));
 				String stringMW = ite2.next().text();
-				String comp ="© 2016 CPD - Centro de Informática UnB - Universidade de Brasília";
+				String comp ="Â© 2016 CPD - Centro de InformÃ¡tica UnB - Universidade de BrasÃ­lia";
 				int tamanhoAnterior = codDiscOfertadas.size();
 				while(!(stringMW.equals(comp))){
 					String[] fraseSeparada = stringMW.split(" ");
@@ -134,13 +134,13 @@ public class Worker {
 			temp.extrairTurmas(disciplinas.get(i).getCodDpto(), disciplinas.get(i).getCodDisc());
 			//professor
 			temp.extrairVagas();
-			//conversão
+			//conversÃ£o
 			Turmas temp1 = null;
 			String[] divTemp = temp.getTurmas().split(";");
 			String[] divTemp2 = temp.getHorario().split(";");
 			String[] divVagas = temp.getVagas().split(";");
 			String hora = "";
-			int valorComp = 4;
+			int valorComp = disciplinas.get(i).getCreditos();
 			int tamanhoAnt = turmas.size();
 			for(int j = 0; j < divTemp.length; j += valorComp/2){
 				for(int k = 0; k < valorComp/2; k++){
@@ -164,8 +164,8 @@ public class Worker {
 		//Retirar quebra de linhas, troca " por \"
 		Document doc = Jsoup.parse(htmlHist);
 		Iterator<Element> ite = doc.select("TR").iterator();
-		String inic = "Período:";
-		String fim = "Total de Créditos";
+		String inic = "PerÃ­odo:";
+		String fim = "Total de CrÃ©ditos";
 		while(ite.hasNext()){
 			if(ite.next().text().split(" ")[0].equals(inic)){
 				String tratar;
