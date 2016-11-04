@@ -31,7 +31,7 @@ public class Turma {
 		}
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
-		String compInic = "Turma Vagas Turno Hor·rio/Local Professor Obs";
+		String compInic = "Turma Vagas Turno Hor√°rio/Local Professor Obs";
 		vagas = "";
 		while(ite.hasNext()){
 			if(ite.next().text().equals(compInic)){
@@ -51,10 +51,10 @@ public class Turma {
 		Element table = doc.select("TD").first();
 		Iterator<Element> ite = table.select("tr").iterator();
 		
-		String compInicio = "Turma Vagas Turno Hor·rio/Local Professor Obs";
-		String compFinal = "Legenda do campo 'Obs': Disciplina restrita (sÛ pode ser cursada pelo aluno que possuÌ-la em seu currÌculo) Turma de hor·rio fixo Turma com reserva exclusiva (sÛ matricula aluno do curso para o qual est· reservada)";
-		//String de comparaÁ„o inÌcio "Turma Vagas Turno Hor·rio/Local Professor Obs"
-		//String de comparaÁ„o final "Legenda do campo 'Obs': Disciplina restrita (sÛ pode ser cursada pelo aluno que possuÌ-la em seu currÌculo) Turma de hor·rio fixo Turma com reserva exclusiva (sÛ matricula aluno do curso para o qual est· reservada)"
+		String compInicio = "Turma Vagas Turno Hor√°rio/Local Professor Obs";
+		String compFinal = "Legenda do campo 'Obs': Disciplina restrita (s√≥ pode ser cursada pelo aluno que possu√≠-la em seu curr√≠culo) Turma de hor√°rio fixo Turma com reserva exclusiva (s√≥ matricula aluno do curso para o qual est√° reservada)";
+		//String de compara√ß√£o in√≠cio "Turma Vagas Turno Hor√°rio/Local Professor Obs"
+		//String de compara√ß√£o final "Legenda do campo 'Obs': Disciplina restrita (s√≥ pode ser cursada pelo aluno que possu√≠-la em seu curr√≠culo) Turma de hor√°rio fixo Turma com reserva exclusiva (s√≥ matricula aluno do curso para o qual est√° reservada)"
 		String temp;
 		String tratar;
 		String divTratarD;
@@ -80,9 +80,9 @@ public class Turma {
 				int i = 0;
 				while(i < diaSemana.length){
 					divTratarD = diaSemana[i];
-					System.out.println(divTratarD);
+					//System.out.println(divTratarD);
 					int segunda = divTratarD.split("unda").length;
-					int terca = divTratarD.split("erÁa").length;
+					int terca = divTratarD.split("er√ßa").length;
 					int quarta = divTratarD.split("arta").length;
 					int quinta = divTratarD.split("inta").length;
 					int sexta = divTratarD.split("exta").length;
