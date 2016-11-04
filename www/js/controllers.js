@@ -88,7 +88,7 @@ angular.module('starter.controllers', [])
     
     $scope.irParaTurmas=function(disciplina){
         //esqueleto para a função. Redirecionar para a tela 5
-        $state.go("app.turmas",{"discId": $scope.swap.codDisc});
+        $state.go("app.tela5",{"discId": $scope.swap.codDisc});
         $scope.taskModal.hide();
         //console.log('você selecionou turmas para ',$scope.swap.nomeDisc,'código:',$scope.swap.codDisc);
     };
@@ -130,7 +130,7 @@ angular.module('starter.controllers', [])
     };
     
     $scope.irParaTurmas=function(disciplina){
-        $state.go("app.turmas",{"discId": $scope.swap.codDisc});
+        $state.go("app.tela5",{"discId": $scope.swap.codDisc});
         $scope.taskModal.hide();
         //console.log('você selecionou turmas para ',$scope.swap.nomeDisc,'código:',$scope.swap.codDisc);
     };
