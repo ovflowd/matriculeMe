@@ -83,18 +83,20 @@ angular.module('starter.controllers', [])
 
     $scope.closePopUp = function() {
         $scope.taskModal.hide();
-    }
+    };
     
     
     $scope.irParaTurmas=function(disciplina){
-        //esqueleto para a função. Redirecionar para a tela 5 (mostra turmas)
-        console.log('você selecionou turmas para ',$scope.swap.nomeDisc);
-    }
+        //esqueleto para a função. Redirecionar para a tela 5
+        $state.go("app.turmas",{"discId": $scope.swap.codDisc});
+        $scope.taskModal.hide();
+        //console.log('você selecionou turmas para ',$scope.swap.nomeDisc,'código:',$scope.swap.codDisc);
+    };
     
     $scope.addInteresse=function(disciplina){
         //esqueleto para função. Fazer post do código da disciplina e ir para tela 7 (lista de interesses)
         console.log('você adicionou ',$scope.swap.nomeDisc,' a sua lista de interesses');
-    }
+    };
     
     /* Esta função recupera algumas disciplinas para serem apresentadas na tela quanto esta for aberta
      * Limitar em 10 primeiros resultados 
@@ -128,8 +130,9 @@ angular.module('starter.controllers', [])
     };
     
     $scope.irParaTurmas=function(disciplina){
-        //esqueleto para a função. Redirecionar para a tela 5
-        console.log('você selecionou turmas para ',$scope.swap.nomeDisc);
+        $state.go("app.turmas",{"discId": $scope.swap.codDisc});
+        $scope.taskModal.hide();
+        //console.log('você selecionou turmas para ',$scope.swap.nomeDisc,'código:',$scope.swap.codDisc);
     };
     
     $scope.desgostar=function(sugestao,$index){
