@@ -2,6 +2,7 @@ package com.datamining.rest.api;
 
 import java.io.IOException;
 
+
 import javax.ws.rs.Consumes;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
@@ -179,7 +180,7 @@ public class DataMining {
 		//guardar2 = guardar2.replaceAll("\\", "");
 		//ClientRest cliente = new ClientRest();
 		//cliente.enviarDados(jsonEnviar);
-		//System.out.println(jsonEnviar);
+		System.out.println(jsonEnviar);
 		return jsonEnviar;
 	}
 } 

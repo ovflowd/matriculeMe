@@ -72,37 +72,35 @@ public class Turma {
 					horaDisc.add(divTratarH[j-1].substring((divTratarH[j-1].length())-2,(divTratarH[j-1].length()))+ 
 							":" +divTratarH[j].substring(0,2));
 				}
-				String tratarDia = tratar.replaceAll(Character.toString((char) 160), " ");
+				String tratarDia = tratar.replaceAll(Character.toString((char) 160), "");
 				//System.out.println(tratar);
-				StringTokenizer st = new StringTokenizer(tratarDia, " ");
-				turma = st.nextToken();
-				while(st.hasMoreTokens()){
-					divTratarD = st.nextToken();
-					//System.out.println(divTratar);
-					if(divTratarD.equals("Segunda")){
-						//System.out.println(divTratar);
+				String[] diaSemana = tratarDia.split(" ");
+				//StringTokenizer st = new StringTokenizer(tratarDia, " ");
+				turma = diaSemana[0];
+				int i = 0;
+				while(i < diaSemana.length){
+					divTratarD = diaSemana[i];
+					System.out.println(divTratarD);
+					int segunda = divTratarD.split("unda").length;
+					int terca = divTratarD.split("erça").length;
+					int quarta = divTratarD.split("arta").length;
+					int quinta = divTratarD.split("inta").length;
+					int sexta = divTratarD.split("exta").length;
+					int sabado = divTratarD.split("bado").length;
+					if(segunda > 1){
 						diaDisc.add("1");
-						}
-					else if(divTratarD.equals("Terça")){
-						//System.out.println(divTratar);
+					}else if(terca > 1){
 						diaDisc.add("2");
-						}
-					else if(divTratarD.equals("Quarta")){
-						//System.out.println(divTratar);
+					}else if(quarta > 1){
 						diaDisc.add("3");
-					}
-					else if(divTratarD.equals("Quinta")){
-						//System.out.println(divTratar);
+					}else if(quinta > 1){
 						diaDisc.add("4");
-						}
-					else if(divTratarD.equals("Sexta")){
-						//System.out.println(divTratar);
+					}else if(sexta > 1){
 						diaDisc.add("5");
-						}
-					else if(divTratarD.equals("Sábado")){
-						//System.out.println(divTratar);
+					}else if(sabado > 1){
 						diaDisc.add("6");
-						}
+					}
+					i++;
 				}
 				while(ind < diaDisc.size()){
 					turmaTemp += turma + ";";

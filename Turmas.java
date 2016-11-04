@@ -11,7 +11,7 @@ public class Turmas {
 	public Turmas(String cod, String prof, String camp, String hora, String disc, String vag){
 		setCodigo(cod);
 		setProfessor(prof);
-		setCampus(Integer.parseInt(camp));
+		//setCampus(Integer.parseInt(camp));
 		setDisciplina(Integer.parseInt(disc));
 		setHorario(hora);
 		setVagas(Integer.parseInt(vag));

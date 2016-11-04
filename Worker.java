@@ -139,19 +139,21 @@ public class Worker {
 			String[] divTemp = temp.getTurmas().split(";");
 			String[] divTemp2 = temp.getHorario().split(";");
 			String[] divVagas = temp.getVagas().split(";");
-			String controle = divTemp[0];
 			String hora = "";
-			int j = 0;
-			int k = 0;
-			while(j < divTemp.length){			
-				while(controle.equals(divTemp[j]) && j < divTemp.length){
-					hora += divTemp2[j] + ";";
-					j++;
+			int valorComp = 4;
+			int tamanhoAnt = turmas.size();
+			for(int j = 0; j < divTemp.length; j += valorComp/2){
+				for(int k = 0; k < valorComp/2; k++){
+					//System.out.println(divTemp[j]+" "+ divTemp2[j+k]);
+					hora += divTemp2[j+k] + ";";
 				}
-				temp1 = new Turmas(controle, temp.getProfDisc(), temp.getCampus(), hora, temp.getCodDisc(), divVagas[k]);
+				temp1 = new Turmas(divTemp[j], temp.getProfDisc(), temp.getCampus(), hora, temp.getCodDisc(), "0");
+				hora = "";
 				turmas.add(temp1);
-				k++;
-				controle = divTemp[j];
+			}
+			for(int w = tamanhoAnt; w < turmas.size(); w++){
+				turmas.get(w).setVagas(Integer.parseInt(divVagas[w]));
+				System.out.println(turmas.get(w).getCodigo() + " " + turmas.get(w).getHorario() + " " + turmas.get(w).getVagas());
 			}
 		}
 	}
