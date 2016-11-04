@@ -1,0 +1,17 @@
+<ion-view view-title="Log in" name="login-view">
+  <ion-content class="padding">
+      <p style="text-align: center"><img src="img/kira.png"></p>
+
+      <div class="list ">
+          <label class="item item-input largura">
+              <input type="text" placeholder="Usuario" ng-model="data.username">
+          </label>
+          <br />
+          <label  class="item item-input largura">
+              <input type="password" placeholder="Senha" ng-model="data.password">
+          </label>
+      </div>
+      <p style="text-align:center"><button class="button button-calm" ng-click="login()">Login</button>
+	    <button class="button button-calm" ng-click="signup()">Cadastrar-se</button></p>
+  </ion-content>
+</ion-view>

@@ -1,0 +1,45 @@
+<ion-view view-title="Grade">
+  <ion-content class="padding">
+    <div class="row header" style="text-align:center">
+		  <div class="col dia"></div>
+          <div class="col dia">Segunda</div>
+          <div class="col dia">Terça</div>
+          <div class="col dia">Quarta</div>
+          <div class="col dia">Quinta</div>
+          <div class="col dia">Sexta</div>
+		      <div class="col dia">Sabado</div>
+        </div>
+        <div class="row">
+		  <div class="col">08-10</div>
+            <div class="col" ng-repeat="x in oasd">{{x.nome}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">10-12</div>
+		  <div class="col" ng-repeat="x in dasm">{{x.nome}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">12-14</div>
+            <div class="col" ng-repeat="x in masq">{{x.nome}}</div>
+		  </div>
+		<div class="row">
+		  <div class="col ">14-16</div>
+		    <div class="col" ng-repeat="x in qads">{{x.nome}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">16-18</div>
+            <div class="col" ng-repeat="x in dsado">{{x.nome}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">18-20</div>
+            <div class="col" ng-repeat="x in doav">{{x.nome}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">20-22</div>
+            <div class="col" ng-repeat="x in vavd">{{x.nome}}</div>
+        </div>
+		<div style="text-align: center;">
+            <button class="button button- button-calm" ng-click="request()">pedir sugestão</button>
+		<br><br><br><br>
+		</div>
+  </ion-content>
+</ion-view>
