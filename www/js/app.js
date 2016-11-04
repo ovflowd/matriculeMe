@@ -64,13 +64,16 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
       }
     })
 
-    .state('captura', {
-        url: '/captura',
-        templateUrl: 'templates/webview.html',
-        controller: 'WebCtrl'
+  .state('app.tela5', {
+      url: '/tela5/:discId',
+      views: {
+        'menuContent': {
+          templateUrl: 'templates/turmas.html',
+          controller: 'Tela5Ctrl'
+        }
       }
-    )
-
+  })
+    
     .state('app.tela6', {
       url: '/tela6',
       views: {
@@ -80,6 +83,13 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
         }
       }
     })
+
+    .state('captura', {
+        url: '/captura',
+        templateUrl: 'templates/webview.html',
+        controller: 'WebCtrl'
+      }
+    )
 
   .state('app.single', {
     url: '/playlists/:playlistId',
