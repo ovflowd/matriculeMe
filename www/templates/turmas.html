@@ -1,0 +1,40 @@
+
+<ion-view view-title="Turmas da disciplina {{disciplina.nomeDisc}}">
+  <ion-content class="padding" ng-controller="Tela5Ctrl">
+  <div class="row header">
+      <div class="col">
+            Código da turma 
+      </div>
+      <div class="col" >
+          Horário das aulas
+      </div>
+      <div class="col">
+            Nome do professor
+      </div>
+  </div>
+    <ion-item ng-repeat="turma in disciplina.turmas">
+        <button class="button button-clear button-dark" ng-click="addGrade(turma,$index)">
+            <div class="row">
+		      <div class="col">
+		            {{turma.codTurma}} 
+		      </div>
+		      <!-- Eu penssei em colocar cada slot em uma linha tipo assim:
+		        A   Segunda:    10 - 12     Fulano de Tal
+		            Quarta:     10 - 12
+		            
+		        B   Terça:      16 - 18     Ciclano de Tal
+		            Quinta:     16 - 18
+		       -->
+		      <div class="col" ng-repeat="slot in turma.horario">
+		          {{slot.dia}}: {{slot.horaIni}} - {{slot.horaFim}}
+	          </div>
+              <div class="col">
+                    {{turma.nomeProf}}
+              </div>
+            </div>
+        </button>
+    </ion-item>
+  </ion-content>
+</ion-view>
+
+
