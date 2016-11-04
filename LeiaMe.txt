@@ -1,0 +1,5 @@
+  O aplicativo mobile está sendo desenvolvido com a plataforma ionic. Os arquivos e diretórios nesta branch refletem a estrutura
+da árvore de diretórios do projeto final, mas contém apenas os arquivos alterados (personalizados) com relação ao template inicial
+"sidemenu" usado como ponto de partida.
+
+Alterações DEVEM ser refletidas nestes arquivos para manter o alinhamento entre os envolvidos no desenvolvimento.
