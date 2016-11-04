@@ -189,8 +189,24 @@ angular.module('starter.controllers', [])
   }
 })
 
+.controller("Tela5Ctrl",function($scope,$http,$stateParams,$state){
+    //este controlador deve receber a disciplina para a qual se deseja selecionar uma turma como parâmetro
+    //Solicita lista de turmas da disciplina para o servidor
+    //Usar a id em $stateParams.discId para selecionar turmas da disciplina certa
+    console.log($stateParams.discId);
+    $http.get('turmas.json')
+        .success(function (data){
+            $scope.disciplina=data.disciplina;
+        });
+    
+    $scope.addGrade=function(turma){
+        //Esqueleto para a função. Verifica a grade e adiciona a disciplina a grade e a lista de escolhas do usuário
+        console.log('A disciplina',$scope.disciplina.nomeDisc,'com',turma.nomeProf,'foi adicionada a tua grade');
+        $state.go('app.grade');
+    }
+})
 
-  .controller('WebCtrl', function($scope, $state, $timeout) {
+.controller('WebCtrl', function($scope, $state, $timeout) {
     $scope.saida="contactando MatriculaWeb";
     var timer=null;
     var x = document.getElementById("oi");
@@ -226,7 +242,7 @@ angular.module('starter.controllers', [])
           //O alert abaixo funciona, logo esta parte da função é executada em algum momento
           alert(y.body.innerHTML);
           clearInterval(timer);
-          $state.go("/app/grade");
+          $state.go('app.grade');
         }else{
           //Se não for a página do histórico, verifica se o aluno está logado
           qtd=y.getElementsByClassName("PadraoMenu").length;
