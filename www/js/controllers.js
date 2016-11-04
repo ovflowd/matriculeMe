@@ -190,7 +190,7 @@ angular.module('starter.controllers', [])
 })
 
 
-  .controller('WebCtrl', function($scope, $stateParams, $timeout) {
+  .controller('WebCtrl', function($scope, $state, $timeout) {
     $scope.saida="contactando MatriculaWeb";
     var timer=null;
     var x = document.getElementById("oi");
