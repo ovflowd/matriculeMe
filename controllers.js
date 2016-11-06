@@ -153,6 +153,20 @@ angular.module('starter.controllers', [])
   $scope.voltar = function(){
       $state.go('login');
     }
+  
+  $ionicModal.fromTemplateUrl('termosdeuso.html', function(modal) {
+        $scope.taskModal = modal;
+      }, {
+        scope: $scope
+      }
+    );  
+
+  $scope.mostrarTermo = function(){
+      $scope.taskModal.show();
+    }  
+  $scope.closePopUp = function() {
+      $scope.taskModal.hide();
+    }  
 
   $scope.submit = function(){
     SignupService.signupUser($scope.data.login,$scope.data.password).success(function(data) {
