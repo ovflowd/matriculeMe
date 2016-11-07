@@ -43,6 +43,13 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
     templateUrl: 'templates/menu.html',
     controller: 'AppCtrl'
   })
+    
+    .state('app2', {
+      url: '/app',
+      abstract: true,
+      templateUrl: 'templates/menu.html',
+      controller: 'AppCtrl'
+  })
 
   .state('app.grade', {
     url: '/grade',
@@ -64,7 +71,7 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
       }
     })
 
-  .state('app.tela5', {
+  .state('app2.tela5', {
       url: '/tela5/:discId',
       views: {
         'menuContent': {
