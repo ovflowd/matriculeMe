@@ -88,7 +88,7 @@ angular.module('starter.controllers', [])
     
     $scope.irParaTurmas=function(disciplina){
         //esqueleto para a função. Redirecionar para a tela 5
-        $state.go("app.tela5",{"discId": $scope.swap.codDisc});
+        $state.go("app2.tela5",{"discId": $scope.swap.codDisc});
         $scope.taskModal.hide();
         //console.log('você selecionou turmas para ',$scope.swap.nomeDisc,'código:',$scope.swap.codDisc);
     };
@@ -130,7 +130,7 @@ angular.module('starter.controllers', [])
     };
     
     $scope.irParaTurmas=function(disciplina){
-        $state.go("app.tela5",{"discId": $scope.swap.codDisc});
+        $state.go("app2.tela5",{"discId": $scope.swap.codDisc});
         $scope.taskModal.hide();
         //console.log('você selecionou turmas para ',$scope.swap.nomeDisc,'código:',$scope.swap.codDisc);
     };
@@ -190,6 +190,24 @@ angular.module('starter.controllers', [])
       }
     });
   }
+  $scope.voltar=function(){
+        $state.go('login');
+  }
+  
+  $ionicModal.fromTemplateUrl('termosdeuso.html', function(modal) {
+      $scope.taskModal = modal;
+      }, {
+        scope: $scope
+      }
+    );
+      
+  $scope.mostrarTermo = function(sugestao,index) {
+      $scope.taskModal.show();
+  };
+
+  $scope.closePopUp = function() {
+      $scope.taskModal.hide();
+  };
 })
 
 .controller("Tela5Ctrl",function($scope,$http,$stateParams,$state){
@@ -205,12 +223,14 @@ angular.module('starter.controllers', [])
     $scope.addGrade=function(turma){
         //Esqueleto para a função. Verifica a grade e adiciona a disciplina a grade e a lista de escolhas do usuário
         console.log('A disciplina',$scope.disciplina.nomeDisc,'com',turma.nomeProf,'foi adicionada a tua grade');
-        $state.go('app.grade');
+        $state.transitionTo('app.grade', {}, { 
+          location: true, inherit: true, relative: 'app.grade', notify: true, reload: true
+        });
     }
 })
 
 .controller('WebCtrl', function($scope, $state, $timeout) {
-    $scope.saida="contactando MatriculaWeb";
+    $scope.saida="Contactando MatriculaWeb";
     var timer=null;
     var x = document.getElementById("oi");
     x.style.display='none';
@@ -243,14 +263,15 @@ angular.module('starter.controllers', [])
           //por alguma razão o echo não acontece imediatamente
           //$scope.saida=y.body.innerHTML;//echo
           //O alert abaixo funciona, logo esta parte da função é executada em algum momento
-          alert(y.body.innerHTML);
           clearInterval(timer);
+          alert(y.body.innerHTML);
           $state.go('app.grade');
         }else{
           //Se não for a página do histórico, verifica se o aluno está logado
           qtd=y.getElementsByClassName("PadraoMenu").length;
           if (qtd>1){
             //Se estiver logado, abre a página do histórico
+            $scope.saida="Obtendo teu histórico, aguarde"
             frame.location="https://wwwsec.serverweb.unb.br/graduacao/sec/he.aspx";
           }else{
             //Se não estiver logado, direciona para a página de login
