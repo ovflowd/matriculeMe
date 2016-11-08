@@ -163,7 +163,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('SignupCtrl',function($scope, SignupService, $ionicPopup,$state,$http) {
+.controller('SignupCtrl',function($scope, SignupService, $ionicPopup,$state,$http,$ionicModal) {
   $scope.data = {};
 
   $scope.submit = function(){
