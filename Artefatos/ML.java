@@ -1,4 +1,3 @@
-
 //import org.apache.spark.SparkContext //Necessario pra rodar Spark stuffz
 //import org.apache.spark.SparkConf
 import java.util.*;
@@ -8,45 +7,6 @@ import com.google.code.gson;
 
 public class ML {
 	
-	public int PesoSemestre(int sDepartamento,int sAluno){return Math.max(sAluno - sDepartamento,0);}
-	public int PesoTipo(int tipo)
-	{
-		if(tipo == 0)
-			{return 0;}
-		return (10-tipo)*10;
-		}
-	
-
-	
-	public class Turma
-	{
-		HorarioAula[] horarios;
-		int vagas;
-		int vaga_reserva;
-		int oferta;
-		int tipo_reserva_id;
-		int professor;
-		char[] codigo = new char[5];
-		int id;
-		
-	}
-	public class HorarioAula
-	{	
-		int diaInt;
-		int horario_inicioInt ;
-		int horario_finalInt;
-		
-		char[] dia = new char[10];
-		char[] horario_inicio = new char[10];
-		char[] horario_final = new char[10];
-		public HorarioAula()
-		{
-			diaInt = Integer.valueOf(String.valueOf(dia));
-			horario_inicioInt = Integer.valueOf(String.valueOf(horario_inicio));
-			horario_finalInt = Integer.valueOf(String.valueOf(horario_final));
-		}
-		
-	}
 	
 	
 	
@@ -80,186 +40,6 @@ public class ML {
 		for(int i =0; i<76;i++) {auxPerfil[i] = auxPerfil[i]/Math.max(1,auxValue[i]);}
 		return auxPerfil;
 	}
-	
-	public class Oferta
-	{
-		int id;
-		Turma[] turmas;
-		int semestrefluxo;
-		
-	}
-	
-	public class DisciplinaDB
-	{
-		requisitos[] Prerequisitos;
-		char[] nome = new char[20];
-		int id;
-		int creditos;
-		int codigo;
-		int departamento;
-				
-	}
-	
-	public class requisitos
-	{
-		int disciplina_origem;
-		char[] disciplina_requisito = new char[20];
-		int tipo; //coorequisito ou pre
-		
-	}
-	
-	public class Disciplina implements Comparable<Disciplina>
-	{
-		requisitos[] Prerequisitos; //disciplina
-		char[] nome = new char[20];
-		int id;
-		int creditos;
-		int codigo;
-		int tipo; //obrigatoria ou nao
-		Oferta ofertas;
-		int departamento;
-		
-		boolean vagasExistentes = false;
-		int metrica;
-	
-		int nota;
-		
-		public Disciplina(DisciplinaDB DB)
-		{
-			ofertas = GETOFERTAS(this.codigo);
-			Prerequisitos = DB.Prerequisitos;
-			nome = DB.nome;
-			id = DB.id;
-			creditos = DB.creditos;
-			codigo = DB.codigo;
-			for(Turma t : ofertas.turmas)
-			{
-				if(t.vagas != 0 | (t.tipo_reserva_id == 0 & t.vaga_reserva != 0))
-				{
-					vagasExistentes=true;
-				}
-			}
-			if(nota>3) //materia ja cursada e ja foi aprovada
-			{
-				vagasExistentes=false;
-			}
-		}
-		//Retorna lista decrescente
-		
-		@Override
-		public int compareTo(Disciplina o) {
-			
-			if (this.metrica > o.metrica) {
-				return -1;
-			} else if (this.metrica == o.metrica) {
-				return 0;
-			} else {
-				return 1;
-			}
-		}
-		
-		public int Preferencia(int[] prefList)
-			{
-			for(int code : prefList)	
-			{	if(codigo == code)
-					{return 200;}}
-				
-			return 0;
-			}
-		
-		private void GeraMetrica(Aluno aluno) 
-		{
-			boolean valida = false;
-			for(requisitos C : this.Prerequisitos)	
-			{
-				if(C.tipo==1)
-				{} //Juntas disciplinas se nao foram cursadas (super disciplina)
-				//tratar entre ou de listaDePrerequisitos
-			String[] requisitos = C.disciplina_requisito.toString().split("+");
-			for(String req : requisitos)
-			{
-				boolean validaAux = false;
-				for(DisciplinaDB ha : aluno.historicoAprovado)
-				{ 
-				if(String.valueOf(ha.codigo).equals(req) & C.tipo==0) //prerequisito
-					{
-					validaAux = true;	
-					}
-				}
-				//tem este requisito
-				if(validaAux)
-				{valida = true;}
-			}
-			if(valida & this.vagasExistentes==true) //ja tem pre requisitos e existem vagas
-				{
-				this.metrica = aluno.PerfilporDepartamento(this.departamento) + PesoSemestre(this.ofertas.semestrefluxo,aluno.semestre) + PesoTipo(this.tipo)+ this.Preferencia(aluno.preferencia);
-				}
-			else
-				this.metrica = 0;
-			}	
-		}
-
-
-	}
-	
-	public class Aluno
-	{
-		
-		int curso;
-		int[] preferencia;
-		int semestre;
-		DisciplinaDB[] historicoAprovado;
-		String[] historico;
-		int[] perfil;
-		public int PerfilporDepartamento(int dDep){return perfil[dDep];}
-		int login;
-		public LinkedList<Disciplina> LoadDisciplinasACursar() {
-			DisciplinaDB[] listaACursar = GetFromDB(this.curso);
-			LinkedList<Disciplina> result = new LinkedList<Disciplina>();
-			for(DisciplinaDB aCursar : listaACursar)
-			{
-				for(DisciplinaDB ha : this.historicoAprovado)
-				{
-					if(ha.codigo==aCursar.codigo)
-					{result.add(new Disciplina(aCursar));}
-				}
-			}	
-			return result;
-		}
-		
-	}
-	public class Grades /////Classe Manipula as informações do algoritmo
-	{
-		LinkedList<Disciplina> listaOrdenada = null;
-		String pertencentes = "";
-		String[] horario = new String[108];
-		int metricaTotal = 0;
-		int totalCreditos = 0;
-
-		public Grades(LinkedList<Disciplina> l,String p,String[] h, int m, int t)
-		{
-		listaOrdenada = l;
-		pertencentes = p; //disciplinas "com" da árvore
-		horario = h;
-		metricaTotal = m; //métrica resultante das pertencentes
-		totalCreditos = t; //total de créditos
-		}
-		
-		public Grades(LinkedList<Disciplina> l)
-		{
-		listaOrdenada = l;
-		}
-		
-		
-		public Grades(String[] h)
-		{
-		horario = h;
-		}
-		
-		
-		
-	}
-
 	
 	public Grades GetGrid(Grades grade) //// Funcao geradora da grade final         
 	{
@@ -339,11 +119,6 @@ public class ML {
 	{return grade;}
 		
 	}
-
-
-	
-
-
 
 	public Grades main(String[] args) {
 		Aluno cliente = LoadAluno();
