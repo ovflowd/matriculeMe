@@ -51,7 +51,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller("Tela6Ctrl",function($scope,$http,$timeout,$ionicModal) {
+  .controller("Tela6Ctrl",function($scope,$http,$timeout,$ionicModal,$state) {
     /* Esta função acessa o servidor e recupera uma lista de disciplinas com nome ou código semelhante a busca.title 
      * Em seguida ele coloca o resultado na lista para serem apresentados
      * Estou supondo que é possivel solicitar com filtro (valor de busca.title) e que o resultado chegue filtrado */
@@ -100,7 +100,7 @@ angular.module('starter.controllers', [])
     //$timeout($scope.procurar({"title":"all"}),1000);
 })
 
-  .controller("Tela4Ctrl",function($scope,$http,$ionicModal){
+  .controller("Tela4Ctrl",function($scope,$http,$ionicModal,$state){
     if(!$scope.sugestoes){
         $http.get('sugestoes.json')
             .success(function (data){
