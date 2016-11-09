@@ -51,6 +51,12 @@ angular.module('starter.controllers', [])
     }
   })
 
+  .controller('Tela3Ctrl', function($scope) {
+    $scope.$on('$ionicView.enter', function(e) {
+      $scope.escolhas=escolhas;
+    });
+  })
+
   .controller("Tela6Ctrl",function($scope,$http,$timeout,$ionicModal,$state) {
     /* Esta função acessa o servidor e recupera uma lista de disciplinas com nome ou código semelhante a busca.title 
      * Em seguida ele coloca o resultado na lista para serem apresentados
@@ -226,9 +232,48 @@ angular.module('starter.controllers', [])
         });
     
     $scope.addGrade=function(turma){
-        //Esqueleto para a função. Verifica a grade e adiciona a disciplina a grade e a lista de escolhas do usuário
-        console.log('A disciplina',$scope.disciplina.nomeDisc,'com',turma.nomeProf,'foi adicionada a tua grade');
-        $state.transitionTo('app.grade', {}, { 
+        //em caso de mudança de turma para uma mesma disciplina, remove-a
+        filtrado=escolhas.filter(function(elemento){
+            return elemento.codDisc != $scope.disciplina.codDisc;
+        });
+        //verificar a grade do usuário quanto a conflitos de horário
+        ocupado=filtrado.filter(function(elemento){
+            return (elemento.horario.dia == turma.horario.dia) && ((elemento.horario.horaIni >= turma.horario.horaIni && elemento.horario.horaIni < turma.horario.horaFim) || (elemento.horario.horaFim > turma.horario.horaIni && elemento.horario.horaFim <= turma.horario.horaFim));
+        });
+        //alertá-o quanto a mudança
+        if(ocupado.length){
+            var texto='<p>Você já possui disciplinas nestes horários </p><p> Deseja retirar a(s) disciplina(s)? </p>';
+            for(disc in ocupado){
+                texto+='<p>'+ocupado.nomeDisc+'</p>';
+            }
+            $ionicPopup.confirm({
+                title: 'Grade Ocupada',
+                template: texto,
+                cancelText: 'Manter como está',
+                okText: 'Remover esta(s) disciplina(s)'
+            }).then(function(res){
+                if(res){
+                    //remove disciplinas conflitantes
+                    for(disc in ocupado){
+                        filtrado.splice(filtrado.indexOf(disc),1);
+                    }
+                }else {
+                    //sai sem fazer alterações
+                    return;
+                }
+            });
+        }//else
+        //Insere a nova escolha à lista de escolhas do usuário
+        filtrado.push({
+            codDisc:$scope.disciplina.codDisc,
+            nomeDisc:$scope.disciplina.nomeDisc,
+            codTurma:turma.codTurma,
+            horario:turma.horario
+        });
+        escolhas=filtrado;
+        console.log('A disciplina',$scope.disciplina.nomeDisc,'turma',turma.codTurma,'foi adicionada a tua grade');
+        //o ideal é retornar para a grade, mas tela3 é boa para testes
+        $state.transitionTo('app.tela3', {}, { 
           location: true, inherit: true, relative: 'app.grade', notify: true, reload: true
         });
     }
