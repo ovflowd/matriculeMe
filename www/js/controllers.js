@@ -139,8 +139,17 @@ angular.module('starter.controllers', [])
     
     $scope.desgostar=function(sugestao,$index){
         console.log('setando prioridade para',$scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].nomeDisc);
-        $scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridade=0; //Zerar prioridade da sugestão, faz com que a disciplina vá para o fim da lista
-        //retirar turma da grade, se houver
+        if($scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridade){
+            $scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridadeOld=$scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridade;
+            $scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridade=0; //Zerar prioridade da sugestão, faz com que a disciplina vá para o fim da lista
+            //retirar turma da grade, se houver
+            document.getElementById('polegar'+$index).className = "button button-icon ion-refresh";
+            document.getElementById('polegar'+$index).innerHTML = " Desfazer"
+        }else{
+          $scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridade=$scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridadeOld;
+            document.getElementById('polegar'+$index).className = "button button-icon ion-arrow-down-a";
+            document.getElementById('polegar'+$index).innerHTML = " Desgostar"
+        }
     };
       
 })
