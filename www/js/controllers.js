@@ -138,15 +138,16 @@ angular.module('starter.controllers', [])
     };
     
     $scope.desgostar=function(sugestao,$index){
-        console.log('setando prioridade para',$scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].nomeDisc);
-        if($scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridade){
-            $scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridadeOld=$scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridade;
-            $scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridade=0; //Zerar prioridade da sugestão, faz com que a disciplina vá para o fim da lista
+        //console.log('setando prioridade para',$scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].nomeDisc);
+	var posi = $scope.sugestoes.indexOf(sugestao);
+        if($scope.sugestoes[posi].prioridade){
+            $scope.sugestoes[posi].prioridadeOld=$scope.sugestoes[posi].prioridade;
+            $scope.sugestoes[posi].prioridade=0; //Zerar prioridade da sugestão, faz com que a disciplina vá para o fim da lista
             //retirar turma da grade, se houver
             document.getElementById('polegar'+$index).className = "button button-icon ion-refresh";
             document.getElementById('polegar'+$index).innerHTML = " Desfazer"
         }else{
-          $scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridade=$scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].prioridadeOld;
+          $scope.sugestoes[posi].prioridade=$scope.sugestoes[posi].prioridadeOld;
             document.getElementById('polegar'+$index).className = "button button-icon ion-arrow-down-a";
             document.getElementById('polegar'+$index).innerHTML = " Desgostar"
         }
@@ -230,7 +231,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller("Tela5Ctrl",function($scope,$http,$stateParams,$state){
+.controller("Tela5Ctrl",function($scope,$http,$stateParams,$state,$ionicPopup){
     //este controlador deve receber a disciplina para a qual se deseja selecionar uma turma como parâmetro
     //Solicita lista de turmas da disciplina para o servidor
     //Usar a id em $stateParams.discId para selecionar turmas da disciplina certa
@@ -249,7 +250,7 @@ angular.module('starter.controllers', [])
         ocupado=filtrado.filter(function(elemento){
             return (elemento.horario.dia == turma.horario.dia) && ((elemento.horario.horaIni >= turma.horario.horaIni && elemento.horario.horaIni < turma.horario.horaFim) || (elemento.horario.horaFim > turma.horario.horaIni && elemento.horario.horaFim <= turma.horario.horaFim));
         });
-        //alertá-o quanto a mudança
+        //alerta-o quanto a mudança
         if(ocupado.length){
             var texto='<p>Você já possui disciplinas nestes horários </p><p> Deseja retirar a(s) disciplina(s)? </p>';
             for(disc in ocupado){
@@ -283,7 +284,7 @@ angular.module('starter.controllers', [])
         console.log('A disciplina',$scope.disciplina.nomeDisc,'turma',turma.codTurma,'foi adicionada a tua grade');
         //o ideal é retornar para a grade, mas tela3 é boa para testes
         $state.transitionTo('app.tela3', {}, { 
-          location: true, inherit: true, relative: 'app.grade', notify: true, reload: true
+            location: true, inherit: true, relative: 'app.grade', notify: true, reload: true
         });
     }
 })
