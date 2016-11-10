@@ -1,19 +1,14 @@
-
 <ion-view view-title="Disciplinas sugeridas para você">
   <ion-content>
     <ion-item ng-repeat="sugestao in sugestoes | orderBy : 'prioridade' : reverse=true ">
         <div class="row">
-          <div class="margin">
-            <button class="button button-icon ion-information" ng-click="mostraMotivo(sugestao,$index)">
-          </div>
-          <div class="">
-            <button class="button button-royal" ng-click="mostraMotivo(sugestao,$index)">
+          <div class="margin2">
+            <button class="button button-royal ion-information-circled" ng-click="mostraMotivo(sugestao,$index)">
               {{sugestao.nomeDisc}}
             </button>
           </div>
-          <!-- Colocar este botão menor, encostado à borda direita da tela -->
-          <div class="">
-            <button class="button button-icon ion-thumbsdown" ng-click="desgostar(sugestao,$index)">
+          <div class="margin1">
+            <button id='polegar{{$index}}' class="button button-icon ion-arrow-down-a" ng-click="desgostar(sugestao,$index)"> Desgostar </button>
           </div>
         </div>
     </ion-item>
