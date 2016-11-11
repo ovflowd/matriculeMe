@@ -22,7 +22,7 @@ O software leva em conta os seguintes critérios para criar sua grade horária e
 <b>Como ele acessa meus dados?</b><br>
 O **matriculeMe** acessa seus dados do MatriculaWeb na hora do registro. Você concorda que o matriculeMe terá acesso aos seus dados de Histórico do MatriculaWeb. O MatriculMe irá armazenar sua senha no nosso banco de dados. Sua conta não será utilizada por ninguém.
 
-Para mais informações, visualize nosso termo de uso.
+Para mais informações, visualize nosso termo de uso, disponíveis [aqui](https://github.com/sant0ro/matriculeMe/blob/master/TERMOS.md)
 
 <b>Download & Acesso</b><br>
 O **matriculeMe** estará disponível para a PlayStore da Google em escala inicial.
