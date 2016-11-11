@@ -22,7 +22,7 @@ O software leva em conta os seguintes critérios para criar sua grade horária e
 <b>Como ele acessa meus dados?</b><br>
 O **matriculeMe** acessa seus dados do MatriculaWeb na hora do registro. Você concorda que o matriculeMe terá acesso aos seus dados de Histórico do MatriculaWeb. O MatriculMe irá armazenar sua senha no nosso banco de dados. Sua conta não será utilizada por ninguém.
 
-Para mais informações, visualize nosso termo de uso, disponíveis [aqui](https://github.com/sant0ro/matriculeMe/blob/master/TERMOS.md)
+Para mais informações, visualize nosso termo de uso, disponíveis [aqui](https://github.com/sant0ro/matriculeMe/blob/master/TERMOS.md).
 
 <b>Download & Acesso</b><br>
 O **matriculeMe** estará disponível para a PlayStore da Google em escala inicial.
@@ -30,6 +30,8 @@ O **matriculeMe** estará disponível para a PlayStore da Google em escala inici
 O matriculeMe está sob desenvolvimento e instável para utilização sob demanda ou utilização normal.
 
 <b>Licença e Uso</b><br>
-O **matriculeMe** é Open Source e sob a Licença MIT. Qualquer um poderá utilizar ou contribuir. Verifique a lista de Bugs e To-Do's atuais, acessando a Página de Issues. Clicando [Aqui](https://github.com/sant0ro/matriculeMe/issues). Você também poderá realizar Pull Requests clicando [Aqui](https://github.com/sant0ro/matriculeMe/pulls).
+O **matriculeMe** é Open Source e sob a Licença MIT. 
 
-Contribua com a nossa página Wiki, escrevendo informações e guias úteis. Clicando [Aqui](https://github.com/sant0ro/matriculeMe/wiki)
+* Qualquer um poderá utilizar ou contribuir. Verifique a lista de Bugs e To-Do's atuais, acessando a Página de Issues. Clicando [aqui](https://github.com/sant0ro/matriculeMe/issues). 
+* Você também poderá realizar Pull Requests clicando [aqui](https://github.com/sant0ro/matriculeMe/pulls).
+* Contribua com a nossa página Wiki, escrevendo informações e guias úteis. Clicando [aqui](https://github.com/sant0ro/matriculeMe/wiki).
