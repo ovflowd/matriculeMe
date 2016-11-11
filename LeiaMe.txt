@@ -3,3 +3,50 @@ da árvore de diretórios do projeto final, mas contém apenas os arquivos alter
 "sidemenu" usado como ponto de partida.
 
 Alterações DEVEM ser refletidas nestes arquivos para manter o alinhamento entre os envolvidos no desenvolvimento.
+
+-----------------------------------
+Instalação do ambiente
+-----------------------------------
+
+1.  Instale os seguintes aplicativos:
+      a) Node.js (https://nodejs.org/en/)
+      b) Android Studio (https://developer.android.com/studio/index.html)
+      c) Java JDK (http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html)
+2.  Instale o cordova e o ionic com os seguintes comandos no prompt:
+      > npm install -g cordova
+      > npm install -g ionic
+3.  Teste a instalação do ionic com os seguintes comandos:
+      > ionic start teste sidemenu
+      > cd teste
+      > ionic platform add android
+      > ionic serve
+Aqui deve abrir uma aba no teu navegador ativo com um aplicativo muito simples e vazio.
+Neste estágio da instalação você já deve ser capaz de testar a aplicação via browser,
+copie (substitua se necessário) a pasta "www" que está no Github para a pasta do projeto criada em tua máquina (na pasta "teste")
+Para encerrar o teste no navegador, digite q <enter>
+
+4.  Inicie o Android Studio e crie um projeto vazio apenas para ter acesso ao menu
+5.  No menu, acesse Tools > Android > SDK Manager
+6.  Na aba "SDK Platforms", marque a caixa "Android 6.0 (Marshmallow)" (pode-se marcar outras se quiser)
+7.  Na aba "SDK Tools", marque as caixas "Android SDK Platform-Tools"; "Android SDK Tools"; e
+    "Intel x86 Emulator Accelerator (HAXM installer)
+8.  Clique em "Apply" e aguarde o fim do processamento
+9.  Clique em "OK"
+10. Ainda no Android Studio, acesse Tools > Android > AVD Manager
+11. Clique em "Create Virtual Device..."
+12. Em "Category", selecione "Phone"
+13. Clique em "Nexus 4" e em seguida em "Next"
+14. Selecione a imagem "Marshmallow" (clique em "Download" se necessário, observe se a imagem é compatível com a 
+    arquitetura da tua máquina [32 {x86} ou 64 bits])
+15. Verifique à direita se o HAXM está instalado e disponível (clique em "Install" se necessário) e em seguida clique em "Next"
+16. Nomeie a AVD e clique em "Finish"
+17. Na Coluna "Actions" clique no ícone de "play" (seta triângulo verde) e aguarde a inicialização do dispositivo virtual
+Neste ponto, você ja deve ser capaz de construir e emular a aplicação no dispositivo virtual
+Encerre o dispositivo virtual antes de prosseguir
+
+19. De volta ao prompt, execute os seguintes comandos:
+      > ionic build android
+      > ionic emulate android
+20. Teste a aplicação no dispositivo virtual
+
+FIM
