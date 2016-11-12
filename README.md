@@ -16,6 +16,15 @@ O Aplicativo Mobile foi desenvolvido para o ambiente Android, através de:
 * Utilizando Facets de HTML
 * Entre outros.
 
+<b>Páginas do Aplicativo Mobile</b><br>
+O aplicativo mobile atualmente possui as seguintes páginas:
+
+* Página de Login
+* Página de Registro
+* Página de Termos de Uso (Protótipo)
+* Página Principal com Grade Horária
+* Outros? (Complementar)
+
 <b>Licença e Uso</b><br>
 O Aplicativo Mobile do **matriculeMe** é Open Source e sob a Licença MIT. 
 
