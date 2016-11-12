@@ -35,7 +35,7 @@ Realizar o gerenciamento dos dados do **matriculeMe** e comunicação/interaçã
 Interação com MatriculaWEB e Aplicativo Mobile.
 
 <b>Licença e Uso</b><br>
-O Aplicativo Mobile do **matriculeMe** é Open Source e sob a Licença MIT. 
+O Servidor do **matriculeMe** é Open Source e sob a Licença MIT. 
 
 * Qualquer um poderá utilizar ou contribuir. Verifique a lista de Bugs e To-Do's atuais, acessando a Página de Issues. Clicando [aqui](https://github.com/sant0ro/matriculeMe/issues). 
 * Você também poderá realizar Pull Requests clicando [aqui](https://github.com/sant0ro/matriculeMe/pulls).
