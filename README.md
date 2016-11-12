@@ -9,7 +9,7 @@ Uma solução criada para realizar sugestões de disciplinas e montagem de uma g
 Arquivos relacionados ao protótipo de **Machine Learning** do **matriculeMe**
 
 <b>Como foi Desenvolvido?</b><br>
-O Aplicativo Mobile foi desenvolvido com a linguagem Java, e por isso é interoperável, utilizando:
+O Machine Learning foi desenvolvido com a linguagem Java, e por isso é interoperável, utilizando:
 
 * Adicione aqui Frameworks/Libraries Utilizadas
 
