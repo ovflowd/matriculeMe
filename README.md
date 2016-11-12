@@ -18,10 +18,16 @@ O protótipo de MW do **matriculeMe** levou em consideração os seguintes algor
 
 * Adicione aqui Algoritmos Utilizados
 
-<b>Como é realizada o output de Sugestões?</b><br>
+<b>Como é realizada o output de Historico?</b><br>
 A saída (resultado) do MW do **matriculeMe** acontece da seguinte forma:
 
 Explique como Acontece.
+
+<b>Como os dados do Histórico são obtidos?</b><br>
+O MW obtem os dados do MatriculaWEB através da seguinte forma:
+
+* Explique aqui
+* Com Itens de Lista
 
 <b>Licença e Uso</b><br>
 A Interação com o MatriculaWEB do **matriculeMe** é Open Source e sob a Licença MIT. 
