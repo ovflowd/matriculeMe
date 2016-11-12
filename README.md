@@ -29,6 +29,19 @@ O **matriculeMe** estará disponível para a PlayStore da Google em escala inici
 
 O matriculeMe está sob desenvolvimento e instável para utilização sob demanda ou utilização normal.
 
+Você encontrará _Releases de Desenvolvimento_ e de _Homologação_ [aqui](https://github.com/sant0ro/matriculeMe/releases).
+
+<b>Camadas do matriculeMe</b><br>
+O **matriculeMe** possuí camadas em qual é desenvolvido. Acesse as camadas (branches) através destes links:
+
+* [Aplicativo Mobile](https://github.com/sant0ro/matriculeMe/tree/aplicativo-mobile)
+* [Machine Learning](https://github.com/sant0ro/matriculeMe/tree/machine-learning)
+* [Servidor](https://github.com/sant0ro/matriculeMe/tree/servidor-java)
+* [Interação MatriculaWEB](https://github.com/sant0ro/matriculeMe/tree/workers)
+
+<b>Modelo do Banco de Dados</b><br>
+Você poderá encontrar o modelo do Banco de Dados do **matriculeMe** clicando [aqui](https://github.com/sant0ro/matriculeMe/tree/artefatos/Artefatos/MDS/Camadas/BD)
+
 <b>Licença e Uso</b><br>
 O **matriculeMe** é Open Source e sob a Licença MIT. 
 
