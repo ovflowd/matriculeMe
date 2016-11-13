@@ -1,4 +1,4 @@
-![](https://github.com/sant0ro/matriculeMe/raw/master/Logo.png)
+![](https://github.com/sant0ro/matriculeMe/raw/server/Logo.png)
 #### Embedded Solution for University of Brasília Registration System
 -------------------------------------
 
@@ -34,10 +34,13 @@ Você encontrará _Releases de Desenvolvimento_ e de _Homologação_ [aqui](http
 <b>Camadas do matriculeMe</b><br>
 O **matriculeMe** possuí camadas em qual é desenvolvido. Acesse as camadas (branches) através destes links:
 
-* [Aplicativo Mobile](https://github.com/sant0ro/matriculeMe/tree/aplicativo-mobile)
+* [Aplicativo Mobile](https://github.com/sant0ro/matriculeMe/tree/mobile)
 * [Machine Learning](https://github.com/sant0ro/matriculeMe/tree/machine-learning)
-* [Servidor](https://github.com/sant0ro/matriculeMe/tree/servidor-java)
+* [Servidor (Desenvolvimento)](https://github.com/sant0ro/matriculeMe/tree/server-dev)
+* [Servidor (Stable)](https://github.com/sant0ro/matriculeMe/tree/server/server/)
 * [Interação MatriculaWEB](https://github.com/sant0ro/matriculeMe/tree/workers)
+
+**Você também pode acompanhar a gerência do projeto e seus artefatos clicando [aqui(https://github.com/sant0ro/matriculeMe/tree/artifacts)**
 
 <b>Modelo do Banco de Dados</b><br>
 Você poderá encontrar o modelo do Banco de Dados do **matriculeMe** clicando [aqui](https://github.com/sant0ro/matriculeMe/tree/artefatos/Artefatos/MDS/Camadas/BD)
