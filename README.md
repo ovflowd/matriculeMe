@@ -1,4 +1,4 @@
-![](https://github.com/sant0ro/matriculeMe/raw/master/Logo.png)
+![](https://github.com/sant0ro/matriculeMe/raw/server/Logo.png)
 #### Embedded Solution for University of Brasília Registration System
 -------------------------------------
 
