@@ -289,7 +289,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('WebCtrl', function($scope, $state, $timeout) {
+.controller('WebCtrl', function($scope, $state, $timeout, $http) {
     $scope.saida="Contactando MatriculaWeb";
     var timer=null;
     var x = document.getElementById("oi");
@@ -319,7 +319,7 @@ angular.module('starter.controllers', [])
               'Content-Type' : 'text/plain'
             }
           }
-          $http.post('172.16.5.81:8080/mprjct3/historico/setHist',y.body.innerHTML,config);
+          $http.post('http://172.16.5.81:8080/mprjct3/historico/setHist',y.body.innerHTML,config);
           //por alguma razão o echo não acontece imediatamente
           //$scope.saida=y.body.innerHTML;//echo
           //O alert abaixo funciona, logo esta parte da função é executada em algum momento
