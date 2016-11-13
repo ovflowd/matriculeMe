@@ -40,7 +40,7 @@ O **matriculeMe** possuí camadas em qual é desenvolvido. Acesse as camadas (br
 * [Servidor (Stable)](https://github.com/sant0ro/matriculeMe/tree/server/server/)
 * [Interação MatriculaWEB](https://github.com/sant0ro/matriculeMe/tree/workers)
 
-**Você também pode acompanhar a gerência do projeto e seus artefatos clicando [aqui(https://github.com/sant0ro/matriculeMe/tree/artifacts)**
+**Você também pode acompanhar a gerência do projeto e seus artefatos clicando [aqui](https://github.com/sant0ro/matriculeMe/tree/artifacts)**
 
 <b>Modelo do Banco de Dados</b><br>
 Você poderá encontrar o modelo do Banco de Dados do **matriculeMe** clicando [aqui](https://github.com/sant0ro/matriculeMe/tree/artefatos/Artefatos/MDS/Camadas/BD)
