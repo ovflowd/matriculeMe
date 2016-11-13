@@ -1,4 +1,4 @@
-![](https://github.com/sant0ro/matriculeMe/raw/master/Logo.png)
+![](https://github.com/sant0ro/matriculeMe/raw/server/Logo.png)
 #### Embedded Solution for University of Brasília Registration System
 -------------------------------------
 
@@ -7,6 +7,9 @@ Uma solução criada para realizar sugestões de disciplinas e montagem de uma g
 
 <b>Qual o conteúdo desta Branch?</b><br>
 Arquivos relacionados ao protótipo do **Servidor** do **matriculeMe**
+
+<b>Atenção</b><br>
+Esta branch se refere a versão de **DESENVOLVIMENTO** do Servidor do **matriculeMe**. Apenas códigos instáveis ou prototipais estarão publicados aqui.
 
 <b>Como foi Desenvolvido?</b><br>
 O Servidor (Núcleo) do **matriculeMe** foi desenvolvido com a linguagem Java e utilizando as seguintes bibliotecas:
