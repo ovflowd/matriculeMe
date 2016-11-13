@@ -3,6 +3,8 @@
     <properties maven-id="org.glassfish:javax.servlet:3.1.1" />
     <CLASSES>
       <root url="jar://$PROJECT_DIR$/lib/javax.servlet-3.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.servlet-3.1.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.servlet-3.1.1.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />

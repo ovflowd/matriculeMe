@@ -18,6 +18,38 @@
       <root url="jar://$PROJECT_DIR$/lib/jersey-media-jaxb-2.21.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/validation-api-1.1.0.Final.jar!/" />
       <root url="jar://$PROJECT_DIR$/lib/org.osgi.core-4.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-server-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-common-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.ws.rs-api-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.annotation-api-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-guava-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hk2-api-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hk2-utils-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aopalliance-repackaged-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.inject-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hk2-locator-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javassist-3.18.1-GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/osgi-resource-locator-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-client-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-media-jaxb-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/validation-api-1.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.osgi.core-4.2.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-server-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-common-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.ws.rs-api-2.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.annotation-api-1.2.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-guava-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hk2-api-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hk2-utils-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/aopalliance-repackaged-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javax.inject-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/hk2-locator-2.4.0-b31.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/javassist-3.18.1-GA.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/osgi-resource-locator-1.0.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-client-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/jersey-media-jaxb-2.21.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/validation-api-1.1.0.Final.jar!/" />
+      <root url="jar://$PROJECT_DIR$/lib/org.osgi.core-4.2.0.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES />
