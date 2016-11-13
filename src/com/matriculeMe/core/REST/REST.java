@@ -2,9 +2,9 @@ package com.matriculeMe.core.REST;
 
 import com.google.gson.Gson;
 import com.matriculeMe.core.DAO.GenericDAO;
+import com.matriculeMe.domain.Login;
 import com.matriculeMe.domain.Metadata;
 import com.matriculeMe.util.FactoryUtil;
-import com.matriculeMe.domain.Login;
 
 import java.util.Objects;
 

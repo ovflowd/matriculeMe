@@ -2,10 +2,10 @@ package com.matriculeMe.util;
 
 
 import com.google.gson.Gson;
-import com.matriculeMe.domain.User;
 import com.matriculeMe.domain.Login;
 import com.matriculeMe.domain.Token;
 import com.matriculeMe.domain.URL;
+import com.matriculeMe.domain.User;
 
 import java.lang.reflect.InvocationTargetException;
 

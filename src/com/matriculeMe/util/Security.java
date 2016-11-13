@@ -1,12 +1,12 @@
 package com.matriculeMe.util;
 
 import com.matriculeMe.core.DAO.GenericDAO;
-import org.hibernate.Criteria;
-import org.hibernate.Session;
-import org.hibernate.criterion.Restrictions;
 import com.matriculeMe.domain.Login;
 import com.matriculeMe.domain.Token;
 import com.matriculeMe.domain.URL;
+import org.hibernate.Criteria;
+import org.hibernate.Session;
+import org.hibernate.criterion.Restrictions;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;

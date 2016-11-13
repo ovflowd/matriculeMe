@@ -1,13 +1,13 @@
 package com.matriculeMe.core.DAO;
 
 import com.google.gson.Gson;
+import com.matriculeMe.util.HibernateUtil;
 import org.hibernate.Criteria;
 import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.Transaction;
 import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
-import com.matriculeMe.util.HibernateUtil;
 
 import java.util.List;
 
