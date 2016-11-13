@@ -4,6 +4,7 @@
 	<contentEntry url="file://$MODULE_DIR$">
 		<excludeFolder url="file://$MODULE_DIR$/lib"/>
 		<excludeFolder url="file://$MODULE_DIR$/target"/>
+		<excludeFolder url="file://$MODULE_DIR$/test"/>
 	</contentEntry>
 	<levels>
 		<level name="Maven: org.hibernate:hibernate-core:4.3.11.Final" value="project"/>
