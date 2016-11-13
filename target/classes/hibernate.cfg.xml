@@ -33,11 +33,11 @@
 		<property name="hbm2ddl.auto">validate</property>
 		
 		<!-- Mapeamento das entidades -->
-		<mapping class="projeto.matriculeme.domain.Alvo" />
-		<mapping class="projeto.matriculeme.domain.Login" />
-		<mapping class="projeto.matriculeme.domain.Token" />
-		<mapping class="projeto.matriculeme.domain.URL" />
-		<mapping class="projeto.matriculeme.domain.User" />
+		<mapping class="com.matriculeMe.domain.Alvo" />
+		<mapping class="com.matriculeMe.domain.Login" />
+		<mapping class="com.matriculeMe.domain.Token" />
+		<mapping class="com.matriculeMe.domain.URL" />
+		<mapping class="com.matriculeMe.domain.User" />
 	</session-factory>
 
 </hibernate-configuration>
