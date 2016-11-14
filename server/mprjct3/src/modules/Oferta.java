@@ -4,39 +4,39 @@ import javax.persistence.*;
 
 @Entity
 public class Oferta {
-	@Id
-	@GeneratedValue
-	private int id;
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinTable(name = "disciplina_semestre")
-	private DisciplinasCursadas disciplina;//'FK' Referência às disciplinas ofertadas
-	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinTable(name = "oferta_semestre")
-	private Semestre semestre;//'FK' Referência ao respectivo período da disciplina
-	
-	public void setId(int id){
-		this.id = id;
-	}
-	
-	public int getId(){
-		return id;
-	}
-	
-	public void setDisciplinaCursadas(DisciplinasCursadas disciplina){
-		this.disciplina =  disciplina;
-	}
-	
-	public DisciplinasCursadas getDisciplinasCursadas(){
-		return disciplina;
-	}
-	
-	public void setSemestre(Semestre semestre ){
-		this.semestre = semestre;
-	}
-	
-	public Semestre getSemestre(){
-		return semestre;
-	}
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "disciplina_semestre")
+    private DisciplinasCursadas disciplina;//'FK' Referï¿½ncia ï¿½s disciplinas ofertadas
+
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "oferta_semestre")
+    private Semestre semestre;//'FK' Referï¿½ncia ao respectivo perï¿½odo da disciplina
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public void setDisciplinaCursadas(DisciplinasCursadas disciplina) {
+        this.disciplina = disciplina;
+    }
+
+    public DisciplinasCursadas getDisciplinasCursadas() {
+        return disciplina;
+    }
+
+    public Semestre getSemestre() {
+        return semestre;
+    }
+
+    public void setSemestre(Semestre semestre) {
+        this.semestre = semestre;
+    }
 }

@@ -5,61 +5,61 @@ import javax.persistence.*;
 @Entity
 @Table(name = "horario")
 public class Horario {
-	@Id
-	@GeneratedValue
-	private int id;//Chave primária da tabela Horários
-	
-	@OneToOne
-	@JoinTable(name = "turma_id")
-	private Turma turmaId;
-	
-	@Column
-	private String dia;/*Dia da semana que ocorrem aulas em inteiros onde , segunda = 2, terça = 3
-					  e assim sucessivamente*/
-	
-	@Column(name = "horario_inicio")
-	private String horarioInicio;//Horário em que uma aula começa
-	
-	@Column(name = "horario_fim")
-	private String horarioFim;//Horário em que uma aula termina
-	
-	public void setId(int id){
-		this.id = id;
-	}
-	
-	public int getId(){
-		return id;
-	}
-	
-	public void setHorarioInicio(String horarioInicio ){
-		this.horarioInicio = horarioInicio;
-	}
-	
-	public String getHorarioInicio(){
-		return horarioInicio;
-	}
-	
-	public void setHorarioFim(String horarioFim){
-		this.horarioFim = horarioFim ;
-	}
-	
-	public String getHorarioFim(){
-		return horarioFim;
-	}
-	
-	public void setTurmas(Turma turmaId){
-		this.turmaId = turmaId;
-	}
-	
-	public Turma getTurmas(){
-		return turmaId;
-	}
-	
-	public void setDia(String dia){
-		this.dia = dia;
-	}
-	
-	public String getDia(){
-		return dia;
-	}
+    @Id
+    @GeneratedValue
+    private int id;//Chave primï¿½ria da tabela Horï¿½rios
+
+    @OneToOne
+    @JoinTable(name = "turma_id")
+    private Turma turmaId;
+
+    @Column
+    private String dia;/*Dia da semana que ocorrem aulas em inteiros onde , segunda = 2, terï¿½a = 3
+                      e assim sucessivamente*/
+
+    @Column(name = "horario_inicio")
+    private String horarioInicio;//Horï¿½rio em que uma aula comeï¿½a
+
+    @Column(name = "horario_fim")
+    private String horarioFim;//Horï¿½rio em que uma aula termina
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getHorarioInicio() {
+        return horarioInicio;
+    }
+
+    public void setHorarioInicio(String horarioInicio) {
+        this.horarioInicio = horarioInicio;
+    }
+
+    public String getHorarioFim() {
+        return horarioFim;
+    }
+
+    public void setHorarioFim(String horarioFim) {
+        this.horarioFim = horarioFim;
+    }
+
+    public Turma getTurmas() {
+        return turmaId;
+    }
+
+    public void setTurmas(Turma turmaId) {
+        this.turmaId = turmaId;
+    }
+
+    public String getDia() {
+        return dia;
+    }
+
+    public void setDia(String dia) {
+        this.dia = dia;
+    }
 }

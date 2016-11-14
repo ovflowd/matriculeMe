@@ -1,40 +1,44 @@
 package modules;
-import javax.persistence.*;
+
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
 
 @Entity
 public class Url {
-	
-	@Id
-	@GeneratedValue
-	private int id;
-	
-	@Column(nullable = false, length = 150)
-	private String url;
-	
-	@Column(nullable = false)
-	private long time;
-	
-	public void setId(int id){
-		this.id = id;
-	}
-	
-	public int getId(){
-		return id;
-	}
-	
-	public void setUrl(String url){
-		this.url = url;
-	}
-	
-	public String getUrl(){
-		return url;
-	}
-	
-	public void setTime(long time){
-		this.time = time;
-	}
-	
-	public long getTime(){
-		return time;
-	}
+
+    @Id
+    @GeneratedValue
+    private int id;
+
+    @Column(nullable = false, length = 150)
+    private String url;
+
+    @Column(nullable = false)
+    private long time;
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getUrl() {
+        return url;
+    }
+
+    public void setUrl(String url) {
+        this.url = url;
+    }
+
+    public long getTime() {
+        return time;
+    }
+
+    public void setTime(long time) {
+        this.time = time;
+    }
 }
