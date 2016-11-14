@@ -94,6 +94,4 @@ public final class Queries {
 
         return objects;
     }
-
-
 }
