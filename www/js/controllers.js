@@ -43,11 +43,11 @@ angular.module('starter.controllers', [])
 
   .controller('GradeCtrl', function($scope,$ionicModal, $state, sugestao) {
     $scope.$on('$ionicView.enter', function(e) {
+      var grade = [[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}]];
       for (var i = 0; i < escolhas.length; i++) {
         cells=escolhas[i].turma.horario.map(function(slot,index){
           var dias=["Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
-          var horas=[8,10,12,14,16,18,20];
-          //console.log(slot.dia);
+          var horas=[6,8,10,12,14,16,18,20,22];
           return [dias.indexOf(slot.dia),horas.indexOf(slot.horaIni)];
         });
         for (var j = 0; j < cells.length; j++) {
@@ -55,7 +55,7 @@ angular.module('starter.controllers', [])
           grade[cells[j][1]][cells[j][0]]=escolhas[i];
         }
       }
-      console.log(grade);
+      //console.log(grade);
       $scope.grade = grade;
     });
 
@@ -66,9 +66,28 @@ angular.module('starter.controllers', [])
       }
     );
       
-    $scope.mostrarOpcoes = function(disciplina,index) {
-        $scope.swap=disciplina;
-        $scope.taskModal.show();
+    $scope.mostrarOpcoes = function(disciplina,$index,hora) {
+        $scope.hora=hora;
+        switch($index){
+          case 0: $scope.dia="Segunda-feira";
+            break;
+          case 1: $scope.dia="Terça-feira";
+            break;
+          case 2: $scope.dia="Quarta-feira";
+            break;
+          case 3: $scope.dia="Quinta-feira";
+            break;
+          case 4: $scope.dia="Sexta-feira";
+            break;
+          case 5: $scope.dia="Sábado";
+            break;
+        }
+        if(disciplina.codDisc){
+          $scope.swap=disciplina;
+          $scope.taskModal.show();
+        }else{
+          $state.go('app.tela6')
+        }
     };
 
     $scope.closePopUp = function() {
@@ -85,7 +104,8 @@ angular.module('starter.controllers', [])
         filtrado=escolhas.filter(function(elemento){
             return elemento.codDisc != $scope.swap.codDisc;
         });
-        $state.go("app2.tela5",{"discId": $scope.swap.codDisc});
+        escolhas=filtrado;
+        $state.reload();
         $scope.taskModal.hide();
     };
 	
@@ -98,6 +118,9 @@ angular.module('starter.controllers', [])
     $scope.$on('$ionicView.enter', function(e) {
       $scope.escolhas=escolhas;
     });
+  })
+  .controller('AboutUsCtrl', function($scope) {
+    
   })
 
   .controller("Tela6Ctrl",function($scope,$http,$timeout,$ionicModal,$state) {
@@ -192,7 +215,7 @@ angular.module('starter.controllers', [])
         }else{
           $scope.sugestoes[posi].prioridade=$scope.sugestoes[posi].prioridadeOld;
             document.getElementById('polegar'+$index).className = "button button-icon ion-arrow-down-a";
-            document.getElementById('polegar'+$index).innerHTML = " Desgostar"
+            document.getElementById('polegar'+$index).innerHTML = " Rejeitar"
         }
     };
       
@@ -209,16 +232,16 @@ angular.module('starter.controllers', [])
     }
 
     $scope.login = function() {
-      var result = (MD5($scope.data.password));
-      $scope.data.senha = result;
-      $http.get('http://172.16.5.11:8080/mprjct3/alunos/getAlunos/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
+      // var result = (MD5($scope.data.password));
+      // $scope.data.senha = result;
+      // $http.get('http://172.16.5.11:8080/mprjct3/alunos/getAlunos/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
             $state.go('app.grade');
-        }).error(function(data) {
-            var alertPopup = $ionicPopup.alert({
-                title: 'Login failed!',
-                template: 'Please check your credentials!'
-            });
-        });
+        // }).error(function(data) {
+        //     var alertPopup = $ionicPopup.alert({
+        //         title: 'Login failed!',
+        //         template: 'Please check your credentials!'
+        //     });
+        // });
     }
 })
 
@@ -282,7 +305,6 @@ angular.module('starter.controllers', [])
     $http.get('turmas.json')
         .success(function (data){
             $scope.disciplina=data.disciplina;
-            $scope.disciplina.codDisc=$stateParams.discId;
         });
     
     $scope.addGrade=function(turma){
@@ -338,7 +360,7 @@ angular.module('starter.controllers', [])
     $scope.saida="Contactando MatriculaWeb";
     var timer=null;
     var x = document.getElementById("oi");
-    x.style.display='none';
+    //x.style.display='none';
     //Abrir a página de login
     var frame=window.frames[0];
     frame.location="http://wwwsec.serverweb.unb.br/graduacao/sec/login.aspx";
@@ -347,7 +369,7 @@ angular.module('starter.controllers', [])
     verifica=function(){
       //Obtem o conteúdo (document) do iframe
       var x = document.getElementById("oi");
-      x.style.display='none';
+      //x.style.display='none';
       var y = (x.contentWindow || x.contentDocument);
       if (y.document) y = y.document; //Access denied! (no browser, via emulador rola de boa)
       //Verifica se está na página de login
