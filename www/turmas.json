@@ -1,0 +1,34 @@
+{"disciplina":{
+    "codDisc":  "108561",
+    "nomeDisc": "Algoritmos e Estrutura de Dados",
+    "turmas":[
+        {   "codTurma":  "A",
+            "nomeProf": "DANIEL GUERREIRO E SILVA",
+            "horario":[
+                {    "dia":  "Terça",
+                     "horaIni":  10,
+                     "horaFim":  12
+                },
+                
+                {    "dia":  "Quinta",
+                     "horaIni":  10 ,
+                     "horaFim":  12
+                }
+            ]
+        },
+        {   "codTurma":  "B",
+            "nomeProf": "CAIO CESAR DE MELO E SILVA",
+            "horario":[
+                {    "dia":  "Segunda",
+                     "horaIni":  16 ,
+                     "horaFim":  18 
+                },
+                
+                {    "dia":  "Quarta",
+                     "horaIni":  16 ,
+                     "horaFim":  18
+                }
+            ]
+        }
+    ]}
+}

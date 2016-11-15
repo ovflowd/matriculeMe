@@ -1,0 +1,31 @@
+<ion-view view-title="Disciplinas sugeridas para você">
+  <ion-content>
+    <ion-item ng-repeat="sugestao in sugestoes | orderBy : 'prioridade' : reverse=true ">
+        <div class="row">
+          <div class="margin2">
+            <button class="button button-royal ion-information-circled" ng-click="mostraMotivo(sugestao,$index)">
+              {{sugestao.nomeDisc}}
+            </button>
+          </div>
+          <div class="margin1">
+            <button id='polegar{{$index}}' class="button button-icon ion-arrow-down-a" ng-click="desgostar(sugestao,$index)"> Desgostar </button>
+          </div>
+        </div>
+    </ion-item>
+  </ion-content>
+  <script id="pop-up-motivo.html" type="text/ng-template">
+      <div class="modal">
+        <ion-header-bar class="bar-secondary">
+          <h1 class="title">Motivo da sugestão</h1>
+        </ion-header-bar>
+        <ion-content>
+          <h4 class="center">A disciplina: <p>{{swap.nomeDisc}}</p> Foi sugerida pelo seguinte motivo: <p>{{swap.motivo}}</p> Com prioridade: <p>{{swap.prioridade}}</p></h4>
+        </ion-content>
+        <ion-footer-bar class="bar-secundary">
+            <!-- O botão a seguir deve linkar com a tela 5 (de turmas), passando como parâmetros o que for necessário para acesso às turmas da disciplina selecionada -->
+            <button class="button button-positive" ng-click="irParaTurmas(sugestao)">Ver Turmas</button>
+            <button class="button button-positive" ng-click="closePopUp()">Fechar</button>
+        </ion-footer-bar>
+      </div>
+  </script>
+</ion-view>

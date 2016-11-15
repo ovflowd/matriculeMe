@@ -1,0 +1,24 @@
+{"sugestoes":[
+        {   "codDisc":  "113140",
+            "prioridade":   600,
+            "nomeDisc": "Redes Sem Fio",
+            "motivo":   "Disciplina do teu semestre"
+        },
+        
+        {   "codDisc":  "160113",
+            "prioridade":   235,
+            "nomeDisc": "Segurança de Redes" ,
+            "motivo":   "Disciplina do currículo do teu curso"
+        },
+        {   "codDisc":  "167088",
+            "prioridade":   203,
+            "nomeDisc": "Conversão de Energia" ,
+            "motivo":   "Outra disciplina do mesmo departamento"
+        },
+        {   "codDisc":  "111813",
+            "prioridade":   708,
+            "nomeDisc": "Sistemas Digitais" ,
+            "motivo":   "Disciplina obrigatória atrasada"
+        }
+    ]}
+    

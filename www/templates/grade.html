@@ -1,0 +1,69 @@
+<ion-view view-title="Grade">
+  <ion-content class="padding">
+    <div class="row header" style="text-align:center">
+		  <div class="col dia"></div>
+          <div class="col dia">Segunda</div>
+          <div class="col dia">Terça</div>
+          <div class="col dia">Quarta</div>
+          <div class="col dia">Quinta</div>
+          <div class="col dia">Sexta</div>
+		      <div class="col dia">Sabado</div>
+        </div>
+        <div class="row">
+		  <div class="col">08-10</div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[0] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">10-12</div>
+		  <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[1] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">12-14</div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[2] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+		  </div>
+		<div class="row">
+		  <div class="col ">14-16</div>
+		    <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[3] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">16-18</div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[4] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">18-20</div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[5] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+        </div>
+		<div class="row">
+		  <div class="col ">20-22</div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[6] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+        </div>
+		<div style="text-align: center;">
+            <button class="button button- button-calm" ng-click="request()">pedir sugestão</button>
+		<br><br><br><br>
+		</div>
+  </ion-content>
+  <script id="pop-up-slot.html" type="text/ng-template">
+      <div class="modal">
+        <ion-header-bar class="bar-secondary">
+          <h1 class="title">
+            {{dias[index]}} as {{swap.turma.horario[0].horaIni}}
+          </h1>
+        </ion-header-bar>
+        <ion-content>
+          <h4 class="center">Disciplina: <p>{{swap.nomeDisc}}</p> Turma: <p>{{swap.turma.codTurma}}</p> Professor: <p>{{swap.turma.nomeProf}}</p></h4>
+        </ion-content>
+        <ion-footer-bar class="bar-secundary">
+            <!-- O botão a seguir deve linkar com a tela 5 (de turmas), passando como parâmetros o que for necessário para acesso às turmas da disciplina selecionada -->
+            <button class="button button-positive" ng-click="irParaTurmas(x)">
+              Outra Turma
+            </button>
+            <button class="button button-positive" ng-click="retirar(x)">
+              Retirar da grade
+            </button>
+            <button class="button button-positive" ng-click="closePopUp()">
+              Fechar
+            </button>
+        </ion-footer-bar>
+      </div>
+  </script>
+</ion-view>

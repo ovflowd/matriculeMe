@@ -1,0 +1,24 @@
+{"disciplinas":[
+        {   "codDisc":  "113140",
+            "nomeDisc": "Redes Sem Fio",
+            "dept":     "ENE",
+            "creditos": 4
+        },
+        
+        {   "codDisc":  "160113",
+            "nomeDisc": "Segurança de Redes",
+            "dept":     "ENE",
+            "creditos": 4
+        },
+        {   "codDisc":  "167088",
+            "nomeDisc": "Conversão de Energia" ,
+            "dept":     "ENE",
+            "creditos": 4
+        },
+        {   "codDisc":  "111813",
+            "nomeDisc": "Sistemas Digitais" ,
+            "dept":     "ENE",
+            "creditos": 4
+        }
+    ]}
+    
