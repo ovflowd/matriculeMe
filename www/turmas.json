@@ -3,7 +3,7 @@
     "nomeDisc": "Algoritmos e Estrutura de Dados",
     "turmas":[
         {   "codTurma":  "A",
-            "nomeProf": "DANIEL GUERREIRO E SILVA",
+            "nomeProf": "ADONAY AUM VEIGA",
             "horario":[
                 {    "dia":  "Terça",
                      "horaIni":  10,
@@ -11,22 +11,36 @@
                 },
                 
                 {    "dia":  "Quinta",
-                     "horaIni":  10 ,
-                     "horaFim":  12
+                     "horaIni":  14 ,
+                     "horaFim":  16
                 }
+            
             ]
         },
         {   "codTurma":  "B",
-            "nomeProf": "CAIO CESAR DE MELO E SILVA",
+            "nomeProf": "GUSTAVO VELOSO GIANINI",
             "horario":[
                 {    "dia":  "Segunda",
                      "horaIni":  16 ,
                      "horaFim":  18 
+                }
+            ]
+        },
+        {   "codTurma":  "C",
+            "nomeProf": "DANILO GAMEIRO REGA",
+            "horario":[
+                {    "dia":  "Segunda",
+                     "horaIni":  8,
+                     "horaFim":  10
                 },
                 
                 {    "dia":  "Quarta",
-                     "horaIni":  16 ,
-                     "horaFim":  18
+                     "horaIni":  8 ,
+                     "horaFim":  10
+                },
+                {     "dia": "Sexta",
+                      "horaIni": 8,
+                      "horaFim": 10
                 }
             ]
         }
