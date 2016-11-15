@@ -17,11 +17,7 @@ public class DisciplinasCursadas {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(name = "mencao_disciplina")
 	private Mencao mencao; //'FK' referencia a menção do aluno em determinada disciplina
-	
-	@ManyToOne
-	@JoinTable(name = "oferta_disciplina")
-	private Oferta oferta;//'FK' 
-	
+		
 	public void setId(int id){
 		this.id= id;
 	}
@@ -43,12 +39,5 @@ public class DisciplinasCursadas {
 	
 	public Mencao  getMencao(){
 		return mencao;
-	}
-	public void setDisciplinas(Oferta oferta){
-		this.oferta = oferta;
-	}
-	
-	public Oferta getOferta(){
-		return oferta;
 	}	
 }

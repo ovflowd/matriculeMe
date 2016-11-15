@@ -12,8 +12,9 @@ public class Disciplina {
 	@Column
 	private String nome;//Nome da disciplina
 	
-	@Column
-	private int departamento;//'FK' referência ao Departamento que oferta a disciplina
+	@OneToMany
+	@JoinTable(name = "departamento_disciplina")
+	private Departamento departamento;//'FK' referência ao Departamento que oferta a disciplina
 	
 	@Column
 	private int credito;//Quantidade de créditos da disciplina
@@ -45,11 +46,11 @@ public class Disciplina {
 		return credito;
 	}
 	
-	public void setDepartamento(int departamento){
+	public void setDepartamento(Departamento departamento){
 		this.departamento = departamento;
 	}
 	
-	public int getDepartamento(){
+	public Departamento getDepartamento(){
 		return departamento;
 	}	
 	
