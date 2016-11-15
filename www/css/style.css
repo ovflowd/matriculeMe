@@ -17,6 +17,22 @@
 	text-indent: 50px;
 }
 
+.gian{
+	font-size: x-large;
+}
+
+.adonay{
+
+	text-align: center;
+	vertical-align:middle;
+	display:table-cell;
+}
+
+.tamanholetra{
+	font-size: medium;
+
+}
+
 .dia {
   background-color: #E7F3D6;
 }
