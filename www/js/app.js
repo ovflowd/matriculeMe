@@ -1,5 +1,5 @@
 // Ionic Starter App
-var grade = [[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}],[{},{},{},{},{},{}]];
+
 var escolhas=[]; //Variável global que registra as escolhas do usuário para tela3 ("suas escolhas")
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
@@ -61,6 +61,15 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
       }
     }
   })
+  .state('app.aboutus', {
+    url: '/aboutus',
+    views: {
+      'menuContent': {
+        templateUrl: 'templates/aboutus.html',
+        controller: 'AboutUsCtrl'
+      }
+    }
+  })
 
   .state('app.tela4', {
       url: '/tela4',
@@ -83,20 +92,20 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
   })
   
   .state('app.tela3', {
-      url: '/tela3',
+      url: '/minhasescolhas',
       views: {
         'menuContent': {
-          templateUrl: 'templates/tela3.html',
+          templateUrl: 'templates/minhasescolhas.html',
           controller: 'Tela3Ctrl'
         }
       }
   })
     
     .state('app.tela6', {
-      url: '/tela6',
+      url: '/buscardisciplina',
       views: {
         'menuContent': {
-          templateUrl: 'templates/tela6.html',
+          templateUrl: 'templates/buscardisciplina.html',
           controller: 'Tela6Ctrl'
         }
       }
