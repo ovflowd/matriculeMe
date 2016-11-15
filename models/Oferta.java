@@ -16,10 +16,6 @@ public class Oferta {
 	@JoinTable(name = "oferta_semestre")
 	private Semestre semestre;//'FK' Referência ao respectivo período da disciplina
 	
-	@OneToMany
-	@JoinTable(name = "disciplinas_cursadas_oferta")
-	private DisciplinasCursadas disciplinasCursadas;
-		
 	public void setId(int id){
 		this.id = id;
 	}
@@ -43,12 +39,5 @@ public class Oferta {
 	public Semestre getSemestre(){
 		return semestre;
 	}
-	
-	public void setDisciplinasCursadas(DisciplinasCursadas disciplinasCursadas){
-		this.disciplinasCursadas = disciplinasCursadas;
-	}
-	
-	public DisciplinasCursadas getDisciplinasCursadas(){
-		return disciplinasCursadas;
-	}
+
 }
