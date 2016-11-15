@@ -1,0 +1,36 @@
+.one_half, 
+.one_third, .two_third, 
+.one_quarter, .two_quarter, .three_quarter, 
+.one_fifth, .two_fifth, .three_fifth, .four_fifth{display:inline-block; float:left; margin:0 0 0 20px; list-style:none;}
+
+.one_third, .two_third{margin:0 0 0 30px;}
+
+.first, 
+.one_half:first-child, 
+.one_third:first-child, .two_third:first-child, 
+.one_quarter:first-child, .two_quarter:first-child, .three_quarter:first-child, 
+.one_fifth:first-child, .two_fifth:first-child, .three_fifth:first-child, .four_fifth:first-child{margin-left:0;}
+
+.two_half, .three_third, .four_quarter, .five_fifth{display:block; width:100%; clear:both;}
+
+/*----------------------------------------------Half Grid-------------------------------------*/
+
+.one_half{width:470px;}
+
+/*----------------------------------------------Third Grid-------------------------------------*/
+
+.one_third{width:300px;}
+.two_third{width:630px;}
+
+/*----------------------------------------------Quarter Grid-------------------------------------*/
+
+.one_quarter{width:225px;}
+.two_quarter{width:470px;}
+.three_quarter{width:715px;}
+
+/*----------------------------------------------Fifth Grid-------------------------------------*/
+
+.one_fifth{width:176px;}
+.two_fifth{width:372px;}
+.three_fifth{width:568px;}
+.four_fifth{width:764px;}

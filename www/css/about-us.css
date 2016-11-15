@@ -1,0 +1,37 @@
+/*
+HTML 5 Template Name: 
+File: About Us - 19 CSS
+Author: OS Templates
+Author URI: http://www.os-templates.com/
+Licence: <a href="http://www.os-templates.com/template-terms">Website Template Licence</a>
+*/
+
+#about-us{display:block; width:100%; line-height:1.6em;}
+
+#about-us #about-intro{margin-bottom:30px;}
+#about-us #about-intro blockquote{position:relative; margin:0; padding:0;}
+#about-us #about-intro blockquote p{margin:0; padding:0 0 0 60px; font-size:22px; font-style:italic; line-height:1.6em;}
+#about-us #about-intro blockquote p span{position:absolute; top:0; left:0; font-size:120px; line-height:.8em;}
+#about-us #about-intro .panorama .imgholder{padding:9px;}
+#about-us #about-intro h2{}
+#about-us #about-intro p{}
+#about-us #about-intro p:first-child{}
+
+#about-us #skillset{margin-bottom:0;}
+#about-us #skillset .fl_left{width:274px; margin-left:20px;}
+#about-us #skillset .fl_left:first-child{margin-left:0;}
+#about-us #skillset .fl_left li{margin-top:5px;}
+#about-us #skillset .fl_left li:first-child{margin-top:0;}
+
+#about-us #team{margin-bottom:0;}
+#about-us #team ul{margin:0; padding:0; list-style:none;}
+#about-us #team ul li{display:block; margin:30px 0 0 0;}
+#about-us #team ul li:first-child{margin-top:0;}
+#about-us #team ul li figure{}
+#about-us #team ul li figure img{float:left;}
+#about-us #team ul li figcaption{float:right; width:250px;}
+#about-us #team ul li figcaption p{margin:0; padding:0;}
+#about-us #team ul li figcaption p:first-child{}
+#about-us #team ul li figure figcaption .team_name{font-weight:bold;}
+#about-us #team ul li figure figcaption .team_title{font-size:11px; line-height:normal;}
+#about-us #team ul li figure figcaption .team_description{margin-top:15px; line-height:1.4em;}
