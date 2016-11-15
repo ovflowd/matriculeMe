@@ -2,40 +2,48 @@
   <ion-content class="padding">
     <div class="row header" style="text-align:center">
 		  <div class="col dia"></div>
-          <div class="col dia">Segunda</div>
-          <div class="col dia">Terça</div>
-          <div class="col dia">Quarta</div>
-          <div class="col dia">Quinta</div>
-          <div class="col dia">Sexta</div>
-		      <div class="col dia">Sabado</div>
+          <div class="col dia"><b>Seg</b></div>
+          <div class="col dia"><b>Ter</b></div>
+          <div class="col dia"><b>Qua</b></div>
+          <div class="col dia"><b>Qui</b></div>
+          <div class="col dia"><b>Sex</b></div>
+		      <div class="col dia"><b>Sáb</b></div>
         </div>
         <div class="row">
-		  <div class="col">08-10</div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[0] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+      <div class="col"><b>06-08</b></div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index,6)" ng-repeat="x in grade[0] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+        </div>
+        <div class="row">
+		  <div class="col"><b>08-10</b></div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index,8)" ng-repeat="x in grade[1] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
         </div>
 		<div class="row">
-		  <div class="col ">10-12</div>
-		  <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[1] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+		  <div class="col "><b>10-12</b></div>
+		  <div class="col" ng-click="mostrarOpcoes(x,$index,10)" ng-repeat="x in grade[2] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
         </div>
 		<div class="row">
-		  <div class="col ">12-14</div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[2] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+		  <div class="col "><b>12-14</b></div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index,12)" ng-repeat="x in grade[3] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
 		  </div>
 		<div class="row">
-		  <div class="col ">14-16</div>
-		    <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[3] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+		  <div class="col "><b>14-16</b></div>
+		    <div class="col" ng-click="mostrarOpcoes(x,$index,14)" ng-repeat="x in grade[4] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
         </div>
 		<div class="row">
-		  <div class="col ">16-18</div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[4] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+		  <div class="col "><b>16-18</b></div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index,16)" ng-repeat="x in grade[5] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
         </div>
 		<div class="row">
-		  <div class="col ">18-20</div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[5] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+		  <div class="col "><b>18-20</b></div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index,18)" ng-repeat="x in grade[6] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
         </div>
 		<div class="row">
-		  <div class="col ">20-22</div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index)" ng-repeat="x in grade[6] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+		  <div class="col "><b>20-22</b></div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index,20)" ng-repeat="x in grade[7] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
+        </div>
+        <div class="row">
+      <div class="col"><b>22-24</b></div>
+            <div class="col" ng-click="mostrarOpcoes(x,$index,22)" ng-repeat="x in grade[8] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
         </div>
 		<div style="text-align: center;">
             <button class="button button- button-calm" ng-click="request()">pedir sugestão</button>
@@ -46,7 +54,7 @@
       <div class="modal">
         <ion-header-bar class="bar-secondary">
           <h1 class="title">
-            {{dias[index]}} as {{swap.turma.horario[0].horaIni}}
+            {{dia}} às {{hora}}:00
           </h1>
         </ion-header-bar>
         <ion-content>
