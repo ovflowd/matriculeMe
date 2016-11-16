@@ -76,7 +76,7 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
       views: {
         'menuContent': {
           templateUrl: 'templates/tela4.html',
-          controller: 'Tela4Ctrl'
+          controller: 'SugestoesCtrl'
         }
       }
     })
@@ -86,7 +86,7 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
       views: {
         'menuContent': {
           templateUrl: 'templates/turmas.html',
-          controller: 'Tela5Ctrl'
+          controller: 'TurmasCtrl'
         }
       }
   })
@@ -96,7 +96,7 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
       views: {
         'menuContent': {
           templateUrl: 'templates/minhasescolhas.html',
-          controller: 'Tela3Ctrl'
+          controller: 'EscolhasCtrl'
         }
       }
   })
@@ -106,7 +106,7 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
       views: {
         'menuContent': {
           templateUrl: 'templates/buscardisciplina.html',
-          controller: 'Tela6Ctrl'
+          controller: 'BuscaCtrl'
         }
       }
     })
@@ -118,15 +118,6 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
       }
     )
 
-  .state('app.single', {
-    url: '/playlists/:playlistId',
-    views: {
-      'menuContent': {
-        templateUrl: 'templates/playlist.html',
-        controller: 'PlaylistCtrl'
-      }
-    }
-  });
   // if none of the above states are matched, use this as the fallback
   $urlRouterProvider.otherwise('/login');
 });
