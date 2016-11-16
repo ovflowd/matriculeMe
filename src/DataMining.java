@@ -1,5 +1,5 @@
 package com.datamining.rest.api;
-
+import com.datamining.rest.models.*;
 import java.io.IOException;
 
 
@@ -45,7 +45,7 @@ public class DataMining {
 	@GET
 	@Path("/disciplina")
 	@Produces("application/textplain")
-	public String getDiscipina() throws IOException{
+	public String getDisciplina() throws IOException{
 		Worker criador = new Worker();
 		criador.gerarDisciplinas();
 		ArrayList<String> arrayJson = new ArrayList<String>();
@@ -178,8 +178,8 @@ public class DataMining {
 		jsonEnviar += "]";
 		//System.out.print("\\");
 		//guardar2 = guardar2.replaceAll("\\", "");
-		//ClientRest cliente = new ClientRest();
-		//cliente.enviarDados(jsonEnviar);
+		ClientRest cliente = new ClientRest();
+		cliente.enviarDados(jsonEnviar);
 		System.out.println(jsonEnviar);
 		return jsonEnviar;
 	}

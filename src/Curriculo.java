@@ -3,7 +3,7 @@ package com.datamining.rest.api;
 public class Curriculo {
 	private transient String codCurso;
 	private transient String codDisc;
-	private transient String semestre1;
+	private transient String semestre1; 
 	private int curso;
 	private int disciplina;
 	private int semestre;

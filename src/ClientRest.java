@@ -8,7 +8,7 @@ public class ClientRest {
 	try {
 		Client client = Client.create();
 
-		WebResource webResource = client.resource("http://172.16.5.81:8080/mprjct3/departamentos/setAllDeps");
+		WebResource webResource = client.resource("http://172.16.5.99:8080/mprjct3/departamentos/setAllDeps");
 
 		ClientResponse response = webResource.type("application/json").post(ClientResponse.class, envio);
 

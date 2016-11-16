@@ -14,17 +14,19 @@ public class Disciplina {
 	private transient String codDpto;
 	private transient String codDisc;
 	private int codigo;
-	private int departamento;
-	private String nomeDisc;
+	private Departamento departamento;
+	//private int departamento;
+	private String nomeDisc = null;
 	private int creditos;
-	ArrayList<String> preReq = new ArrayList<String>();
+	ArrayList<Requisito> requisito = new ArrayList<Requisito>();
+	transient ArrayList<String> preReq = new ArrayList<String>();
 	
 	public void converter(){
-		setDepartamento(Integer.parseInt(getCodDpto()));
+		//setDepartamento(Integer.parseInt(getCodDpto()));
 		setCodigo(Integer.parseInt(getCodDisc()));
 	}
 	
-	public void extrairCreditos() throws IOException{
+	public void extrairCreditos(){
 		int flag = 0;
 		Document doc = null;
 		while(flag == 0){
@@ -50,7 +52,7 @@ public class Disciplina {
 		//System.out.println(creditos);
 	}
 	
-	public void extrairPreReq() throws IOException{
+	public void extrairPreReq(){
 		int flag = 0;
 		Document doc = null;
 		while(flag == 0){
@@ -132,12 +134,23 @@ public class Disciplina {
 		this.codigo = codigo;
 	}
 
-	public int getDepartamento() {
+	public Departamento getDepartamento() {
 		return departamento;
 	}
 
-	public void setDepartamento(int departamento) {
+	public void setDepartamento(Departamento departamento) {
 		this.departamento = departamento;
 	}
+
+	public void converterPreReq() {
+		// TODO Auto-generated method stub
+		for(int i = 0; i < preReq.size(); i++){
+			Requisito temp = new Requisito();
+			temp.setCodigo(preReq.get(i));
+			temp.setTipo("0");
+			requisito.add(temp);
+		}
+	}
+
 }
 

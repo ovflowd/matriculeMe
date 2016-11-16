@@ -1,5 +1,5 @@
 package com.datamining.rest.api;
-
+import com.datamining.rest.models.*;
 import java.util.ArrayList;
 
 import java.io.IOException;
@@ -12,14 +12,9 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 public class DisciplinasCursadas {
-	private int matriAluno;
-	private transient String cod;
-	private int codigo;
+	private Aluno aluno;
+	private Oferta oferta;
 	private String mencao;
-	
-	public void converter(){
-		setCodigo(Integer.parseInt(getCod()));
-	}
 	
 	/*
 	public void extrairHistorico(String HtmlHistorico){
@@ -57,21 +52,6 @@ public class DisciplinasCursadas {
 	}
 	*/
 	
-	public int getMatriAluno() {
-		return matriAluno;
-	}
-
-	public void setMatriAluno(int matriAluno) {
-		this.matriAluno = matriAluno;
-	}
-
-	public int getCodigo() {
-		return codigo;
-	}
-
-	public void setCodigo(int codigo) {
-		this.codigo = codigo;
-	}
 
 	public String getMencao() {
 		return mencao;
@@ -81,12 +61,20 @@ public class DisciplinasCursadas {
 		this.mencao = mencao;
 	}
 
-	public String getCod() {
-		return cod;
+	public Oferta getOferta() {
+		return oferta;
 	}
 
-	public void setCod(String cod) {
-		this.cod = cod;
+	public void setOferta(Oferta oferta) {
+		this.oferta = oferta;
+	}
+
+	public Aluno getAluno() {
+		return aluno;
+	}
+
+	public void setAluno(Aluno aluno) {
+		this.aluno = aluno;
 	}
 	
 }

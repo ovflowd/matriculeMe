@@ -1,18 +1,20 @@
 package com.datamining.rest.api;
 
+import com.datamining.rest.models.Oferta;
+
 public class Turmas {
 	private String codigo;
 	private String professor;
 	private int campus;
-	private int disciplina;
+	private Oferta oferta;
 	private String horario;
 	private int vagas;
 	
-	public Turmas(String cod, String prof, String camp, String hora, String disc, String vag){
+	public Turmas(String cod, String prof, String camp, String hora, Oferta disc, String vag){
 		setCodigo(cod);
 		setProfessor(prof);
 		//setCampus(Integer.parseInt(camp));
-		setDisciplina(Integer.parseInt(disc));
+		setOferta(disc);
 		setHorario(hora);
 		setVagas(Integer.parseInt(vag));
 	}
@@ -41,14 +43,6 @@ public class Turmas {
 		this.campus = campus;
 	}
 
-	public int getDisciplina() {
-		return disciplina;
-	}
-
-	public void setDisciplina(int disciplina) {
-		this.disciplina = disciplina;
-	}
-
 	public String getHorario() {
 		return horario;
 	}
@@ -63,5 +57,13 @@ public class Turmas {
 
 	public void setVagas(int vagas) {
 		this.vagas = vagas;
+	}
+
+	public Oferta getOferta() {
+		return oferta;
+	}
+
+	public void setOferta(Oferta oferta) {
+		this.oferta = oferta;
 	}
 }

@@ -1,6 +1,7 @@
 package com.datamining.rest.api;
-
+import com.datamining.rest.models.*;
 import java.io.IOException;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 
@@ -14,7 +15,7 @@ public class Worker {
 	private ArrayList<Departamento> departamentos = new ArrayList<Departamento>();
 	private ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
 	private ArrayList<Turmas> turmas = new ArrayList<Turmas>();
-	private ArrayList<Curriculo> curriculos = new ArrayList<Curriculo>();
+	private ArrayList<CurriculoEnviar> curriculos = new ArrayList<CurriculoEnviar>();
 	private ArrayList<Habilitacao> habilitacoes = new ArrayList<Habilitacao>();
 	private ArrayList<DisciplinasCursadas> disciplinasCursadas = new ArrayList<DisciplinasCursadas>();
 	
@@ -33,7 +34,8 @@ public class Worker {
 				temp.setCodDisc(gerador.fluxo.get(j)[2]);
 				temp.setSemestre1(gerador.fluxo.get(j)[0]);
 				temp.converter();
-				curriculos.add(temp);
+				CurriculoEnviar tempEnviar = new CurriculoEnviar(habilitacoes.get(i), gerador.fluxo.get(j)[2], gerador.fluxo.get(j)[0]);
+				curriculos.add(tempEnviar);
 			}
 		}
 		
@@ -63,7 +65,7 @@ public class Worker {
 		
 		CampusDarcyOferta ofertaPrimeiraExt = new CampusDarcyOferta();
 		ofertaPrimeiraExt.extrairDepartamentos();
-		for(int i = 0; i < ofertaPrimeiraExt.nomeDepto.size(); i++){
+		for(int i = 0; i < ofertaPrimeiraExt.codDepto.size(); i++){
 			Departamento temp = new Departamento();
 			temp.setNome(ofertaPrimeiraExt.nomeDepto.get(i));
 			temp.setCod(ofertaPrimeiraExt.codDepto.get(i));
@@ -95,9 +97,9 @@ public class Worker {
 				}
 				Element table = doc.select("TD").first();
 				Iterator<Element> ite2 = table.select("tr").iterator();
-				while(!(ite2.next().text()).equals("CÃ³digo DenominaÃ§Ã£o Ementa"));
+				while(!(ite2.next().text()).equals("Código Denominação Ementa"));
 				String stringMW = ite2.next().text();
-				String comp ="Â© 2016 CPD - Centro de InformÃ¡tica UnB - Universidade de BrasÃ­lia";
+				String comp ="© 2016 CPD - Centro de Informática UnB - Universidade de Brasília";
 				int tamanhoAnterior = codDiscOfertadas.size();
 				while(!(stringMW.equals(comp))){
 					String[] fraseSeparada = stringMW.split(" ");
@@ -116,8 +118,10 @@ public class Worker {
 					temp.setCodDisc(codDiscOfertadas.get(j));
 					temp.setNomeDisc(discOfertadas.get(j));
 					temp.setCodDpto(departamentos.get(i).getCod());
+					temp.setDepartamento(departamentos.get(i));
 					temp.extrairPreReq();
 					temp.extrairCreditos();
+					temp.converterPreReq();
 					temp.converter();
 					disciplinas.add(temp);
 				}
@@ -127,33 +131,54 @@ public class Worker {
 	}
 
 	public void gerarTurmas() throws IOException{
+		
 		gerarDisciplinas();
+		
 		for(int i = 0; i < disciplinas.size(); i++){
+			if(!disciplinas.get(i).getCodDisc().equals("135097")){
 			Turma temp = new Turma();
 			temp.setCodDisc(disciplinas.get(i).getCodDisc());
 			temp.extrairTurmas(disciplinas.get(i).getCodDpto(), disciplinas.get(i).getCodDisc());
 			//professor
 			temp.extrairVagas();
-			//conversÃ£o
+			//conversão
 			Turmas temp1 = null;
 			String[] divTemp = temp.getTurmas().split(";");
 			String[] divTemp2 = temp.getHorario().split(";");
 			String[] divVagas = temp.getVagas().split(";");
+			//System.out.println(divTemp[0]);
+			//System.out.println(divTemp2[0]);
+			//System.out.println(divVagas.length);
 			String hora = "";
-			int valorComp = disciplinas.get(i).getCreditos();
+			int controle = 0;
+			int valorComp = (disciplinas.get(i).getCreditos()/2);
+			//System.out.println(valorComp);
 			int tamanhoAnt = turmas.size();
-			for(int j = 0; j < divTemp.length; j += valorComp/2){
-				for(int k = 0; k < valorComp/2; k++){
-					//System.out.println(divTemp[j]+" "+ divTemp2[j+k]);
-					hora += divTemp2[j+k] + ";";
+			if(valorComp > 0){
+				for(int j = 0; j < divTemp.length; ){
+					System.out.println(disciplinas.get(i).getNomeDisc());
+					for(int k = 0; k < valorComp; k++){
+						if(divTemp2.length > k+j){
+							//System.out.println(divTemp[j]+" "+ divTemp2[j+k]);
+							//System.out.println(divTemp2[j]);
+							hora += divTemp2[j + k] + ";";
+						}
+					}
+					if(controle < divVagas.length){
+						Oferta ofertaTemp = new Oferta(disciplinas.get(i), "2000/0");
+						temp1 = new Turmas(divTemp[j], temp.getProfDisc(), temp.getCampus(), hora, ofertaTemp, divVagas[controle]);
+						hora = "";
+						turmas.add(temp1);
+						//System.out.println(turmas.size());
+					}
+					controle++;
+					j += valorComp;
+					}
+					for(int w = tamanhoAnt; w < turmas.size(); w++){
+						//turmas.get(w).setVagas(Integer.parseInt(divVagas[w]));
+						System.out.println(turmas.get(w).getCodigo() + " " + turmas.get(w).getHorario() + " " + turmas.get(w).getVagas());
+					}
 				}
-				temp1 = new Turmas(divTemp[j], temp.getProfDisc(), temp.getCampus(), hora, temp.getCodDisc(), "0");
-				hora = "";
-				turmas.add(temp1);
-			}
-			for(int w = tamanhoAnt; w < turmas.size(); w++){
-				turmas.get(w).setVagas(Integer.parseInt(divVagas[w]));
-				System.out.println(turmas.get(w).getCodigo() + " " + turmas.get(w).getHorario() + " " + turmas.get(w).getVagas());
 			}
 		}
 	}
@@ -164,8 +189,8 @@ public class Worker {
 		//Retirar quebra de linhas, troca " por \"
 		Document doc = Jsoup.parse(htmlHist);
 		Iterator<Element> ite = doc.select("TR").iterator();
-		String inic = "PerÃ­odo:";
-		String fim = "Total de CrÃ©ditos";
+		String inic = "Período:";
+		String fim = "Total de Créditos";
 		while(ite.hasNext()){
 			if(ite.next().text().split(" ")[0].equals(inic)){
 				String tratar;
@@ -194,9 +219,19 @@ public class Worker {
 			}
 		for(int i = 0; i < codDisc.size(); i++){
 			DisciplinasCursadas temp = new DisciplinasCursadas();
-			temp.setCod(codDisc.get(i));
 			temp.setMencao(mencao.get(i));
-			temp.converter();
+			//System.out.println(codDisc.get(i));
+			Disciplina discTemp = new Disciplina();
+			discTemp.setCodDisc(codDisc.get(i));
+			discTemp.extrairPreReq();
+			discTemp.extrairCreditos();
+			discTemp.converter();
+			discTemp.converterPreReq();
+			Aluno aluno = new Aluno();
+			aluno.setMatricula(11111111);
+			temp.setAluno(aluno);
+			Oferta oferta = new Oferta(discTemp, "2000/0");
+			temp.setOferta(oferta);
 			disciplinasCursadas.add(temp);
 		}
 	}
@@ -226,11 +261,11 @@ public class Worker {
 		this.turmas = turmas;
 	}
 
-	public ArrayList<Curriculo> getCurriculos() {
+	public ArrayList<CurriculoEnviar> getCurriculos() {
 		return curriculos;
 	}
 
-	public void setCurriculos(ArrayList<Curriculo> curriculos) {
+	public void setCurriculos(ArrayList<CurriculoEnviar> curriculos) {
 		this.curriculos = curriculos;
 	}
 

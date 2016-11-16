@@ -8,10 +8,10 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 public class Habilitacao {
-	private String nomeCurso;
+	private String nome;
 	private transient String codHab;
 	private int codigo;
-	private int credLimite;
+	private int creditosLimite;
 	
 	public void converter(){
 		setCodigo(Integer.parseInt(getCodHab()));
@@ -35,7 +35,7 @@ public class Habilitacao {
 			String[] tratar = ite.next().text().split(" ");
 			if(tratar.length > 2){
 				if((tratar[0] + tratar[1] + tratar[2]).equals(compInic)){
-					credLimite = Integer.parseInt(tratar[tratar.length-1]);
+					creditosLimite = Integer.parseInt(tratar[tratar.length-1]);
 					return;
 				}
 			}
@@ -43,10 +43,10 @@ public class Habilitacao {
 	}
 	
 	public String getNomeCurso() {
-		return nomeCurso;
+		return nome;
 	}
 	public void setNomeCurso(String nomeCurso) {
-		this.nomeCurso = nomeCurso;
+		this.nome = nomeCurso;
 	}
 	public String getCodHab() {
 		return codHab;
@@ -55,10 +55,10 @@ public class Habilitacao {
 		this.codHab = codHab;
 	}
 	public int getCredLimite() {
-		return credLimite;
+		return creditosLimite;
 	}
 	public void setCredLimite(int credLimite) {
-		this.credLimite = credLimite;
+		this.creditosLimite = credLimite;
 	}
 
 	public int getCodigo() {
