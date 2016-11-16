@@ -114,7 +114,7 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('Tela3Ctrl', function($scope) {
+  .controller('EscolhasCtrl', function($scope) {
     $scope.$on('$ionicView.enter', function(e) {
       $scope.escolhas=escolhas;
     });
@@ -123,7 +123,7 @@ angular.module('starter.controllers', [])
     
   })
 
-  .controller("Tela6Ctrl",function($scope,$http,$timeout,$ionicModal,$state) {
+  .controller("BuscaCtrl",function($scope,$http,$timeout,$ionicModal,$state) {
     /* Esta função acessa o servidor e recupera uma lista de disciplinas com nome ou código semelhante a busca.title 
      * Em seguida ele coloca o resultado na lista para serem apresentados
      * Estou supondo que é possivel solicitar com filtro (valor de busca.title) e que o resultado chegue filtrado */
@@ -172,7 +172,7 @@ angular.module('starter.controllers', [])
     //$timeout($scope.procurar({"title":"all"}),1000);
 })
 
-  .controller("Tela4Ctrl",function($scope,$http,$ionicModal,$state){
+  .controller("SugestoesCtrl",function($scope,$http,$ionicModal,$state){
     if(!$scope.sugestoes){
         $http.get('sugestoes.json')
             .success(function (data){
@@ -232,16 +232,16 @@ angular.module('starter.controllers', [])
     }
 
     $scope.login = function() {
-      // var result = (MD5($scope.data.password));
-      // $scope.data.senha = result;
-      // $http.get('http://172.16.5.11:8080/mprjct3/alunos/getAlunos/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
+       var result = (MD5($scope.data.password));
+       $scope.data.senha = result;
+       $http.get('http://172.16.5.11:8080/mprjct3/alunos/getAlunos/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
             $state.go('app.grade');
-        // }).error(function(data) {
-        //     var alertPopup = $ionicPopup.alert({
-        //         title: 'Login failed!',
-        //         template: 'Please check your credentials!'
-        //     });
-        // });
+         }).error(function(data) {
+             var alertPopup = $ionicPopup.alert({
+                 title: 'Login failed!',
+                 template: 'Please check your credentials!'
+             });
+         });
     }
 })
 
@@ -297,7 +297,7 @@ angular.module('starter.controllers', [])
   };
 })
 
-.controller("Tela5Ctrl",function($scope,$http,$stateParams,$state,$ionicPopup){
+.controller("TurmasCtrl",function($scope,$http,$stateParams,$state,$ionicPopup){
     //este controlador deve receber a disciplina para a qual se deseja selecionar uma turma como parâmetro
     //Solicita lista de turmas da disciplina para o servidor
     //Usar a id em $stateParams.discId para selecionar turmas da disciplina certa
@@ -356,7 +356,7 @@ angular.module('starter.controllers', [])
     }
 })
 
-.controller('WebCtrl', function($scope, $state, $timeout) {
+.controller('WebCtrl', function($scope, $state, $timeout, $http) {
     $scope.saida="Contactando MatriculaWeb";
     var timer=null;
     var x = document.getElementById("oi");
@@ -386,7 +386,7 @@ angular.module('starter.controllers', [])
               'Content-Type' : 'text/plain'
             }
           }
-          $http.post('172.16.5.81:8080/mprjct3/historico/setHist',y.body.innerHTML,config);
+          $http.post('http://172.16.5.81:8080/mprjct3/historico/setHist',y.body.innerHTML,config);
           //por alguma razão o echo não acontece imediatamente
           //$scope.saida=y.body.innerHTML;//echo
           //O alert abaixo funciona, logo esta parte da função é executada em algum momento
