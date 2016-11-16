@@ -1,5 +1,7 @@
 package modules;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -12,7 +14,7 @@ public class Disciplina {
 	@Column
 	private String nome;//Nome da disciplina
 	
-	@OneToMany
+	@ManyToOne
 	@JoinTable(name = "departamento_disciplina")
 	private Departamento departamento;//'FK' referência ao Departamento que oferta a disciplina
 	
@@ -22,9 +24,9 @@ public class Disciplina {
 	@Column
 	private int codigo;
 	
-	@OneToMany
+	@OneToMany(orphanRemoval = true)
 	@JoinTable(name = "requisito_disciplina")
-	private Requisito requisitoDisciplina;
+	private List<Requisito> requisitoDisciplina;
 	
 	public void setId(int id){
 		this.id = id;
@@ -66,11 +68,11 @@ public class Disciplina {
 		return codigo;
 	}
 	
-	public void setRequisitoDisciplina(Requisito requisitoDisciplina){
+	public void setRequisitoDisciplina(List<Requisito> requisitoDisciplina){
 		this.requisitoDisciplina = requisitoDisciplina;
 	}
 	
-	public Requisito getRequisitoDisciplina(){
+	public List<Requisito> getRequisitoDisciplina(){
 		return requisitoDisciplina;
 	}
 }
