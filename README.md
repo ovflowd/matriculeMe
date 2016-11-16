@@ -11,7 +11,9 @@ Arquivos relacionados ao protótipo de **Interação com MatriculaWEB** do **mat
 <b>Como foi Desenvolvido?</b><br>
 A Interação com MatriculaWEB foi desenvolvido com a linguagem Java, e por isso é interoperável, utilizando:
 
-* Adicione aqui Frameworks/Libraries Utilizadas
+* Google GSon Library v2.7
+* Jersey Library v1.17
+* JSoup Library v1.9.2
 
 <b>Algoritmos Utilizados</b><br>
 O protótipo de MW do **matriculeMe** levou em consideração os seguintes algoritmos para obtenção e avaliação dos dados:
