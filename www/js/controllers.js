@@ -451,6 +451,7 @@ angular.module('starter.controllers', [])
       if (qtd){
         //Se estiver na página de login, a faz aparecer
         x.style.display='block';
+	count=0;
       }else{
         //Se não for a página de login, verifica se o histórico está aberto
         if (y.getElementById("alumatricula") != null){
