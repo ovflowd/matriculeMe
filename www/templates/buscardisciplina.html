@@ -2,30 +2,26 @@
   <ion-content>
     <div>
         <form ng-submit="procurar(busca)">
-            <!-- o input e o button deviam estar lado a lado -->
             <div class="list">
-
                 <label class="item item-input largura">
-
                     <input  type="text" placeholder="Nome ou Código da disciplina." ng-model="busca.title">
                     <button type="submit" class="button button-icon ion-search"></button>
                 </label>
             </div>
-            
         </form>
     </div>
     <div>
         <ion-item ng-repeat="disciplina in disciplinas | orderBy : 'nomeDisc' ">
             <div class="row">
                 <!-- esta div tem que ser mais curta, digamos 20% da tela -->
-                <div class="col">
+                <div class="margin1">
                     <button class="button button-clear button-dark" ng-click="mostrarInfo(disciplina,$index)">
                         {{disciplina.dept}}
                     </button>
                 </div>
                 <!-- esta div deve ocupar o restante da tela -->
-                <div class="col">
-                    <button class="button button-clear button-dark" ng-click="mostrarInfo(disciplina,$index)">
+                <div class="margin2">
+                    <button style="height:40px;width:300px;text-align:left;" class="button button-clear button-dark" ng-click="mostrarInfo(disciplina,$index)">
                         {{disciplina.nomeDisc}}
                     </button>
                 </div>
