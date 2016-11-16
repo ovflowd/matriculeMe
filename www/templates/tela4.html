@@ -2,12 +2,12 @@
   <ion-content>
     <ion-item ng-repeat="sugestao in sugestoes | orderBy : 'prioridade' : reverse=true ">
         <div class="row">
-          <div class="margin2">
+          <div class="margin1">
             <button class="button button-royal ion-information-circled" ng-click="mostraMotivo(sugestao,$index)">
               {{sugestao.nomeDisc}}
             </button>
           </div>
-          <div class="margin1">
+          <div class="margin2">
             <button id='polegar{{$index}}' class="button button-icon ion-arrow-down-a" ng-click="desgostar(sugestao,$index)"> Rejeitar </button>
           </div>
         </div>
