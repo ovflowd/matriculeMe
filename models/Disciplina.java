@@ -22,6 +22,10 @@ public class Disciplina {
 	@Column
 	private int codigo;
 	
+	@OneToMany
+	@JoinTable(name = "requisito_disciplina")
+	private Requisito requisitoDisciplina;
+	
 	public void setId(int id){
 		this.id = id;
 	}
@@ -60,5 +64,13 @@ public class Disciplina {
 	
 	public int getcodigo(){
 		return codigo;
+	}
+	
+	public void setRequisitoDisciplina(Requisito requisitoDisciplina){
+		this.requisitoDisciplina = requisitoDisciplina;
+	}
+	
+	public Requisito getRequisitoDisciplina(){
+		return requisitoDisciplina;
 	}
 }

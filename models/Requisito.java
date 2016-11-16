@@ -10,10 +10,6 @@ public class Requisito {
 	@GeneratedValue
 	private int id;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
-	@JoinTable(name = "discplina_origem")
-	private Disciplina disciplinaOrigem;//código da disciplina requisito
-	
 	@Column(name = "disciplina_requisito")
 	private String discicplinaRequisito; //'FK' Referencia às disciplinas requisitos
 	
@@ -26,18 +22,6 @@ public class Requisito {
 	
 	public int getId(){
 		return id;
-	}
-	
-	public void setDisciplinaOrigem(Disciplina disciplinaOrigem){
-		this.disciplinaOrigem =  disciplinaOrigem;
-	}
-	
-	public Disciplina getDisciplinaOrigem(){
-		return disciplinaOrigem;
-	}
-	
-	public void setDisciplinaRequisito(String disciplinaRequisito){
-		this.discicplinaRequisito = disciplinaRequisito;
 	}
 	
 	public String getDisciplinaRequisito(){
