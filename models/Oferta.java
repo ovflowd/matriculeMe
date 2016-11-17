@@ -1,5 +1,7 @@
 package modules;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -8,13 +10,17 @@ public class Oferta {
 	@GeneratedValue
 	private int id;
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(name = "disciplina_oferta")
-	private Disciplina disciplina;//'FK' Referência às disciplinas ofertadas
+	private Disciplina disciplina;//'FK' Referncia s disciplinas ofertadas
 	
-	@ManyToOne(cascade = CascadeType.ALL)
+	@OneToOne(cascade = CascadeType.ALL)
 	@JoinTable(name = "oferta_semestre")
-	private Semestre semestre;//'FK' Referência ao respectivo período da disciplina
+	private Semestre semestre;//'FK' Referncia ao respectivo  da disciplina
+	
+	@OneToOne
+	@JoinTable(name = "oferta_turma")
+	private List<Turma> turmas;
 	
 	public void setId(int id){
 		this.id = id;
@@ -24,12 +30,12 @@ public class Oferta {
 		return id;
 	}
 	
-	public void setDisciplina(Disciplina disciplina){
+	public void setDisciplina(Disciplina disciplinas){
 		this.disciplina =  disciplina;
 	}
 	
 	public Disciplina getDisciplina(){
-		return disciplina;
+		return this.disciplina;
 	}
 	
 	public void setSemestre(Semestre semestre ){
@@ -38,6 +44,14 @@ public class Oferta {
 	
 	public Semestre getSemestre(){
 		return semestre;
+	}
+	
+	public List<Turma> getTurma(){
+		return this.turmas;
+	}
+	
+	public void setTurma(List<Turma> turmas){
+		this.turmas = turmas;
 	}
 
 }

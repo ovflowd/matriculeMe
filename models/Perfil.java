@@ -1,5 +1,7 @@
 package modules;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,7 +17,7 @@ public class Perfil {
 	
 	@ManyToOne(cascade = CascadeType.MERGE)
 	@JoinTable(name = "departamento")
-	private Departamento departamento;
+	private List<Departamento> departamentos;
 	
 	@Column
 	private int metrica;
@@ -36,12 +38,12 @@ public class Perfil {
 		return metrica;
 	}
 	
-	public void setDepartamento(Departamento departamento){
-		this.departamento = departamento;
+	public void setDepartamento(List<Departamento> departamentos){
+		this.departamentos = departamentos;
 	}
 	
-	public Departamento getDepartamento(){
-		return departamento;
+	public List<Departamento> getDepartamento(){
+		return this.departamentos;
 	}
 	
 	public void setAluno(Aluno aluno){

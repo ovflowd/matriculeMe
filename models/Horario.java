@@ -11,7 +11,7 @@ public class Horario {
 	
 	@OneToOne
 	@JoinTable(name = "turma_id")
-	private Turma turmaId;
+	private Turma turma;
 	
 	@Column
 	private String dia;/*Dia da semana que ocorrem aulas em inteiros onde , segunda = 2, terça = 3
@@ -47,12 +47,12 @@ public class Horario {
 		return horarioFim;
 	}
 	
-	public void setTurmas(Turma turmaId){
-		this.turmaId = turmaId;
+	public void setTurma(Turma turmaId){
+		this.turma = turmaId;
 	}
 	
-	public Turma getTurmas(){
-		return turmaId;
+	public Turma getTurma(){
+		return turma;
 	}
 	
 	public void setDia(String dia){

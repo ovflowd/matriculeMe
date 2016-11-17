@@ -29,11 +29,11 @@ public class DisciplinasCursadas {
 		return id;
 	}
 	
-	public void setAlunos(Aluno aluno){
+	public void setAluno(Aluno aluno){
 		this.aluno = aluno;
 	}
 	
-	public Aluno getAlunos(){
+	public Aluno getAluno(){
 		return aluno;
 	}
 	

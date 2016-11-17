@@ -5,27 +5,27 @@ import javax.persistence.*;
 @Entity
 @Table(name = "mencao")
 public class Mencao {
-	@Id
-	@GeneratedValue
-	@Column(nullable = false, unique = true)
-	private int id; //Chave Primária da tabela Menções
-	
-	@Column
-	private String codigo; // Menção atribuida ao aluno
-	
-	public void setId(int id){
-		this.id = id;
-	}
-	
-	public int getId(){
-		return id;
-	}
-	
-	public void setCodigo(String codigo){
-		this.codigo = codigo;
-	}
-	
-	public String getCodigo(){
-		return codigo;
-	}
+    @Id
+    @GeneratedValue
+    @Column(nullable = false, unique = true)
+    private int id; //Chave Primï¿½ria da tabela Menï¿½ï¿½es
+
+    @Column
+    private String codigo; // Menï¿½ï¿½o atribuida ao aluno
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getCodigo() {
+        return codigo;
+    }
+
+    public void setCodigo(String codigo) {
+        this.codigo = codigo;
+    }
 }
