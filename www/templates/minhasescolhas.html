@@ -1,15 +1,19 @@
 <ion-view view-title="Minhas Escolhas">
   <ion-content>
+  	<p>Estas foram as disciplinas que você escolheu. Transfira-as para o <a href="https://wwwsec.serverweb.unb.br/graduacao/sec/matricula.aspx">MatriculaWeb</a> para se matricular.</p>
     <div class="row" ng-repeat="escolha in escolhas">
-      <div class="col">
+      <div class="col tamanholetra">
         {{escolha.codDisc}}
       </div>
-      <div class="col">
+      <div class="col tamanholetra">
         {{escolha.nomeDisc}} 
       </div>
-      <div class="col">
+      <div class="col tamanholetra">
         {{escolha.turma.codTurma}}
-      </div
+      </div>
+      <div class="col tamanholetra">
+        <button class="button button-calm button-dark ion-trash-a" ng-click="retirar(escolha)"> Descartar</button>
+      </div>
     </div>
     <!-- Adicionar um botão para abrir o matriculaWeb (?) -->
   </ion-content>
