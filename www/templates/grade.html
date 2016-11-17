@@ -1,7 +1,8 @@
 <ion-view view-title="Grade">
   <ion-content class="padding">
+  <p>Use a tabela abaixo para montar a tua grade. Uma caixa vazia permitirá pesquisar disciplinas. Clique sobre uma disciplina para obter informações.</p>
     <div class="row header" style="text-align:center">
-		  <div class="col dia"></div>
+      <div class="col dia"></div>
           <div class="col dia"><b>Seg</b></div>
           <div class="col dia"><b>Ter</b></div>
           <div class="col dia"><b>Qua</b></div>
@@ -45,11 +46,10 @@
       <div class="col"><b>22-24</b></div>
             <div class="col" ng-click="mostrarOpcoes(x,$index,22)" ng-repeat="x in grade[8] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
         </div>
-		<div style="text-align: center;">
-            <button class="button button- button-calm" ng-click="request()">pedir sugestão</button>
-		<br><br><br><br>
-		</div>
   </ion-content>
+  <ion-footer-bar class="bar-secundary" style="text-align: center;">
+            <button class="button button- button-calm" ng-click="request()">pedir sugestão</button>
+    </ion-footer-bar>
   <script id="pop-up-slot.html" type="text/ng-template">
       <div class="modal">
         <ion-header-bar class="bar-secondary">
