@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="mprjct2">
+    <output-path>$PROJECT_DIR$/out/artifacts/mprjct2</output-path>
+    <root id="archive" name="mprjct2.war">
+      <element id="artifact" artifact-name="mprjct3" />
+    </root>
+  </artifact>
+</component>

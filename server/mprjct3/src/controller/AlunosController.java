@@ -17,7 +17,8 @@ public class AlunosController {
                 Response.ok(new Gson().toJson(students.get(0)),
                         MediaType.APPLICATION_JSON).header("Access-Control-Allow-Origin", "*")
                         .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS").build()
-                : Response.status(404).build();
+                : Response.ok("{}", MediaType.APPLICATION_JSON).header("Access-Control-Allow-Origin", "*")
+                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS").build();
     }
 
     @Path("/getAluno/nome={nome}")
