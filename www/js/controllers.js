@@ -121,10 +121,18 @@ angular.module('starter.controllers', [])
     }
   })
 
-  .controller('EscolhasCtrl', function($scope) {
+  .controller('EscolhasCtrl', function($scope, $state) {
     $scope.$on('$ionicView.enter', function(e) {
       $scope.escolhas=escolhas;
     });
+
+    $scope.retirar=function(disciplina){
+        filtrado=escolhas.filter(function(elemento){
+            return elemento.codDisc != disciplina.codDisc;
+        });
+        escolhas=filtrado;
+        $state.reload();
+    };
   })
 
   .controller('AboutUsCtrl', function($scope) {
@@ -141,7 +149,8 @@ angular.module('starter.controllers', [])
         }
         var popUp= $ionicPopup.show({
           title: 'Aguarde',
-          subTitle: 'Pesquisando'
+          subTitle: 'Pesquisando',
+          template: '<img src="img/loader.gif" height="42" width="42">'
         });
         $http.get('disciplinas.json')
             .success(function (data) {
@@ -196,7 +205,8 @@ angular.module('starter.controllers', [])
     if(!$scope.sugestoes){
         var popUp= $ionicPopup.show({
             title: 'Aguarde',
-            subTitle: 'Solicitando lista personalizada'
+            subTitle: 'Solicitando lista personalizada',
+            template: '<img src="img/loader.gif" height="42" width="42">'
         });
         $http.get('sugestoes.json')
             .success(function (data){
@@ -242,6 +252,21 @@ angular.module('starter.controllers', [])
             $scope.sugestoes[posi].prioridadeOld=$scope.sugestoes[posi].prioridade;
             $scope.sugestoes[posi].prioridade=0; //Zerar prioridade da sugestão, faz com que a disciplina vá para o fim da lista
             //retirar turma da grade, se houver
+            filtrado=escolhas.filter(function(elemento){
+                return elemento.codDisc != sugestao.codDisc;
+            });
+            if(filtrado.length!=escolhas.length){
+                var popUp= $ionicPopup.confirm({
+                    title: 'Disciplina na grade',
+                    template: 'Deseja remover esta disciplina da tua grade?',
+                    cancelText: 'Não',
+                    okText: 'Sim'
+                }).then(function(res){
+                    if(res){
+                        escolhas=filtrado;
+                    }
+                });
+            }
             document.getElementById('polegar'+$index).className = "button button-icon ion-refresh";
             document.getElementById('polegar'+$index).innerHTML = " Desfazer"
         }else{
@@ -268,7 +293,8 @@ angular.module('starter.controllers', [])
        $scope.data.senha = result;
        var popUp= $ionicPopup.show({
           title: 'Aguarde',
-          subTitle: 'Fazendo Login no Servidor'
+          subTitle: 'Fazendo Login no Servidor',
+          template: '<img src="img/loader.gif" height="42" width="42">'
        });
        $http.get('http://172.16.5.11:8080/mprjct3/alunos/getAlunos/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
             popUp.close();
@@ -293,7 +319,8 @@ angular.module('starter.controllers', [])
     //$scope.data.senha = result;
     var popUp= $ionicPopup.show({
           title: 'Aguarde',
-          subTitle: 'Fazendo Seu Registro no Servidor'
+          subTitle: 'Fazendo Seu Registro no Servidor',
+          template: '<img src="img/loader.gif" height="42" width="42">'
     });
     var config = { headers:{
         'Content-Type' : 'text/plain'
@@ -347,7 +374,8 @@ angular.module('starter.controllers', [])
     console.log($stateParams.discId);
     var popUp= $ionicPopup.show({
           title: 'Aguarde',
-          subTitle: 'Recuperando turmas da base de dados'
+          subTitle: 'Recuperando turmas da base de dados',
+          template: '<img src="img/loader.gif" height="42" width="42">'
     });
     $http.get('turmas.json')
         .success(function (data){
@@ -418,12 +446,14 @@ angular.module('starter.controllers', [])
     //x.style.display='none';
     //Abrir a página de login
     var frame=window.frames[0];
-    frame.location="http://wwwsec.serverweb.unb.br/graduacao/sec/login.aspx";
+    $scope.$on('$ionicView.enter', function(e) {
+        frame.location="https://wwwsec.serverweb.unb.br/graduacao/sec/login.aspx?sair=1";
+    });
 
     //Função que automatiza a captura e navegação
     verifica=function(){
       count++;
-      if(count>20){
+      if(count>5){
         clearInterval(timer);
         var popUp= $ionicPopup.confirm({
             title: 'Fora do ar!?',
@@ -451,7 +481,7 @@ angular.module('starter.controllers', [])
       if (qtd){
         //Se estiver na página de login, a faz aparecer
         x.style.display='block';
-	count=0;
+        count=0;
       }else{
         //Se não for a página de login, verifica se o histórico está aberto
         if (y.getElementById("alumatricula") != null){
