@@ -53,17 +53,13 @@ angular.module('starter.controllers', [])
                    [{},{},{},{},{},{}],
                    [{},{},{},{},{},{}]];
       for (var i = 0; i < escolhas.length; i++) {
-        cells=escolhas[i].turma.horario.map(function(slot,index){
+        esc=escolhas[i];
+        for (var j = 0; j < esc.turma.horario.length; j++) {
+          slot=esc.turma.horario[j];
           var dias=["Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
-          var horas=[6,8,10,12,14,16,18,20,22];
-          return [dias.indexOf(slot.dia),horas.indexOf(slot.horaIni)];
-        });
-        for (var j = 0; j < cells.length; j++) {
-          //document.getElementsByClassName('row')[cells[j][1]+1].getElementsByClassName('col')[cells[j][0]+1].innerHTML=escolhas[i].nomeDisc+" - "+escolhas[i].turma.codTurma;
-          grade[cells[j][1]][cells[j][0]]=escolhas[i];
+          grade[(slot.horaIni-6)/2][dias.indexOf(slot.dia)]=esc;
         }
       }
-      //console.log(grade);
       $scope.grade = grade;
     });
 
