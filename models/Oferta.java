@@ -1,7 +1,3 @@
-package modules;
-
-import java.util.List;
-
 import javax.persistence.*;
 
 @Entity
@@ -20,7 +16,7 @@ public class Oferta {
 	
 	@OneToOne
 	@JoinTable(name = "oferta_turma")
-	private List<Turma> turmas;
+	private Turma turmas;
 	
 	public void setId(int id){
 		this.id = id;
@@ -30,7 +26,7 @@ public class Oferta {
 		return id;
 	}
 	
-	public void setDisciplina(Disciplina disciplinas){
+	public void setDisciplina(Disciplina disciplina){
 		this.disciplina =  disciplina;
 	}
 	
@@ -46,11 +42,11 @@ public class Oferta {
 		return semestre;
 	}
 	
-	public List<Turma> getTurma(){
+	public Turma getTurma(){
 		return this.turmas;
 	}
 	
-	public void setTurma(List<Turma> turmas){
+	public void setTurma(Turma turmas){
 		this.turmas = turmas;
 	}
 

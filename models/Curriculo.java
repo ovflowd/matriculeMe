@@ -1,5 +1,3 @@
-package modules;
-
 import javax.persistence.*;
 
 @Entity
@@ -8,15 +6,15 @@ public class Curriculo {
 
     @Id
     @GeneratedValue
-    private int id;//Chave primï¿½ria da Tabela Curriculo
+    private int id;//Chave primária da Tabela Curriculo
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinTable(name = "disciplina_curriculo")
-    private Disciplina disciplina;//'FK' Referï¿½ncia ï¿½s diciplinas no curriculo
+    private Disciplina disciplina;//'FK' Referencia diciplinas no curriculo
 
     @OneToOne(cascade = CascadeType.MERGE)
     @JoinTable(name = "curso_curriculo")
-    private Curso curso;//'FK' Referï¿½ncia ao curso a o qual o curriculo pertence
+    private Curso curso;//'FK' Referencia ao curso a o qual o curriculo pertence
 
     @Column(name = "semestre_disciplina")
     private int semestreDisciplina;

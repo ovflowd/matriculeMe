@@ -1,5 +1,3 @@
-package modules;
-
 import javax.persistence.*;
 
 @Entity

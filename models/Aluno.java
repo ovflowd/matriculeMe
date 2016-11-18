@@ -1,5 +1,3 @@
-package modules;
-
 import java.util.List;
 
 import javax.persistence.*;
@@ -10,7 +8,7 @@ public class Aluno {
 
     @Id
     @GeneratedValue
-    private int id; //Chave prim�ria da classe Alunos
+    private int id; //Chave primária da classe Alunos
 
     @Column
     private int matricula; //Matricula do aluno na Universidade
