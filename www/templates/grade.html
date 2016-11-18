@@ -1,55 +1,23 @@
 <ion-view view-title="Grade">
   <ion-content class="padding">
-  <p>Use a tabela abaixo para montar a tua grade. Uma caixa vazia permitirá pesquisar disciplinas. Clique sobre uma disciplina para obter informações.</p>
-    <div class="row header" style="text-align:center">
-      <div class="col dia"></div>
-          <div class="col dia"><b>Seg</b></div>
-          <div class="col dia"><b>Ter</b></div>
-          <div class="col dia"><b>Qua</b></div>
-          <div class="col dia"><b>Qui</b></div>
-          <div class="col dia"><b>Sex</b></div>
-		      <div class="col dia"><b>Sáb</b></div>
-        </div>
-        <div class="row">
-      <div class="col"><b>06-08</b></div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index,6)" ng-repeat="x in grade[0] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
-        </div>
-        <div class="row">
-		  <div class="col"><b>08-10</b></div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index,8)" ng-repeat="x in grade[1] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
-        </div>
-		<div class="row">
-		  <div class="col "><b>10-12</b></div>
-		  <div class="col" ng-click="mostrarOpcoes(x,$index,10)" ng-repeat="x in grade[2] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
-        </div>
-		<div class="row">
-		  <div class="col "><b>12-14</b></div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index,12)" ng-repeat="x in grade[3] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
-		  </div>
-		<div class="row">
-		  <div class="col "><b>14-16</b></div>
-		    <div class="col" ng-click="mostrarOpcoes(x,$index,14)" ng-repeat="x in grade[4] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
-        </div>
-		<div class="row">
-		  <div class="col "><b>16-18</b></div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index,16)" ng-repeat="x in grade[5] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
-        </div>
-		<div class="row">
-		  <div class="col "><b>18-20</b></div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index,18)" ng-repeat="x in grade[6] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
-        </div>
-		<div class="row">
-		  <div class="col "><b>20-22</b></div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index,20)" ng-repeat="x in grade[7] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
-        </div>
-        <div class="row">
-      <div class="col"><b>22-24</b></div>
-            <div class="col" ng-click="mostrarOpcoes(x,$index,22)" ng-repeat="x in grade[8] track by $index">{{x.nomeDisc}} - {{x.turma.codTurma}}</div>
-        </div>
+	  <p>Use a tabela abaixo para montar a tua grade. Uma caixa vazia permitirá pesquisar disciplinas. Clique sobre uma disciplina para obter informações.</p>
+	  <div class="row header" style="text-align:center">
+	    <div class="col dia"></div>
+	    <div class="col dia"><b>Seg</b></div>
+	    <div class="col dia"><b>Ter</b></div>
+	    <div class="col dia"><b>Qua</b></div>
+	    <div class="col dia"><b>Qui</b></div>
+	    <div class="col dia"><b>Sex</b></div>
+	    <div class="col dia"><b>Sáb</b></div>
+	  </div>
+	  <div class="row" ng-repeat="tempo in grade">
+	    <div class="col"><b>{{$index*2+6}}-{{$index*2+8}}</b></div>
+	    <div class="col" ng-click="mostrarOpcoes(dia,$index,grade.indexOf(tempo)*2+6)" ng-repeat="dia in tempo track by $index">{{dia.nomeDisc}} - {{dia.turma.codTurma}}</div>
+	  </div>
   </ion-content>
   <ion-footer-bar class="bar-secundary" style="text-align: center;">
-            <button class="button button- button-calm" ng-click="request()">pedir sugestão</button>
-    </ion-footer-bar>
+    <button class="button button- button-calm" ng-click="request()">pedir sugestão</button>
+  </ion-footer-bar>
   <script id="pop-up-slot.html" type="text/ng-template">
       <div class="modal">
         <ion-header-bar class="bar-secondary">
@@ -61,9 +29,8 @@
           <h4 class="center">Disciplina: <p>{{swap.nomeDisc}}</p> Turma: <p>{{swap.turma.codTurma}}</p> Professor: <p>{{swap.turma.nomeProf}}</p></h4>
         </ion-content>
         <ion-footer-bar class="bar-secundary">
-            <!-- O botão a seguir deve linkar com a tela 5 (de turmas), passando como parâmetros o que for necessário para acesso às turmas da disciplina selecionada -->
             <button class="button button-positive" ng-click="irParaTurmas(x)">
-              Outra Turma
+              Outras Turmas
             </button>
             <button class="button button-positive" ng-click="retirar(x)">
               Retirar da grade
