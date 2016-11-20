@@ -1,5 +1,5 @@
 <ion-view view-title="Grade">
-  <ion-content class="padding">
+  <ion-content class="padding pag">
 	  <p>Use a tabela abaixo para montar a tua grade. Uma caixa vazia permitirá pesquisar disciplinas. Clique sobre uma disciplina para obter informações.</p>
 	  <div class="row header" style="text-align:center">
 	    <div class="col dia"></div>
@@ -15,7 +15,7 @@
 	    <div class="col" ng-click="mostrarOpcoes(dia,$index,grade.indexOf(tempo)*2+6)" ng-repeat="dia in tempo track by $index">{{dia.nomeDisc}} - {{dia.turma.codTurma}}</div>
 	  </div>
   </ion-content>
-  <ion-footer-bar class="bar-secundary" style="text-align: center;">
+  <ion-footer-bar class="bar-secundary col" style="text-align: center;">
     <button class="button button- button-calm" ng-click="request()">pedir sugestão</button>
   </ion-footer-bar>
   <script id="pop-up-slot.html" type="text/ng-template">
