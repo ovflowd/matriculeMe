@@ -1,6 +1,6 @@
 <ion-view view-title="Buscar Disciplinas">
   <ion-content class="pag">
-  	<p>Use o campo abaixo para localizar uma disciplina. Clique na disciplina para ver mais informações.</p>
+  	<p>Use o campo abaixo para localizar uma disciplina. Você pode tanto digitar o nome da disciplina (de acordo como a forma expressa no MatriculaWeb), quanto somente parte dele. Clique na disciplina para ver mais informações.</p>
     <div>
         <form ng-submit="procurar(busca)">
             <div class="list">
@@ -14,20 +14,13 @@
     <div>
         <ion-item ng-repeat="disciplina in disciplinas | orderBy : 'nomeDisc' ">
             <div class="row">
-                <!-- esta div tem que ser mais curta, digamos 20% da tela -->
-                <div class="margin1">
-                    <button class="button button-clear button-dark" ng-click="mostrarInfo(disciplina,$index)">
-                        {{disciplina.dept}}
-                    </button>
-                </div>
                 <!-- esta div deve ocupar o restante da tela -->
-                <div class="margin2">
-                    <button style="height:40px;width:300px;text-align:left;" class="button button-clear button-dark" ng-click="mostrarInfo(disciplina,$index)">
-                        {{disciplina.nomeDisc}}
+                <div class="margin1">
+                    <button style="height:40px;width:300px;text-align:left;" class="button button-royal ion-information-circled" ng-click="mostrarInfo(disciplina,$index)">
+                        {{disciplina.dept}} - {{disciplina.nomeDisc}}
                     </button>
                 </div>
             </div>
-        </ion-item>
     </div>
   </ion-content>
   <script id="pop-up-info.html" type="text/ng-template">
@@ -45,10 +38,11 @@
             <!-- O botão a seguir deve linkar com a tela 5 (de turmas), passando como parâmetros o que for necessário para acesso às turmas da disciplina selecionada -->
             <button class="button button-positive" ng-click="irParaTurmas(disciplina)">Ver Turmas</button>
             <!-- inserir um espaço entre este e o anterior, centralizando este (?) -->
-            <button class="button button-positive" ng-click="addInteresse(disciplina)">Registrar Interesse</button>
+            <button class="button button-positive margin2" ng-click="addInteresse(disciplina)">Registrar Interesse</button>
             <button class="button button-positive" ng-click="closePopUp()">Fechar</button>
         </ion-footer-bar>
       </div>
   </script>
 </ion-view>
+
 
