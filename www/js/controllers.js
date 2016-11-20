@@ -285,7 +285,8 @@ angular.module('starter.controllers', [])
     }
 
     $scope.login = function() {
-       var result = (MD5($scope.data.password));
+	//Modificação do danilo: "Apenas deixei como comentário para teste no mobile!	    
+      /* var result = (MD5($scope.data.password));
        $scope.data.senha = result;
        var popUp= $ionicPopup.show({
           title: 'Aguarde',
@@ -293,15 +294,15 @@ angular.module('starter.controllers', [])
           template: '<img src="img/loader.gif" height="42" width="42">'
        });
        $http.get('http://172.16.5.11:8080/mprjct3/alunos/getAlunos/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
-            popUp.close();
+            popUp.close();*/
             $state.go('app.grade');
-         }).error(function(data) {
+        /* }).error(function(data) {
              popUp.close();
              var alertPopup = $ionicPopup.alert({
                  title: 'Login failed!',
                  template: 'Please check your credentials!'
              });
-         });
+         });*/
     }
 })
 
