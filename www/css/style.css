@@ -9,7 +9,10 @@
 }
 
 .pag{
-  background-image: url("../img/Logomakr_6ZICy2.png");
+ 	 background-image: url("../img/simbolo.png");
+ 	 background-repeat: no-repeat;
+  	 background-size: 100%;
+  	 background-position: center;
 }
 
 .identar::p{
