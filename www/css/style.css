@@ -41,6 +41,7 @@
 }
 
 .largura{
+	border-radius: 20px;
 	height: 30px;
 	width: 400px;
 	margin:auto;
