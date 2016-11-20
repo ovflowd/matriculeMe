@@ -299,8 +299,8 @@ angular.module('starter.controllers', [])
         /* }).error(function(data) {
              popUp.close();
              var alertPopup = $ionicPopup.alert({
-                 title: 'Login failed!',
-                 template: 'Please check your credentials!'
+                 title: 'Falha no login!',
+                 template: 'Por favor  cheque seus dados!'
              });
          });*/
     }
@@ -327,19 +327,19 @@ angular.module('starter.controllers', [])
     ).success(function(response) {
       popUp.close();
       var notice = $ionicPopup.alert({
-        title: 'Signup success!',
-        template: 'Account created'});
+        title: 'Cadastro  realizado!',
+        template: 'Conta criada com sucesso'});
       $state.go('login');
     }).error(function(response,status) {
       popUp.close();
       if(status == '483'){
       var notice = $ionicPopup.alert({
-        title: 'Signup failed!',
-        template: 'Account already exist'});}
+        title: 'Falha no cadastro!',
+        template: 'Conta já existente.'});}
        else {
          var notice = $ionicPopup.alert({
-           title: 'ERROR',
-           template: 'Server ERROR'
+           title: 'Erro!',
+           template: 'Servidor não responde. Tente novamente mais tarde.'
          });
       }
     });
