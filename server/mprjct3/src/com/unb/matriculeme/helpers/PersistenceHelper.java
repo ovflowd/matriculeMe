@@ -12,7 +12,7 @@ public final class PersistenceHelper {
     private static EntityManagerFactory emf = null;
     private static EntityManager em = null;
 
-    private static EntityManager getInstance() {
+    public static EntityManager getInstance() {
         if (emf == null) {
             emf = Persistence.createEntityManagerFactory("myDB");
         }
