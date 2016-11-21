@@ -14,10 +14,11 @@ import org.jsoup.nodes.Element;
 public class Worker {
 	private ArrayList<Departamento> departamentos = new ArrayList<Departamento>();
 	private ArrayList<Disciplina> disciplinas = new ArrayList<Disciplina>();
-	private ArrayList<Turmas> turmas = new ArrayList<Turmas>();
+	private ArrayList<TurmaEnviar> turmas = new ArrayList<TurmaEnviar>();
 	private ArrayList<CurriculoEnviar> curriculos = new ArrayList<CurriculoEnviar>();
 	private ArrayList<Habilitacao> habilitacoes = new ArrayList<Habilitacao>();
 	private ArrayList<DisciplinasCursadas> disciplinasCursadas = new ArrayList<DisciplinasCursadas>();
+	private ArrayList<Oferta> ofertas = new ArrayList<Oferta>();
 	
 	public void gerarCurriculos() throws IOException{
 		CriadorFluxo gerador;
@@ -111,7 +112,7 @@ public class Worker {
 					discOfertadas.add(subfrase);
 					stringMW = ite2.next().text();
 				} 
-				System.out.println(departamentos.get(i).getNome());
+				//System.out.println(departamentos.get(i).getNome());
 				Disciplina temp;
 				for(int j = tamanhoAnterior; j < codDiscOfertadas.size(); j++){
 					temp = new Disciplina();
@@ -153,7 +154,7 @@ public class Worker {
 			int controle = 0;
 			int valorComp = (disciplinas.get(i).getCreditos()/2);
 			//System.out.println(valorComp);
-			int tamanhoAnt = turmas.size();
+			//int tamanhoAnt = turmas.size();
 			if(valorComp > 0){
 				for(int j = 0; j < divTemp.length; ){
 					System.out.println(disciplinas.get(i).getNomeDisc());
@@ -165,19 +166,25 @@ public class Worker {
 						}
 					}
 					if(controle < divVagas.length){
-						Oferta ofertaTemp = new Oferta(disciplinas.get(i), "2000/0");
-						temp1 = new Turmas(divTemp[j], temp.getProfDisc(), temp.getCampus(), hora, ofertaTemp, divVagas[controle]);
+						//Oferta ofertaTemp = new Oferta(disciplinas.get(i), "2000/0");
+						temp1 = new Turmas(divTemp[j], temp.getProfDisc(), temp.getCampus(), hora, divVagas[controle]);
 						hora = "";
-						turmas.add(temp1);
-						//System.out.println(turmas.size());
+						TurmaEnviar tempEnviar = new TurmaEnviar(temp1.getCodigo(), temp1.getHorario(), temp1.getProfessor(),
+								temp1.getVagas(), temp1.getCampus());
+						Oferta ofertaTemp = new Oferta(disciplinas.get(i),"2000/0",tempEnviar);
+						ofertas.add(ofertaTemp);
+						turmas.add(tempEnviar);
+						//System.out.println(ofertas.get(ofertas.size()-1).getDisciplina().getNomeDisc());
 					}
 					controle++;
 					j += valorComp;
 					}
+					/*
 					for(int w = tamanhoAnt; w < turmas.size(); w++){
 						//turmas.get(w).setVagas(Integer.parseInt(divVagas[w]));
 						System.out.println(turmas.get(w).getCodigo() + " " + turmas.get(w).getHorario() + " " + turmas.get(w).getVagas());
 					}
+					*/
 				}
 			}
 		}
@@ -230,7 +237,8 @@ public class Worker {
 			Aluno aluno = new Aluno();
 			aluno.setMatricula(11111111);
 			temp.setAluno(aluno);
-			Oferta oferta = new Oferta(discTemp, "2000/0");
+			TurmaEnviar turmaTemp = new TurmaEnviar();
+			Oferta oferta = new Oferta(discTemp, "2000/0", turmaTemp);
 			temp.setOferta(oferta);
 			disciplinasCursadas.add(temp);
 		}
@@ -253,11 +261,11 @@ public class Worker {
 	}
 
 
-	public ArrayList<Turmas> getTurmas() {
+	public ArrayList<TurmaEnviar> getTurmas() {
 		return turmas;
 	}
 
-	public void setTurmas(ArrayList<Turmas> turmas) {
+	public void setTurmas(ArrayList<TurmaEnviar> turmas) {
 		this.turmas = turmas;
 	}
 
@@ -268,7 +276,14 @@ public class Worker {
 	public void setCurriculos(ArrayList<CurriculoEnviar> curriculos) {
 		this.curriculos = curriculos;
 	}
+	
+	public ArrayList<Oferta> getOfertas() {
+		return ofertas;
+	}
 
+	public void setOfertas(ArrayList<Oferta> ofertas) {
+		this.ofertas = ofertas;
+	}
 	public ArrayList<Habilitacao> getHabilitacoes() {
 		return habilitacoes;
 	}

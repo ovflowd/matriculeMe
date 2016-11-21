@@ -78,7 +78,8 @@ public class CriadorFluxo {
 				tempCheck = ite.next().text();
 				while(!(tempCheck.equals(checarFinal))){
 					if(tempCheck.split(" ")[0].equals("PERÍODO:")){
-						periodoTemp = tempCheck.split(" ")[1].substring(0, 1);
+						periodoTemp = tempCheck.split(" ")[1].substring(0, 2);
+						periodoTemp = periodoTemp.replaceAll("\u00A0","");
 					} else if(!(tempCheck.equals("Pr. Tipo Cód. Nome Créditos"))){
 						//System.out.println(tempCheck);
 						String[] tempDisc = tempCheck.split(" ");

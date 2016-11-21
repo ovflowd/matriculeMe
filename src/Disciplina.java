@@ -16,7 +16,7 @@ public class Disciplina {
 	private int codigo;
 	private Departamento departamento;
 	//private int departamento;
-	private String nomeDisc = null;
+	private String nome = null;
 	private int creditos;
 	ArrayList<Requisito> requisito = new ArrayList<Requisito>();
 	transient ArrayList<String> preReq = new ArrayList<String>();
@@ -111,11 +111,11 @@ public class Disciplina {
 	}
 
 	public String getNomeDisc() {
-		return nomeDisc;
+		return nome;
 	}
 
 	public void setNomeDisc(String nomeDisc) {
-		this.nomeDisc = nomeDisc;
+		this.nome = nomeDisc;
 	}
 
 	public int getCreditos() {

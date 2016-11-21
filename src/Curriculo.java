@@ -11,7 +11,6 @@ public class Curriculo {
 	public void converter(){
 		setCurso(Integer.parseInt(codCurso));
 		setDisciplina(Integer.parseInt(codDisc));
-		semestre1 = semestre1.trim();
 		setSemestre(Integer.parseInt(semestre1));
 	}
 	

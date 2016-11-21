@@ -155,10 +155,36 @@ public class DataMining {
 		System.out.println(jsonEnviar);
 		return jsonEnviar;
 	}
+	@GET
+	@Path("/oferta")
+	@Produces("application/textplain")
+	public String getOferta() throws IOException{
+		Worker criador = new Worker();
+		criador.gerarTurmas();
+		ArrayList<String> arrayJson = new ArrayList<String>();
+		for(int i = 0; i < criador.getOfertas().size(); i++){
+			Gson json = new Gson();
+			String guardar = json.toJson(criador.getOfertas().get(i));
+			arrayJson.add(guardar);
+		}
+		String jsonEnviar = "[";
+		for(int i = 0; i < arrayJson.size(); i++){
+			if(i < arrayJson.size()-1){
+				jsonEnviar += arrayJson.get(i) + ",";
+			} else {
+				jsonEnviar += arrayJson.get(i);
+			}
+		}
+		jsonEnviar += "]";
+		//System.out.print("\\");
+		//guardar2 = guardar2.replaceAll("\\", "");
+		System.out.println(jsonEnviar);
+		return jsonEnviar;
+	}
 	@POST
 	@Path("/historico")
 	@Consumes("application/textplain")
-	public String Historico(String htmlHist){
+	public String postHistorico(String htmlHist){
 		Worker criador = new Worker();
 		criador.gerarDisciplinasCursadas(htmlHist);
 		ArrayList<String> arrayJson = new ArrayList<String>();
