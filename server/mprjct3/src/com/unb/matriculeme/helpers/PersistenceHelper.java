@@ -17,7 +17,6 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
-        emf.close();
     }
 
     public static <T> void delete(T t) {
