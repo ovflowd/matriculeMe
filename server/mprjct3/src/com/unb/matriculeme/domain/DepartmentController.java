@@ -1,6 +1,6 @@
 package com.unb.matriculeme.domain;
 
-import com.unb.matriculeme.dao.Department;
+import com.unb.matriculeme.dao.Departamento;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
 import com.unb.matriculeme.messages.AllRightMessage;
@@ -19,6 +19,7 @@ public class DepartmentController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String name) {
+    	List<Departamento> departments = null;
         return departments.size() > 0 ? ClientUtils.sendResponse(departments.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The department wasn't found on the system."));
     }
 
@@ -26,7 +27,7 @@ public class DepartmentController {
     @Path("/setAllDeps/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addAllDepartments(List<Department> allDepartments) throws Exception {
+    public Response addAllDepartments(List<Departamento> allDepartments) throws Exception {
         // Why you added this SystemOut?
         //System.out.println("received size: " + allDepartments.size());
 
@@ -37,7 +38,7 @@ public class DepartmentController {
     @Path("/setDepartamento/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setHorarios(Department department) throws Exception {
+    public Response setHorarios(Departamento department) throws Exception {
         PersistenceHelper.persist(department);
         return ClientUtils.sendMessage(new AllRightMessage("The Department was added successfully on the system."));
     }

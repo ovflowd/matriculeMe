@@ -2,7 +2,7 @@ package com.unb.matriculeme.domain;
 
 //TODO: esse ta liso, refazer o com.unb.matriculeme.domain
 
-import com.unb.matriculeme.dao.Schedule;
+import com.unb.matriculeme.dao.Turma;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
 import com.unb.matriculeme.messages.AllRightMessage;
@@ -19,7 +19,7 @@ public class SchedulesController {
     @Path("/setHorario")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setHorario(Schedule schedule) {
+    public Response setHorario(Turma schedule) {
         //Schedule h1 = new Schedule();
         //h1.setCode(horario.getCode());
         //h1.setClassEnds(schedule.getClassEnds());

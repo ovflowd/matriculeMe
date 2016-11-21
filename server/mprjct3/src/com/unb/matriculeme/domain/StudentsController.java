@@ -1,7 +1,7 @@
 package com.unb.matriculeme.domain;
 
 import com.google.gson.Gson;
-import com.unb.matriculeme.dao.Student;
+import com.unb.matriculeme.dao.Aluno;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
 import com.unb.matriculeme.messages.BaseMessage;
@@ -19,14 +19,14 @@ public class StudentsController {
     @Path("/alterAluno/nome={nome}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response alterAluno(@PathParam("nome") String name, Student student) throws Exception {
-        List students = PersistenceHelper.queryCustom("Student", "name", name, true);
+    public Response alterAluno(@PathParam("nome") String name, Aluno student) throws Exception {
+        List students = PersistenceHelper.queryCustom("Aluno", "nome", name, true);
 
         if (students.size() > 0) {
-            //TODO: PersistenceHelper.update((Student) students.get(0), student);
+            //TODO: PersistenceHelper.update((Aluno) students.get(0), student);
         }
 
-        return ClientUtils.sendMessage(students.size() > 0 ? new BaseMessage(200, "Student changed successfully.") :
+        return ClientUtils.sendMessage(students.size() > 0 ? new BaseMessage(200, "Aluno changed successfully.") :
                 new NotFoundMessage("This student wasn't found on our system."));
     }
 
@@ -35,7 +35,7 @@ public class StudentsController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudentData(@PathParam("nome") String name) {
-        List students = PersistenceHelper.queryCustom("Student", "name", name, true);
+        List students = PersistenceHelper.queryCustom("Aluno", "nome", name, true);
         return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) :
                 ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
@@ -54,7 +54,7 @@ public class StudentsController {
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     public Response setSchedules(String mandatory) throws Exception {
-        Student student = new Gson().fromJson(mandatory, Student.class);
+        Aluno student = new Gson().fromJson(mandatory, Aluno.class);
         List students = PersistenceHelper.queryCustom("Login", "accessKey", student.getLogin().getAccessKey(), true);
 
         // User Doesn't Exists

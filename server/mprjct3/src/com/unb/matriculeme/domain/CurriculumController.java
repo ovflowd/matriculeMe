@@ -1,11 +1,11 @@
 package com.unb.matriculeme.domain;
 
 import com.google.gson.Gson;
-import com.unb.matriculeme.dao.Course;
-import com.unb.matriculeme.dao.Curriculum;
+import com.unb.matriculeme.dao.Curso;
+import com.unb.matriculeme.dao.Curriculo;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
-import com.unb.matriculeme.dao.Discipline;
+import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.BaseMessage;
 
@@ -24,7 +24,7 @@ public class CurriculumController  {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculum() throws Exception {
-        List curriculum = PersistenceHelper.queryGetList("Curriculum");
+        List curriculum = PersistenceHelper.queryGetList("Curriculo");
         return ClientUtils.sendResponse(curriculum);
     }
 
@@ -32,22 +32,22 @@ public class CurriculumController  {
     @Path("/setAllCurr")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addAllResumes(List<Curriculum> resumes) throws Exception {
+    public Response addAllResumes(List<Curriculo> resumes) throws Exception {
         //@TODO: If the Identifier it's not passed, isn't possible do the reference.
         //@TODO: Create a way to check if the Identifier is present. Obviously. And if not, result a BaseMessage()
 
-        for (Curriculum curriculum : resumes) {
-            Curriculum curr = new Curriculum();
+        for (Curriculo curriculum : resumes) {
+            Curriculo curr = new Curriculo();
 
-            curr.setSemester(curriculum.getSemester());
+            curr.setSemestreDisciplina(curriculum.getSemestreDisciplina());
 
-            List cursos = PersistenceHelper.queryCustom("Course", "codigo", String.valueOf(curriculum.getCourse().getCode()), false);
+            List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(curriculum.getCurso().getCodigo()), false);
 
-            curr.setCourse((Course) cursos.get(0));
+            curr.setCurso((Curso) cursos.get(0));
 
-            List disciplinas = PersistenceHelper.queryCustom("Discipline", "codigo", String.valueOf(curriculum.getDiscipline().getCode()), false);
+            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(curriculum.getDisciplina().getCodigo()), false);
 
-            curr.setDiscipline((Discipline) disciplinas.get(0));
+            curr.setDisciplina((Disciplina) disciplinas.get(0));
 
             PersistenceHelper.persist(curr);
         }

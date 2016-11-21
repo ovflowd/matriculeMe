@@ -1,6 +1,6 @@
 package com.unb.matriculeme.domain;
 
-import com.unb.matriculeme.dao.Course;
+import com.unb.matriculeme.dao.Curso;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
 import com.unb.matriculeme.messages.AllRightMessage;
@@ -19,8 +19,8 @@ public class CourseController {
     @Path("/alterCurso/nome={nome}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response alterCurso(@PathParam("nome") String nome, Course course) throws Exception {
-        List courses = PersistenceHelper.queryCustom("Course", "name", nome, true);
+    public Response alterCurso(@PathParam("nome") String nome, Curso course) throws Exception {
+        List courses = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
 
         if (courses.size() > 0) {
             //PersistenceHelper.update((Course) courses.get(0), course);
@@ -33,7 +33,7 @@ public class CourseController {
     @Path("/setCurso")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response sayPlainTextHello(Course course) throws Exception {
+    public Response sayPlainTextHello(Curso course) throws Exception {
         PersistenceHelper.persist(course);
         return ClientUtils.sendMessage(new AllRightMessage("The course was inserted on the system successfully."));
     }
@@ -43,7 +43,7 @@ public class CourseController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch(@PathParam("nome") String nome) {
-        List courses = PersistenceHelper.queryCustom("Course", "name", nome, true);
+        List courses = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
         return courses.size() > 0 ? ClientUtils.sendResponse(courses) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Course wasn't found on the system."));
     }
@@ -53,7 +53,7 @@ public class CourseController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome, @PathParam("codigo") int codigo) {
-        List courses = PersistenceHelper.queryCustom("Course", "name", nome, "code", String.valueOf(codigo));
+        List courses = PersistenceHelper.queryCustom("Curso", "nome", nome, "codigo", String.valueOf(codigo));
         return courses.size() > 0 ? ClientUtils.sendResponse(courses) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Course wasn't found on the system."));
     }

@@ -1,6 +1,6 @@
 package com.unb.matriculeme.domain;
 
-import com.unb.matriculeme.dao.CoursedDisciplines;
+import com.unb.matriculeme.dao.DisciplinasCursadas;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
 import com.unb.matriculeme.messages.AllRightMessage;
@@ -18,7 +18,7 @@ public class CoursedDisciplinesController {
     @Path("/setDisciplinasCursadas/")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response example(List<CoursedDisciplines> coursedDisciplines) {
+    public Response example(List<DisciplinasCursadas> coursedDisciplines) {
         //coursedDisciplines.forEach(PersistenceHelper::persist);
         return ClientUtils.sendMessage(new AllRightMessage("The set of coursed disciplines was added successfully."));
     }
