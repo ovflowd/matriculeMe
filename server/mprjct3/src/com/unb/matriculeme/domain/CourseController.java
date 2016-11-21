@@ -23,7 +23,7 @@ public class CourseController {
         List courses = PersistenceHelper.queryCustom("Course", "nome", nome, true);
 
         if (courses.size() > 0) {
-            PersistenceHelper.update((Course) courses.get(0), course);
+            //PersistenceHelper.update((Course) courses.get(0), course);
         }
 
         return ClientUtils.sendMessage(courses.size() > 0 ? new BaseMessage(200, "Course changed successfully.") :
