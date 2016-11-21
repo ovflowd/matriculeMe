@@ -1,0 +1,22 @@
+As funções principais do módulo de IMW podem ser sumarizadas nos seguintes tópicos:
+
+  - Popular banco de dados com as informações públicas do Matricula Web:
+  
+    -> Executar getDepartamentos(), pegar o JSon de saída, tratar e guardar no banco de dados;
+    
+    -> Executar getOferta(), pegar o JSon de saída, tratar e guardar no banco de dados;
+      ---Obs: Cada oferta enviada terá uma turma e uma disciplina, deve-se previamente cadastrar a turma (Que também possui
+      professor e horário que devem ser cadastrados antes) e a disciplina no banco de dados, para depois cadastrar a oferta.
+      
+    -> Executar getCurso(), pegar o JSon de saída, tratar e guardar no banco de dados;
+    
+    -> Executar getCurriculo(), pegar o JSon de saída, tratar e guardar no banco de dados;
+      ---Obs: Se a disciplina presente no currículo não estiver previamente cadastrada, deve-se criá-la previamente, para depois guardar
+      o currículo no banco.
+      
+  - Pegar as informações relativas ao histórico do aluno:
+    
+    -> Executar postHistorico() passando como parâmetro o código html do histórico a ser tratado. O IMW então irá executar um Post
+    para o servidor com o JSon contendo matrícula do aluno, disciplina cursada e a menção;
+    
+
