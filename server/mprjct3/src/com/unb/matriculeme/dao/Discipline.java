@@ -1,5 +1,7 @@
 package com.unb.matriculeme.dao;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,6 +17,10 @@ public class Discipline {
     @JoinTable(name = "departamento_disciplina")
     private Department department;
 
+    @OneToMany(cascade = CascadeType.MERGE)
+    @JoinColumn(name="requisitos_disciplinas")
+    private List<Requisite> requisites;
+    
     @Column
     private int credits;
 
@@ -59,5 +65,13 @@ public class Discipline {
 
     public void setCode(int code) {
         this.code = code;
+    }
+    
+    public List<Requisite> getRequisite(){
+    	return this.requisites;
+    }
+    
+    public void setRequisite(List<Requisite> requisites){
+    	this.requisites = requisites;
     }
 }

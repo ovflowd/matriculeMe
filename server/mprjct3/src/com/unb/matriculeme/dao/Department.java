@@ -13,9 +13,6 @@ public class Department {
     private String name;
 
     @Column
-    private String description;
-
-    @Column
     private int code;
 
     public int getId() {
@@ -32,14 +29,6 @@ public class Department {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
     }
 
     public int getCode() {

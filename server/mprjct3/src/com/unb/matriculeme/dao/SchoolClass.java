@@ -1,5 +1,7 @@
 package com.unb.matriculeme.dao;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
@@ -15,24 +17,20 @@ public class SchoolClass {
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "professor_turma")
     private Professor professor;//'FK' Refer�ncia ao professor que ministrar� a disciplina
+    
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinTable(name="horarios_turma")
+    private List<Schedule> schedules;
 
     @Column
-    private int campos;//qual unidade regional da universidade a disciplina � ofertada
+    private int campus;//qual unidade regional da universidade a disciplina � ofertada
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "turma_oferta")
     private Offer offer;//lista de disciplinas e turmas disponiveis a matricula em um periodo letivo
-
-    @ManyToOne(cascade = CascadeType.ALL)
-    @JoinTable(name = "tipo_reserva_id")
-    private ReserveType reserveType;//Qualifica a reserva de uma turma como por exemplo se
-    //ela � disponivel apenas a um determinado curso
-
+    
     @Column
     private int vagas;//qtd de vagas em uma turma
-
-    @Column(name = "vagas_reserva")
-    private int vagasReserva;//qtd de vagas reservadas a um determinado curso
 
     public int getId() {
         return id;
@@ -66,14 +64,6 @@ public class SchoolClass {
         this.offer = offer;
     }
 
-    public void setTiporeserva(ReserveType reserveType) {
-        this.reserveType = reserveType;
-    }
-
-    public ReserveType getReserveType() {
-        return reserveType;
-    }
-
     public int getVagas() {
         return vagas;
     }
@@ -81,20 +71,18 @@ public class SchoolClass {
     public void setVagas(int vagas) {
         this.vagas = vagas;
     }
-
-    public int getVagasReserva() {
-        return vagasReserva;
-    }
-
-    public void setVagasReserva(int vagasReserva) {
-        this.vagasReserva = vagasReserva;
-    }
-
     public int getCampos() {
-        return campos;
+        return campus;
     }
 
     public void setCampos(int campos) {
-        this.campos = campos;
+        this.campus = campos;
+    }
+    
+    public List<Schedule> getSchedules(){
+    	return this.schedules;
+    }
+    public void setSchedules(List<Schedule> schedules){
+    	this.schedules = schedules;
     }
 }
