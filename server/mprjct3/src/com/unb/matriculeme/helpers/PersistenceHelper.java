@@ -13,16 +13,8 @@ public final class PersistenceHelper {
     private static EntityManager em = null;
 
     public static EntityManager getInstance() {
-        if (emf == null) {
-            emf = Persistence.createEntityManagerFactory("myDB");
-        }
-
-        if (em == null) {
-            em = emf.createEntityManager();
-        }
-
-        //@TODO: Create verifications to check if the connection is open or not.
-
+        emf = Persistence.createEntityManagerFactory("myDB");
+        em = emf.createEntityManager();
         return em;
     }
 
@@ -33,8 +25,8 @@ public final class PersistenceHelper {
         em.persist(t);
         em.getTransaction().commit();
 
-        //em.close();
-        //emf.close();
+        em.close();
+        emf.close();
     }
 
     public static <T> void update(T old, T updated) throws IllegalAccessException {
@@ -55,7 +47,7 @@ public final class PersistenceHelper {
 
         em.getTransaction().commit();
 
-        //em.close();
+        em.close();
     }
 
     public static <T> void delete(T t) {
@@ -68,7 +60,7 @@ public final class PersistenceHelper {
         em.remove(dynamicDelete);
         em.getTransaction().commit();
 
-        //em.close();
+        em.close();
     }
 
     public static List queryCustom(String table, String toQuery, String t, boolean isString) {
@@ -82,7 +74,7 @@ public final class PersistenceHelper {
 
         em.getTransaction().commit();
 
-        //em.close();
+        em.close();
 
         return objects;
     }
@@ -98,7 +90,7 @@ public final class PersistenceHelper {
 
         em.getTransaction().commit();
 
-        //em.close();
+        em.close();
 
         return objects;
     }
@@ -114,7 +106,7 @@ public final class PersistenceHelper {
 
         em.getTransaction().commit();
 
-        //em.close();
+        em.close();
 
         return objects;
     }
@@ -130,7 +122,7 @@ public final class PersistenceHelper {
 
         em.getTransaction().commit();
 
-        //em.close();
+        em.close();
 
         return objects;
     }
