@@ -48,6 +48,11 @@
 	border:2px solid #007aff;
 }
 
+.largura1{
+	height: 30px;
+	width: 90px;
+	margin:auto;
+}
 
 .tamanho{
 	height:90%;
