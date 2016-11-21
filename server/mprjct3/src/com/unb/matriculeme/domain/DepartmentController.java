@@ -31,7 +31,7 @@ public class DepartmentController {
         // Why you added this SystemOut?
         //System.out.println("received size: " + allDepartments.size());
 
-        allDepartments.forEach(PersistenceHelper::persist);
+        //allDepartments.forEach(PersistenceHelper::persist);
         return ClientUtils.sendMessage(new AllRightMessage("The set of Departments was added successfully on the system."));
     }
 

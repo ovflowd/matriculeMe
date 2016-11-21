@@ -19,7 +19,7 @@ public class CoursedDisciplinesController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(List<CoursedDisciplines> coursedDisciplines) {
-        coursedDisciplines.forEach(PersistenceHelper::persist);
+        //coursedDisciplines.forEach(PersistenceHelper::persist);
         return ClientUtils.sendMessage(new AllRightMessage("The set of coursed disciplines was added successfully."));
     }
 }

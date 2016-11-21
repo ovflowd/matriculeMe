@@ -36,13 +36,14 @@ public class Student {
 
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.ALL })
 	@JoinColumn
-	@Fetch(FetchMode.SELECT)
 	private Profile profile;
 
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+	@JoinTable(name = "disciplinasCursadas")
+	private List<CoursedDisciplines> CoursedDisciplines;
 
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
 	@JoinColumn 
-	@Fetch(FetchMode.SELECT)   
 	private Login login;
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
@@ -128,5 +129,11 @@ public class Student {
     	this.suggestions = suggestion;
     }
     
+    public List<CoursedDisciplines> getCoursedDisciplines(){
+    	return this.CoursedDisciplines;
+    }
     
+    public void setCoursedDisciplines (List<CoursedDisciplines> CoursedDisciplines){
+    	this.CoursedDisciplines = CoursedDisciplines;
+    }
 }
