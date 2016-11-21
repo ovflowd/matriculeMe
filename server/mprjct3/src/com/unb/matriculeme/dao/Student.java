@@ -38,7 +38,7 @@ public class Student {
 	@JoinColumn
 	private Profile profile;
 
-	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	@JoinTable(name = "disciplinasCursadas")
 	private List<CoursedDisciplines> CoursedDisciplines;
 
