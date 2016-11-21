@@ -44,8 +44,8 @@ public class StudentsController {
     @Path("/getAluno/login={login}&senha={senha}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStudentData(@PathParam("login") String login, @PathParam("senha") String senha) {
-        List students = PersistenceHelper.queryCustom("Aluno", "login", login, "senha", senha);
+    public Response getStudentData(@PathParam("login") String accessKey, @PathParam("senha") String senha) {
+        List students = PersistenceHelper.queryCustom("Login", "accessKey", accessKey, "password", senha);
         return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) :
                 ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
