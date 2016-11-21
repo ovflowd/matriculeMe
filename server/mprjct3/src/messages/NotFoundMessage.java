@@ -1,0 +1,9 @@
+package messages;
+
+public class NotFoundMessage extends BaseMessage{
+
+    public NotFoundMessage() {
+        this.SetCode(404);
+        this.SetMessage("The desired element wasn't found on our database data.");
+    }
+}
