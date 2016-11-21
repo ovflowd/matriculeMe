@@ -46,6 +46,10 @@ public class Student {
 	@JoinColumn 
 	private Login login;
 
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
+	@JoinTable(name = "aluno_sugestoes")
+	private List<Suggestion> suggestions; 
+
     public int getId() {
         return id;
     }
@@ -115,6 +119,14 @@ public class Student {
     
     public void setLogin(Login login) {
         this.login = login;
+    }
+    
+    public List<Suggestion> getSuggestions(){
+    	return this.suggestions;
+    }
+    
+    public void setSuggestions(List<Suggestion> suggestion){
+    	this.suggestions = suggestion;
     }
     
     public List<CoursedDisciplines> getCoursedDisciplines(){
