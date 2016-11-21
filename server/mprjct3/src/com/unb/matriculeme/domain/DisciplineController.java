@@ -21,7 +21,7 @@ public class DisciplineController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response trial(@PathParam("nome") String innome) {
-        List disciplinas = PersistenceHelper.queryCustomLike("Discipline", "nome", innome);
+        List disciplinas = PersistenceHelper.queryCustomLike("Discipline", "name", innome);
         return disciplinas.size() > 0 ? ClientUtils.sendResponse(disciplinas) : ClientUtils.sendMessage(new NotFoundMessage("The desired Discipline wasn't found in our system."));
     }
 
@@ -29,7 +29,7 @@ public class DisciplineController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome) {
-        List disciplinas = PersistenceHelper.queryCustom("Discipline", "nome", nome, true);
+        List disciplinas = PersistenceHelper.queryCustom("Discipline", "name", nome, true);
 
         return disciplinas.size() > 0 ? Response.ok(new Gson().toJson(disciplinas.get(0)),
                 MediaType.APPLICATION_JSON).build() : Response.status(404).build();
@@ -43,7 +43,7 @@ public class DisciplineController {
         for (Discipline dis : allDis) {
             Discipline discipline = new Discipline();
 
-            List department = PersistenceHelper.queryCustom("Department", "codigo", String.valueOf(allDis.get(0).getDepartment().getCode()), false);
+            List department = PersistenceHelper.queryCustom("Department", "code", String.valueOf(allDis.get(0).getDepartment().getCode()), false);
 
             discipline.setCode(dis.getCode());
             discipline.setCredits(dis.getCredits());

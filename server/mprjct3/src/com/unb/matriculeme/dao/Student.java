@@ -15,7 +15,7 @@ public class Student {
 	@GeneratedValue
 	private int id;	
 
-	@Column(nullable = false, unique = true)
+	@Column(nullable = false)
 	private int registerId;
 
 	@Column(nullable = false)
@@ -51,7 +51,7 @@ public class Student {
 	private List<Suggestion> suggestions; 
 
     public int getId() {
-        return id;
+        return id; 
     }
 
     public void setId(int id) {
@@ -126,7 +126,7 @@ public class Student {
     }
     
     public void setSuggestions(List<Suggestion> suggestion){
-    	this.suggestions = suggestion;
+    	this.suggestions = suggestion; 
     }
     
     public List<CoursedDisciplines> getCoursedDisciplines(){

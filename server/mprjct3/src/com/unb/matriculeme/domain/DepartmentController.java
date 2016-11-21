@@ -19,7 +19,6 @@ public class DepartmentController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String name) {
-        List departments = PersistenceHelper.queryCustom("Department", "nome", name, true);
         return departments.size() > 0 ? ClientUtils.sendResponse(departments.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The department wasn't found on the system."));
     }
 
