@@ -23,7 +23,7 @@ public class StudentsController {
         List students = PersistenceHelper.queryCustom("Student", "name", name, true);
 
         if (students.size() > 0) {
-            PersistenceHelper.update((Student) students.get(0), student);
+            //TODO: PersistenceHelper.update((Student) students.get(0), student);
         }
 
         return ClientUtils.sendMessage(students.size() > 0 ? new BaseMessage(200, "Student changed successfully.") :
