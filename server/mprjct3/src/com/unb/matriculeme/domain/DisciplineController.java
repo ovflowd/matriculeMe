@@ -17,11 +17,11 @@ import java.util.List;
 public class DisciplineController {
 
     // What is "in-nome"?? (Change "nome" to "name")
-    @Path("/getDiscipline/nome={text}")
+    @Path("/getDiscipline/innome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response trial(@PathParam("text") String inText) {
-        List disciplinas = PersistenceHelper.queryCustomLike("Discipline", "nome", inText);
+    public Response trial(@PathParam("nome") String innome) {
+        List disciplinas = PersistenceHelper.queryCustomLike("Discipline", "nome", innome);
         return disciplinas.size() > 0 ? ClientUtils.sendResponse(disciplinas) : ClientUtils.sendMessage(new NotFoundMessage("The desired Discipline wasn't found in our system."));
     }
 
