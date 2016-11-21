@@ -1,8 +1,10 @@
 package com.unb.matriculeme.domain;
 
-import com.google.gson.Gson;
 import com.unb.matriculeme.dao.Department;
+import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
+import com.unb.matriculeme.messages.NotFoundMessage;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -12,36 +14,32 @@ import java.util.List;
 @Path("/departamentos/")
 public class DepartmentController {
 
-    @Path("/getDepartment/nome={nome}")
+    // Why not change "nome" to "name"?
+    @Path("/getDepartamento/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response example(@PathParam("nome") String nome) {
-        List departamentos = PersistenceHelper.queryCustom("Department", "nome", nome, true);
-
-        return departamentos.size() > 0 ? Response
-                .ok(new Gson().toJson(departamentos.get(0)), MediaType.APPLICATION_JSON)
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT")
-                .build() : Response.status(404).build();
+    public Response example(@PathParam("nome") String name) {
+        List departments = PersistenceHelper.queryCustom("Departamento", "nome", name, true);
+        return departments.size() > 0 ? ClientUtils.sendResponse(departments.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The department wasn't found on the system."));
     }
 
+    // Why not /setAllDepartamentos?
     @Path("/setAllDeps/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setAllCoisas(List<Department> allDepartments) throws Exception {
-        // Para que Esse System.out?
-        System.out.println("received size: " + allDepartments.size());
+    public Response addAllDepartments(List<Department> allDepartments) throws Exception {
+        // Why you added this SystemOut?
+        //System.out.println("received size: " + allDepartments.size());
 
         allDepartments.forEach(PersistenceHelper::persist);
-
-        return Response.status(200).build();
+        return ClientUtils.sendMessage(new AllRightMessage("The set of Departments was added successfully on the system."));
     }
 
-    @Path("/setDepartment/")
+    @Path("/setDepartamento/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setHorarios(Department departamento) throws Exception {
-        PersistenceHelper.persist(departamento);
-        return Response.status(200).build();
+    public Response setHorarios(Department department) throws Exception {
+        PersistenceHelper.persist(department);
+        return ClientUtils.sendMessage(new AllRightMessage("The Department was added successfully on the system."));
     }
 }

@@ -20,7 +20,7 @@ public class CourseController {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response alterCurso(@PathParam("nome") String nome, Course course) throws Exception {
-        List courses = PersistenceHelper.queryCustom("Course", "nome", nome, true);
+        List courses = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
 
         if (courses.size() > 0) {
             PersistenceHelper.update((Course) courses.get(0), course);
@@ -30,7 +30,7 @@ public class CourseController {
                 new NotFoundMessage("This course wasn't found on our system."));
     }
 
-    @Path("/setCourse")
+    @Path("/setCurso")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sayPlainTextHello(Course course) throws Exception {
@@ -39,7 +39,7 @@ public class CourseController {
     }
 
     // Recommended change "nome" to "name"
-    @Path("/getCourse/nome={nome}")
+    @Path("/getCurso/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch(@PathParam("nome") String nome) {
@@ -49,7 +49,7 @@ public class CourseController {
     }
 
     // Recommended change "codigo" to "code"
-    @Path("/getCourse/nome={nome}&codigo={codigo}")
+    @Path("/getCurso/nome={nome}&codigo={codigo}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome, @PathParam("codigo") int codigo) {

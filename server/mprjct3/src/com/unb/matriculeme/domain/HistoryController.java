@@ -14,7 +14,8 @@ import javax.ws.rs.core.Response;
 @Path("/historico")
 public class HistoryController {
 
-    @Path("/setHistory/")
+    // Change to "/setHistorico"
+    @Path("/setHist/")
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     public Response setHistory(String history) throws Exception {

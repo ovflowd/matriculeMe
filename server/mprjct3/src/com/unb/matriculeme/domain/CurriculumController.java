@@ -20,31 +20,32 @@ import java.util.List;
 @Path("/curriculos")
 public class CurriculumController  {
 
-    @Path("/getCurriculum/")
+    @Path("/getCurriculo/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculum() throws Exception {
-        List curriculum = PersistenceHelper.queryGetList("Curriculum");
+        List curriculum = PersistenceHelper.queryGetList("Curriculo");
         return ClientUtils.sendResponse(curriculum);
     }
 
+    // Why not setAllCurriculos?
     @Path("/setAllCurr")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setCurriculum(List<Curriculum> curriculumSet) throws Exception {
+    public Response addAllResumes(List<Curriculum> resumes) throws Exception {
         //@TODO: If the Identifier it's not passed, isn't possible do the reference.
         //@TODO: Create a way to check if the Identifier is present. Obviously. And if not, result a BaseMessage()
 
-        for (Curriculum curriculum : curriculumSet) {
+        for (Curriculum curriculum : resumes) {
             Curriculum curr = new Curriculum();
 
             curr.setSemester(curriculum.getSemester());
 
-            List cursos = PersistenceHelper.queryCustom("Course", "codigo", String.valueOf(curriculum.getCourse().getCode()), false);
+            List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(curriculum.getCourse().getCode()), false);
 
             curr.setCourse((Course) cursos.get(0));
 
-            List disciplinas = PersistenceHelper.queryCustom("Discipline", "codigo", String.valueOf(curriculum.getDiscipline().getCode()), false);
+            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(curriculum.getDiscipline().getCode()), false);
 
             curr.setDiscipline((Discipline) disciplinas.get(0));
 

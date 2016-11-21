@@ -5,6 +5,7 @@ import com.unb.matriculeme.dao.Department;
 import com.unb.matriculeme.dao.Discipline;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
 import javax.ws.rs.*;
@@ -52,6 +53,6 @@ public class DisciplineController {
 
             PersistenceHelper.persist(discipline);
         }
-        return Response.status(200).build();
+        return ClientUtils.sendMessage(new AllRightMessage("The Discipline was added successfully on the system."));
     }
 }
