@@ -8,7 +8,7 @@ public class Perfil
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
+	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH, CascadeType.ALL})
 	@JoinColumn
 	private Departamento departamentos;
 	@Column(nullable = false)
