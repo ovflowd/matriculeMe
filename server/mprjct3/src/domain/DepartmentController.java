@@ -32,7 +32,7 @@ public class DepartmentController {
         // Para que Esse System.out?
         System.out.println("received size: " + allDepartments.size());
 
-        allDepartments.forEach(PersistenceHelper::Persist);
+        allDepartments.forEach(PersistenceHelper::persist);
 
         return Response.status(200).build();
     }
@@ -41,7 +41,7 @@ public class DepartmentController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setHorarios(Departamento departamento) throws Exception {
-        PersistenceHelper.Persist(departamento);
+        PersistenceHelper.persist(departamento);
         return Response.status(200).build();
     }
 }

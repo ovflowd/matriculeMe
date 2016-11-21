@@ -17,7 +17,7 @@ public class CoursedDisciplinesController {
     @POST
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(List<DisciplinasCursadas> disciplinasCursadas) {
-        disciplinasCursadas.forEach(PersistenceHelper::Persist);
+        disciplinasCursadas.forEach(PersistenceHelper::persist);
         return Response.status(200).build();
     }
 }

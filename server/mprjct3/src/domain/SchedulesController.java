@@ -30,7 +30,7 @@ public class SchedulesController {
         em.getTransaction().begin();
         //Turma t1 = em.find(Turma.class, horario.getTurma().getId());
         //h1.setTurma(t1);
-        PersistenceHelper.Persist(h1);
+        PersistenceHelper.persist(h1);
         return Response.status(200).build();
     }
 }

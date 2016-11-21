@@ -52,7 +52,7 @@ public class CurriculumController {
 
             curr.setDisciplina((Disciplina) disciplinas.get(0));
 
-            PersistenceHelper.Persist(curr);
+            PersistenceHelper.persist(curr);
         }
         return Response.status(200).build();
     }

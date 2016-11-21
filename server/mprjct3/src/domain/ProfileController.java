@@ -72,7 +72,7 @@ public class ProfileController {
         perfil1.setStudent(perfil.getStudent());
         perfil1.setDepartamento(perfil.getDepartamento());
         perfil1.setMetrica(perfil.getMetrica());
-        PersistenceHelper.Persist(perfil1);
+        PersistenceHelper.persist(perfil1);
         return Response.status(200).build();
     }
 

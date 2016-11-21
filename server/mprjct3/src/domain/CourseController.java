@@ -1,73 +1,60 @@
 package domain;
 
-import com.google.gson.Gson;
+import dao.Course;
+import helpers.ClientUtils;
 import helpers.PersistenceHelper;
-import dao.Curso;
+import messages.AllRightMessage;
+import messages.BaseMessage;
+import messages.NotFoundMessage;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import java.util.List;
 
-
 @Path("/cursos")
 public class CourseController {
 
-    private void Update(Curso curso, Curso newCurso) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
-
-        em.getTransaction().begin();
-
-        Curso c2 = em.merge(curso);
-
-        c2.setNome(newCurso.getNome());
-        c2.setCodigo(newCurso.getCodigo());
-
-        em.getTransaction().commit();
-        em.close();
-    }
-
-    @Path("/alterCurso/name={nome}")
+    // Recommended change "nome" to "name"
+    @Path("/alterCurso/nome={nome}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response alterCurso(@PathParam("nome") String nome, Curso curso) throws Exception {
-        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
+    public Response alterCurso(@PathParam("nome") String nome, Course course) throws Exception {
+        List courses = PersistenceHelper.queryCustom("Course", "nome", nome, true);
 
-        if (cursos.size() > 0) {
-            Update((Curso) cursos.get(0), curso);
+        if (courses.size() > 0) {
+            PersistenceHelper.update((Course) courses.get(0), course);
         }
 
-        return cursos.size() > 0 ? Response.status(200).build() : Response.status(404).build();
+        return ClientUtils.sendMessage(courses.size() > 0 ? new BaseMessage(200, "Course changed successfully.") :
+                new NotFoundMessage("This course wasn't found on our system."));
     }
 
-    @Path("/setCurso")
+    @Path("/setCourse")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response sayPlainTextHello(Curso curso) throws Exception {
-        PersistenceHelper.Persist(curso);
-        return Response.status(200).build();
+    public Response sayPlainTextHello(Course course) throws Exception {
+        PersistenceHelper.persist(course);
+        return ClientUtils.sendMessage(new AllRightMessage("The course was inserted on the system successfully."));
     }
 
-    @Path("/getCurso/nome={nome}")
+    // Recommended change "nome" to "name"
+    @Path("/getCourse/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch(@PathParam("nome") String nome) {
-        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
-
-        return cursos.size() > 0 ? Response.ok(new Gson().toJson(cursos), MediaType.APPLICATION_JSON).build() :
-                Response.status(404).build();
+        List courses = PersistenceHelper.queryCustom("Course", "nome", nome, true);
+        return courses.size() > 0 ? ClientUtils.sendResponse(courses) :
+                ClientUtils.sendMessage(new NotFoundMessage("The Course wasn't found on the system."));
     }
 
-    @Path("/getCurso/nome={nome}&codigo={codigo}")
+    // Recommended change "codigo" to "code"
+    @Path("/getCourse/nome={nome}&codigo={codigo}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome, @PathParam("codigo") int codigo) {
-        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, "codigo", String.valueOf(codigo));
-        return cursos.size() > 0 ? Response.ok(new Gson().toJson(cursos), MediaType.APPLICATION_JSON).build() :
-                Response.status(404).build();
+        List courses = PersistenceHelper.queryCustom("Course", "nome", nome, "codigo", String.valueOf(codigo));
+        return courses.size() > 0 ? ClientUtils.sendResponse(courses) :
+                ClientUtils.sendMessage(new NotFoundMessage("The Course wasn't found on the system."));
     }
 }

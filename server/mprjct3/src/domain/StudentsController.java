@@ -16,6 +16,21 @@ import java.util.List;
 public class StudentsController {
 
     // Recommended change "nome" to "name"
+    @Path("/alterAluno/nome={nome}")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response alterAluno(@PathParam("nome") String nome, Student student) throws Exception {
+        List students = PersistenceHelper.queryCustom("Student", "nome", nome, true);
+
+        if (students.size() > 0) {
+            PersistenceHelper.update((Student) students.get(0), student);
+        }
+
+        return ClientUtils.sendMessage(students.size() > 0 ? new BaseMessage(200, "Student changed successfully.") :
+                new NotFoundMessage("This student wasn't found on our system."));
+    }
+
+    // Recommended change "nome" to "name"
     @Path("/getAluno/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -45,10 +60,11 @@ public class StudentsController {
 
         // User Doesn't Exists
         if (students.size() == 0) {
-            PersistenceHelper.Persist(student.getLogin());
-            PersistenceHelper.Persist(student);
+            PersistenceHelper.persist(student.getLogin());
+            PersistenceHelper.persist(student);
         }
 
+        // What is code "483" ???
         return ClientUtils.sendMessage(students.size() > 0 ? new BaseMessage(483, "User Already Exists. Creation not Allowed.") :
                 new BaseMessage(200, "User Doesn't exists. Creation Allowed."));
     }

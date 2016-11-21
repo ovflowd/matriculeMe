@@ -21,7 +21,7 @@ public class ProfessorController {
 
         p1.setNome(professor.getNome());
 
-        PersistenceHelper.Persist(p1);
+        PersistenceHelper.persist(p1);
 
         return Response.status(200).build();
     }

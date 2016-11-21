@@ -53,7 +53,7 @@ public class DisciplineController {
 
             disciplina.setDepartamento((Departamento) department.get(0));
 
-            PersistenceHelper.Persist(disciplina);
+            PersistenceHelper.persist(disciplina);
         }
         return Response.status(200).build();
     }

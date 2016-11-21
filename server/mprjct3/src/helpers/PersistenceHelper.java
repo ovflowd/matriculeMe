@@ -1,14 +1,19 @@
 package helpers;
 
+import dao.Student;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
+import java.lang.reflect.Field;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public final class PersistenceHelper {
 
-    public static <T> void Persist(T t) {
+    public static <T> void persist(T t) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
         EntityManager em = emf.createEntityManager();
 
@@ -20,7 +25,28 @@ public final class PersistenceHelper {
         emf.close();
     }
 
-    public static <T> void Delete(T t) {
+    public static <T> void update(T old, T updated) throws IllegalAccessException {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        T c2 = em.merge(old);
+
+        Class<?> oldObject = old.getClass();
+        Class<?> newObject = updated.getClass();
+        Field[] fields = oldObject.getDeclaredFields();
+
+        for(Field field : fields ){
+            field.setAccessible(true);
+            field.set(c2, newObject);
+        }
+
+        em.getTransaction().commit();
+        em.close();
+    }
+
+    public static <T> void delete(T t) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
