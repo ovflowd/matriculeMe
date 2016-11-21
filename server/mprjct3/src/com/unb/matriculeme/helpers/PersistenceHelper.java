@@ -15,9 +15,10 @@ public final class PersistenceHelper {
         em.getTransaction().begin();
         em.persist(t);
         em.getTransaction().commit();
-
+ 
         em.close();
-    }
+        emf.close();
+    } 
 
     public static <T> void delete(T t) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
