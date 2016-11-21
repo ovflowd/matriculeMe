@@ -20,13 +20,6 @@ public class SchedulesController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setHorario(Turma schedule) {
-        //Schedule h1 = new Schedule();
-        //h1.setCode(horario.getCode());
-        //h1.setClassEnds(schedule.getClassEnds());
-        //h1.setClassStart(schedule.getClassStart());
-        //SchoolClass t1 = em.find(SchoolClass.class, horario.getTurma().getId());
-        //h1.setTurma(t1);
-
         PersistenceHelper.persist(schedule);
         return ClientUtils.sendMessage(new AllRightMessage("The schedule was inserted successfully."));
     }

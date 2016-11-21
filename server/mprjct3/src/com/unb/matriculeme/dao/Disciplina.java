@@ -5,6 +5,10 @@ import java.util.List;
 
 import javax.persistence.*;
 
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
+
 @Entity
 public class Disciplina 
 {
@@ -20,10 +24,12 @@ public class Disciplina
 	private int credito;
 	@Column(nullable = false)
 	private int codigo;
-	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
 	@JoinTable(name = "requisito_disciplina")
 	private List<Requisito> requisitoDisciplina;
-	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.LAZY)
+	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
 	@JoinTable(name = "requisito_disciplina")
 	private List<Turma> turmas;
 
