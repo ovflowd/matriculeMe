@@ -29,6 +29,6 @@ public class ClientUtils {
     }
 
     public static Response sendResponse(Object message, String type) {
-        return sendResponse(new Gson().toJson(message), MediaType.APPLICATION_JSON);
+        return sendResponse(new Gson().toJson(message), type);
     }
 }
