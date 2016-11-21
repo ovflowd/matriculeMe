@@ -8,19 +8,27 @@ import javax.ws.rs.core.Response;
 
 public class ClientUtils {
 
-    public static Response SendResponse(String message, String type) {
-        return Response.ok(message, type).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS").build();
+    public static Response sendResponse(Object message, String type, int statusCode) {
+        return Response.status(statusCode).entity(message).type(type).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS").allow("OPTIONS").build();
     }
 
-    public static Response SendEmptyResponse() {
-        return SendResponse("{}", MediaType.APPLICATION_JSON);
+    public static Response sendResponse(String message, String type) {
+        return sendResponse(message, type, 200);
     }
 
-    public static Response SendMessage(MessageInterface message) {
-        return SendResponse(message.RenderMessage(), MediaType.APPLICATION_JSON);
+    public static Response sendEmptyResponse() {
+        return sendResponse("{}", MediaType.APPLICATION_JSON);
     }
 
-    public static Response SendResponse(Object message, String type) {
-        return SendResponse(new Gson().toJson(message), type);
+    public static Response sendMessage(MessageInterface message) {
+        return sendResponse(message.RenderMessage(), MediaType.APPLICATION_JSON, message.GetCode());
+    }
+
+    public static Response sendResponse(Object message) {
+        return sendResponse(new Gson().toJson(message), MediaType.APPLICATION_JSON);
+    }
+
+    public static Response sendResponse(Object message, String type) {
+        return sendResponse(new Gson().toJson(message), MediaType.APPLICATION_JSON);
     }
 }

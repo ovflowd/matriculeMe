@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/disciplinas")
-public class DisciplinasController {
+public class DisciplineController {
 
     @Path("/getDisciplina/innome={intext}")
     @GET

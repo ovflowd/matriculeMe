@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "aluno")
-public class Aluno {
+public class Student {
 
     @Id
     @GeneratedValue
@@ -14,7 +14,7 @@ public class Aluno {
     private int matricula; //Matricula do aluno na Universidade
 
     @Column
-    private String nome; //Nome do Aluno
+    private String nome; //Nome do Student
 
     @Column
     private int ira; //Indice de Rendimento Acad�mico do aluno

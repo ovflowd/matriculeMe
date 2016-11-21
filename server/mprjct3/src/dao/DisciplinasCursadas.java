@@ -12,11 +12,11 @@ public class DisciplinasCursadas {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "aluno_disciplina")
-    private Aluno aluno; //'FK' Refer�ncia ao aluno cujo hist�rico est� sendo referenciado
+    private Student student; //'FK' Refer�ncia ao student cujo hist�rico est� sendo referenciado
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "mencao_disciplina")
-    private Mencao mencao; //'FK' referencia a men��o do aluno em determinada disciplina
+    private Mencao mencao; //'FK' referencia a men��o do student em determinada disciplina
 
     @ManyToOne
     @JoinTable(name = "oferta_disciplina")
@@ -30,12 +30,12 @@ public class DisciplinasCursadas {
         this.id = id;
     }
 
-    public Aluno getAlunos() {
-        return aluno;
+    public Student getAlunos() {
+        return student;
     }
 
-    public void setAlunos(Aluno aluno) {
-        this.aluno = aluno;
+    public void setAlunos(Student student) {
+        this.student = student;
     }
 
     public Mencao getMencao() {

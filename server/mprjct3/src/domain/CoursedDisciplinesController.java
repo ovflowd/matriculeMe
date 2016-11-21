@@ -11,7 +11,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/disciplinasCursadas/")
-public class DisciplinasCursadasController {
+public class CoursedDisciplinesController {
 
     @Path("/setDisciplinasCursadas/")
     @POST

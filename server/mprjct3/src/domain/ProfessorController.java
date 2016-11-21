@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/professor")
-public class ProfessoresController {
+public class ProfessorController {
 
     @Path("/setProfessor")
     @POST

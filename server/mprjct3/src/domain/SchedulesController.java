@@ -15,7 +15,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 
 @Path("/horarios")
-public class HorariosController {
+public class SchedulesController {
 
     @Path("/setHorario")
     @POST

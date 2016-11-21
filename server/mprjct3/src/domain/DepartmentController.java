@@ -10,7 +10,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/departamentos/")
-public class DepartamentosController {
+public class DepartmentController {
 
     @Path("/getDepartamento/nome={nome}")
     @GET

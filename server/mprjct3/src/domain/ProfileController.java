@@ -15,7 +15,7 @@ import javax.ws.rs.core.Response;
 import java.util.List;
 
 @Path("/perfil")
-public class PerfilController {
+public class ProfileController {
 
     public Integer queryGetPerfilAluno(int alunoId) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
@@ -59,7 +59,7 @@ public class PerfilController {
         //perfil2.set(perfil.getNome());
         //perfil2.setCodigo(newPerfil.getCodigo());
 
-        perfil2.setAluno(newPerfil.getAluno());
+        perfil2.setStudent(newPerfil.getStudent());
         em.getTransaction().commit();
         em.close();
     }
@@ -69,7 +69,7 @@ public class PerfilController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sayPlainTextHello(Perfil perfil) throws Exception {
         Perfil perfil1 = new Perfil();
-        perfil1.setAluno(perfil.getAluno());
+        perfil1.setStudent(perfil.getStudent());
         perfil1.setDepartamento(perfil.getDepartamento());
         perfil1.setMetrica(perfil.getMetrica());
         PersistenceHelper.Persist(perfil1);
@@ -90,7 +90,7 @@ public class PerfilController {
         }
 
         return perfis.size() > 0 ? Response.ok("{\n\t\"departamento:\":" + perfil.getDepartamento()
-                + ",\n\t\"aluno_id\":\"" + perfil.getAluno() + "\""
+                + ",\n\t\"aluno_id\":\"" + perfil.getStudent() + "\""
                 + ",\n\t\"metrica\":\"" + perfil.getMetrica() + "\""
                 + ",\n\t\"Id\":" + perfil.getId() + "\n}", MediaType.APPLICATION_JSON).build() : Response.status(404).build();
     }

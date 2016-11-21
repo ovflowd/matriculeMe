@@ -17,7 +17,7 @@ import java.util.List;
 
 
 @Path("/curriculos")
-public class CurriculoController {
+public class CurriculumController {
 
     @Path("/getCurriculos/")
     @GET

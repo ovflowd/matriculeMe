@@ -1,12 +1,22 @@
 package messages;
 
 import com.google.gson.Gson;
+import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
-class BaseMessage implements MessageInterface {
+public class BaseMessage implements MessageInterface {
 
     private int Code;
 
     private String Message;
+
+    public BaseMessage(int code, String message) {
+        this.Code = code;
+        this.Message = message;
+    }
+
+    BaseMessage() throws NotImplementedException {
+        //Not Allowed Here
+    }
 
     public void SetMessage(String message) {
         this.Message = message;

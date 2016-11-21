@@ -11,7 +11,7 @@ public class Sugestao {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "aluno_sugestao")
-    private Aluno aluno;//'FK' refer�ncia ao aluno que receber� a respectiva sugest�o
+    private Student student;//'FK' refer�ncia ao student que receber� a respectiva sugest�o
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "curriculo_sugestao")
@@ -38,12 +38,12 @@ public class Sugestao {
         this.id = id;
     }
 
-    public Aluno getAluno() {
-        return aluno;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 
     public void setCuriculo(Curriculo curriculo) {

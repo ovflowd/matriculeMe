@@ -14,7 +14,7 @@ import java.util.List;
 
 
 @Path("/cursos")
-public class CursosController {
+public class CourseController {
 
     private void Update(Curso curso, Curso newCurso) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");

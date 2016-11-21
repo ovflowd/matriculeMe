@@ -11,7 +11,7 @@ public class Perfil {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "aluno_id")
-    private Aluno aluno;
+    private Student student;
 
     private int departamento;
 
@@ -42,11 +42,11 @@ public class Perfil {
         this.departamento = departamento;
     }
 
-    public Aluno getAluno() {
-        return aluno;
+    public Student getStudent() {
+        return student;
     }
 
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
+    public void setStudent(Student student) {
+        this.student = student;
     }
 }
