@@ -39,7 +39,7 @@ public class Student {
 	@Fetch(FetchMode.SELECT)
 	private Profile profile;
 
-	@OneToMany
+	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
 	@JoinTable(name = "disciplinasCursadas")
 	private List<CoursedDisciplines> coursedDisciplines;
 
