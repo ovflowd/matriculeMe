@@ -3,8 +3,8 @@ package dao;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "Curso")
-public class Curso {
+@Table(name = "Course")
+public class Course {
     @Id
     @GeneratedValue
     private int id;//Chave prim�ria da Tabela Cursos

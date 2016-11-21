@@ -6,4 +6,9 @@ public class NotFoundMessage extends BaseMessage{
         this.SetCode(404);
         this.SetMessage("The desired element wasn't found on our database data.");
     }
+
+    public NotFoundMessage(String customNotFound) {
+        this.SetCode(404);
+        this.SetMessage(customNotFound);
+    }
 }

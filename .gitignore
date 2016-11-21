@@ -20,6 +20,10 @@
 .idea/dynamic.xml
 .idea/uiDesigner.xml
 
+# Ignore Build
+build/classes/*
+build/
+
 # Gradle:
 .idea/gradle.xml
 .idea/libraries

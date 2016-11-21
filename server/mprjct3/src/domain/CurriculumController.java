@@ -2,9 +2,9 @@ package domain;
 
 
 import com.google.gson.Gson;
+import dao.Course;
 import helpers.PersistenceHelper;
 import dao.Curriculo;
-import dao.Curso;
 import dao.Disciplina;
 
 import javax.persistence.EntityManager;
@@ -44,9 +44,9 @@ public class CurriculumController {
 
             curr.setSemestreDisciplina(curriculo.getSemestreDisciplina());
 
-            List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(curriculo.getCurso().getCodigo()), false);
+            List cursos = PersistenceHelper.queryCustom("Course", "codigo", String.valueOf(curriculo.getCourse().getCodigo()), false);
 
-            curr.setCurso((Curso) cursos.get(0));
+            curr.setCourse((Course) cursos.get(0));
 
             List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(curriculo.getDisciplina().getCodigo()), false);
 

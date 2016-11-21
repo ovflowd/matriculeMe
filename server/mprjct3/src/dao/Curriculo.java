@@ -16,7 +16,7 @@ public class Curriculo {
 
     @ManyToOne(cascade = CascadeType.MERGE)
     @JoinTable(name = "curso_curriculo")
-    private Curso curso;//'FK' Refer�ncia ao curso a o qual o curriculo pertence
+    private Course course;//'FK' Refer�ncia ao course a o qual o curriculo pertence
 
     @Column(name = "semestre_disciplina")
     private int semestreDisciplina;
@@ -29,12 +29,12 @@ public class Curriculo {
         this.id = id;
     }
 
-    public Curso getCurso() {
-        return curso;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public Disciplina getDisciplina() {

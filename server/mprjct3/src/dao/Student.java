@@ -24,7 +24,7 @@ public class Student {
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "curso_aluno")
-    private Curso curso;//'FK'
+    private Course course;//'FK'
 
     @Column
     private String interesse;
@@ -73,12 +73,12 @@ public class Student {
         this.semestreAtual = semestreAtual;
     }
 
-    public Curso getCurso() {
-        return curso;
+    public Course getCourse() {
+        return course;
     }
 
-    public void setCurso(Curso curso) {
-        this.curso = curso;
+    public void setCourse(Course course) {
+        this.course = course;
     }
 
     public String getInteresse() {

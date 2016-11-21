@@ -15,12 +15,14 @@ import java.util.List;
 @Path("/alunos")
 public class StudentsController {
 
+    // Recommended change "nome" to "name"
     @Path("/getAluno/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudentData(@PathParam("nome") String nome) {
         List students = PersistenceHelper.queryCustom("Student", "nome", nome, true);
-        return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) : ClientUtils.sendMessage(new NotFoundMessage());
+        return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) :
+                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
     // Recommended change "senha" to "password"
@@ -29,7 +31,8 @@ public class StudentsController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getStudentData(@PathParam("login") String login, @PathParam("senha") String senha) {
         List students = PersistenceHelper.queryCustom("Student", "login", login, "senha", senha);
-        return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) : ClientUtils.sendMessage(new NotFoundMessage());
+        return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) :
+                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
     @Path("/setAluno/")
