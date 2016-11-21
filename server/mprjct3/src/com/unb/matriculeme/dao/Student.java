@@ -9,28 +9,27 @@ import org.hibernate.annotations.FetchMode;
 
 
 @Entity
-@Table(name = "aluno")
 public class Student {
 
 	@Id
 	@GeneratedValue
-	private int id; // Chave primária da classe Alunos
+	private int id;
 
 	@Column(nullable = false, unique = true)
-	private int registerId; // Matricula do aluno na Universidade
+	private int registerId;
 
 	@Column(nullable = false)
-	private String name; // Nome do Aluno
+	private String name;
 
 	@Column
-	private int ira; // Indice de Rendimento Acadmico do aluno
+	private int ira;
 
 	@Column
 	private int actualSemester;
 
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.ALL })
 	@JoinColumn
-	private Course course;// 'FK'
+	private Course course;
 
 	@Column
 	private String interest;
@@ -41,8 +40,8 @@ public class Student {
 	private Profile profile;
 
 	@OneToMany
-	@JoinTable(name = "disciplinasCursadas") // dar uma olhada no
-	private List<CoursedDisciplines> coursedisciplines;  
+	@JoinTable(name = "disciplinasCursadas")
+	private List<CoursedDisciplines> coursedDisciplines;
 
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
 	@JoinColumn 
@@ -50,7 +49,7 @@ public class Student {
 	private Login login;
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-	@JoinTable(name = "aluno_sugestoes") // dar uma olhadad em sugestoes
+	@JoinTable(name = "aluno_sugestoes")
 	private List<Suggestion> suggestions; 
 
     public int getId() {
@@ -133,10 +132,10 @@ public class Student {
     }
     
     public List<CoursedDisciplines> getCoursedDisciplines(){
-    	return this.coursedisciplines;
+    	return this.coursedDisciplines;
     }
     
     public void setCoursedDisciplines (List<CoursedDisciplines> coursedDisciplines){
-    	this.coursedisciplines = coursedDisciplines;
+    	this.coursedDisciplines = coursedDisciplines;
     }
 }

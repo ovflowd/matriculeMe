@@ -19,8 +19,8 @@ public class StudentsController {
     @Path("/alterAluno/nome={nome}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response alterAluno(@PathParam("nome") String nome, Student student) throws Exception {
-        List students = PersistenceHelper.queryCustom("Aluno", "nome", nome, true);
+    public Response alterAluno(@PathParam("nome") String name, Student student) throws Exception {
+        List students = PersistenceHelper.queryCustom("Student", "name", name, true);
 
         if (students.size() > 0) {
             PersistenceHelper.update((Student) students.get(0), student);
@@ -34,8 +34,8 @@ public class StudentsController {
     @Path("/getAluno/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getStudentData(@PathParam("nome") String nome) {
-        List students = PersistenceHelper.queryCustom("Aluno", "nome", nome, true);
+    public Response getStudentData(@PathParam("nome") String name) {
+        List students = PersistenceHelper.queryCustom("Student", "name", name, true);
         return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) :
                 ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
