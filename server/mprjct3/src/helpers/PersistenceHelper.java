@@ -1,33 +1,42 @@
 package helpers;
 
-import dao.Student;
-
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
 import java.lang.reflect.Field;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public final class PersistenceHelper {
 
+    private static EntityManagerFactory emf = null;
+    private static EntityManager em = null;
+
+    private static EntityManager getInstance() {
+        if (emf == null) {
+            emf = Persistence.createEntityManagerFactory("myDB");
+        }
+
+        if (em == null) {
+            em = emf.createEntityManager();
+        }
+
+        return em;
+    }
+
     public static <T> void persist(T t) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getInstance();
 
         em.getTransaction().begin();
         em.persist(t);
         em.getTransaction().commit();
 
-        em.close();
-        emf.close();
+        //em.close();
+        //emf.close();
     }
 
     public static <T> void update(T old, T updated) throws IllegalAccessException {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getInstance();
 
         em.getTransaction().begin();
 
@@ -37,30 +46,31 @@ public final class PersistenceHelper {
         Class<?> newObject = updated.getClass();
         Field[] fields = oldObject.getDeclaredFields();
 
-        for(Field field : fields ){
+        for (Field field : fields) {
             field.setAccessible(true);
             field.set(c2, newObject);
         }
 
         em.getTransaction().commit();
-        em.close();
+
+        //em.close();
     }
 
     public static <T> void delete(T t) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getInstance();
+
         em.getTransaction().begin();
 
         T dynamicDelete = em.merge(t);
 
         em.remove(dynamicDelete);
         em.getTransaction().commit();
-        em.close();
+
+        //em.close();
     }
 
     public static List queryCustom(String table, String toQuery, String t, boolean isString) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getInstance();
 
         em.getTransaction().begin();
 
@@ -69,14 +79,15 @@ public final class PersistenceHelper {
         List objects = query.getResultList();
 
         em.getTransaction().commit();
-        em.close();
+
+        //em.close();
 
         return objects;
     }
 
     public static List queryGetList(String table) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getInstance();
+
         em.getTransaction().begin();
 
         Query query = em.createQuery("from " + table);
@@ -84,14 +95,14 @@ public final class PersistenceHelper {
         List objects = query.getResultList();
 
         em.getTransaction().commit();
-        em.close();
+
+        //em.close();
 
         return objects;
     }
 
     public static List queryCustomLike(String table, String toQuery, String intext) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getInstance();
 
         em.getTransaction().begin();
 
@@ -100,14 +111,14 @@ public final class PersistenceHelper {
         List objects = query.getResultList();
 
         em.getTransaction().commit();
-        em.close();
+
+        //em.close();
 
         return objects;
     }
 
     public static List queryCustom(String table, String toQuery, String value, String andQuery, String andValue) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
+        EntityManager em = getInstance();
 
         em.getTransaction().begin();
 
@@ -116,7 +127,8 @@ public final class PersistenceHelper {
         List objects = query.getResultList();
 
         em.getTransaction().commit();
-        em.close();
+
+        //em.close();
 
         return objects;
     }
