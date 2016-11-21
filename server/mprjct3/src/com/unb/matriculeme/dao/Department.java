@@ -3,7 +3,6 @@ package com.unb.matriculeme.dao;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "departamento")
 public class Department {
 
     @Id

@@ -20,7 +20,7 @@ public class CourseController {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response alterCurso(@PathParam("nome") String nome, Course course) throws Exception {
-        List courses = PersistenceHelper.queryCustom("curso", "nome", nome, true);
+        List courses = PersistenceHelper.queryCustom("Course", "nome", nome, true);
 
         if (courses.size() > 0) {
             PersistenceHelper.update((Course) courses.get(0), course);
@@ -43,7 +43,7 @@ public class CourseController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch(@PathParam("nome") String nome) {
-        List courses = PersistenceHelper.queryCustom("curso", "nome", nome, true);
+        List courses = PersistenceHelper.queryCustom("Course", "nome", nome, true);
         return courses.size() > 0 ? ClientUtils.sendResponse(courses) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Course wasn't found on the system."));
     }
@@ -53,7 +53,7 @@ public class CourseController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome, @PathParam("codigo") int codigo) {
-        List courses = PersistenceHelper.queryCustom("curso", "nome", nome, "codigo", String.valueOf(codigo));
+        List courses = PersistenceHelper.queryCustom("Course", "nome", nome, "codigo", String.valueOf(codigo));
         return courses.size() > 0 ? ClientUtils.sendResponse(courses) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Course wasn't found on the system."));
     }

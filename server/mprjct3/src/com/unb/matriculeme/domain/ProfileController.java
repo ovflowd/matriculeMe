@@ -23,7 +23,7 @@ public class ProfileController {
 
         em.getTransaction().begin();
 
-        Query query = em.createQuery("SELECT  FROM perfil WHERE alunoId='" + alunoId + "'");
+        Query query = em.createQuery("SELECT  FROM Profile WHERE alunoId='" + alunoId + "'");
 
         List perfil = query.getResultList();
 
@@ -39,7 +39,7 @@ public class ProfileController {
 
         em.getTransaction().begin();
 
-        Query query = em.createQuery("SELECT departamento FROM Perfil WHERE nome='" + departamento + "'");
+        Query query = em.createQuery("SELECT Department FROM Profile WHERE nome='" + departamento + "'");
 
         // Variável não é usada..
         List departamentoId = query.getResultList();

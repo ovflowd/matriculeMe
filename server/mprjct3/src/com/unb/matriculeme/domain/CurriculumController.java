@@ -24,7 +24,7 @@ public class CurriculumController  {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculum() throws Exception {
-        List curriculum = PersistenceHelper.queryGetList("curriculo");
+        List curriculum = PersistenceHelper.queryGetList("Curriculum");
         return ClientUtils.sendResponse(curriculum);
     }
 
@@ -41,11 +41,11 @@ public class CurriculumController  {
 
             curr.setSemester(curriculum.getSemester());
 
-            List cursos = PersistenceHelper.queryCustom("curso", "codigo", String.valueOf(curriculum.getCourse().getCode()), false);
+            List cursos = PersistenceHelper.queryCustom("Course", "codigo", String.valueOf(curriculum.getCourse().getCode()), false);
 
             curr.setCourse((Course) cursos.get(0));
 
-            List disciplinas = PersistenceHelper.queryCustom("disciplina", "codigo", String.valueOf(curriculum.getDiscipline().getCode()), false);
+            List disciplinas = PersistenceHelper.queryCustom("Discipline", "codigo", String.valueOf(curriculum.getDiscipline().getCode()), false);
 
             curr.setDiscipline((Discipline) disciplinas.get(0));
 

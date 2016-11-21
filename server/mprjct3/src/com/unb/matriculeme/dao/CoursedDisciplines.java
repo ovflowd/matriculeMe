@@ -3,7 +3,6 @@ package com.unb.matriculeme.dao;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "disciplinas_cursadas")
 public class CoursedDisciplines {
     @Id
     @GeneratedValue
