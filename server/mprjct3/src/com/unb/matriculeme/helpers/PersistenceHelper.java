@@ -8,29 +8,23 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 public final class PersistenceHelper {
-
-    private static EntityManagerFactory emf = null;
-    private static EntityManager em = null;
-
-    public static EntityManager getInstance() {
-        emf = Persistence.createEntityManagerFactory("myDB");
-        em = emf.createEntityManager();
-        return em;
-    }
+	
 
     public static <T> void persist(T t) {
-        EntityManager em = getInstance();
+    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+    	EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
         em.persist(t);
         em.getTransaction().commit();
 
         em.close();
-        emf.close();
+        emf.close(); 
     }
 
     public static <T> void update(T old, T updated) throws IllegalAccessException {
-        EntityManager em = getInstance();
+    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+    	EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
 
@@ -52,10 +46,12 @@ public final class PersistenceHelper {
     }
 
     public static <T> void delete(T t) {
-        EntityManager em = getInstance();
+    	
+    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+    	EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
-
+        
         T dynamicDelete = em.merge(t);
 
         em.remove(dynamicDelete);
@@ -66,7 +62,9 @@ public final class PersistenceHelper {
     }
 
     public static List queryCustom(String table, String toQuery, String t, boolean isString) {
-        EntityManager em = getInstance();
+
+    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+    	EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
 
@@ -83,7 +81,8 @@ public final class PersistenceHelper {
     }
 
     public static List queryGetList(String table) {
-        EntityManager em = getInstance();
+    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+    	EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
 
@@ -100,7 +99,8 @@ public final class PersistenceHelper {
     }
 
     public static List queryCustomLike(String table, String toQuery, String intext) {
-        EntityManager em = getInstance();
+    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+    	EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
 
@@ -117,7 +117,8 @@ public final class PersistenceHelper {
     }
 
     public static List queryCustom(String table, String toQuery, String value, String andQuery, String andValue) {
-        EntityManager em = getInstance();
+    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+    	EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
 

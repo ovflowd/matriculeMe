@@ -13,7 +13,7 @@ public class Student {
 
 	@Id
 	@GeneratedValue
-	private int id;
+	private int id;	
 
 	@Column(nullable = false, unique = true)
 	private int registerId;
@@ -41,7 +41,7 @@ public class Student {
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
 	@JoinTable(name = "disciplinasCursadas")
-	private List<CoursedDisciplines> coursedDisciplines;
+	private List<CoursedDisciplines> CoursedDisciplines;
 
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
 	@JoinColumn 
@@ -132,10 +132,10 @@ public class Student {
     }
     
     public List<CoursedDisciplines> getCoursedDisciplines(){
-    	return this.coursedDisciplines;
+    	return this.CoursedDisciplines;
     }
     
-    public void setCoursedDisciplines (List<CoursedDisciplines> coursedDisciplines){
-    	this.coursedDisciplines = coursedDisciplines;
+    public void setCoursedDisciplines (List<CoursedDisciplines> CoursedDisciplines){
+    	this.CoursedDisciplines = CoursedDisciplines;
     }
 }
