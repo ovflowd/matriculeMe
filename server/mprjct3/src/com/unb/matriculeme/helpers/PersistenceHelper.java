@@ -79,6 +79,22 @@ public final class PersistenceHelper {
         return objects;
     }
 
+    public static List queryCustom(String table, String toQuery, String value, String andQuery, String andValue, String otherQuery, String othervalue) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        Query query = em.createQuery("from " + table + " where " + toQuery + "='" + value + "' AND " + andQuery + "='" + andValue + "' AND " + otherQuery + "='" + othervalue + "'");
+
+        List objects = query.getResultList();
+
+        em.getTransaction().commit();
+        em.close();
+
+        return objects;
+    }
+    
     public static List queryCustom(String table, String toQuery, String value, String andQuery, String andValue) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
         EntityManager em = emf.createEntityManager();
