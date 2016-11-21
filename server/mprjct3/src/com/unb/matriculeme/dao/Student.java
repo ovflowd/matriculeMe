@@ -39,9 +39,6 @@ public class Student {
 	@Fetch(FetchMode.SELECT)
 	private Profile profile;
 
-	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST })
-	@JoinTable(name = "disciplinasCursadas")
-	private List<CoursedDisciplines> CoursedDisciplines;
 
 	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE })
 	@JoinColumn 
@@ -131,11 +128,5 @@ public class Student {
     	this.suggestions = suggestion;
     }
     
-    public List<CoursedDisciplines> getCoursedDisciplines(){
-    	return this.CoursedDisciplines;
-    }
     
-    public void setCoursedDisciplines (List<CoursedDisciplines> CoursedDisciplines){
-    	this.CoursedDisciplines = CoursedDisciplines;
-    }
 }
