@@ -11,6 +11,7 @@ public final class PersistenceHelper {
 	
 
     public static <T> void persist(T t) {
+    	
     	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
     	EntityManager em = emf.createEntityManager();
 
@@ -19,10 +20,11 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
-        emf.close(); 
+        emf.close();
     }
 
     public static <T> void update(T old, T updated) throws IllegalAccessException {
+    	
     	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
     	EntityManager em = emf.createEntityManager();
 
@@ -42,7 +44,6 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
-        emf.close();
     }
 
     public static <T> void delete(T t) {
@@ -58,26 +59,23 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
-        emf.close();
     }
 
     public static List queryCustom(String table, String toQuery, String t, boolean isString) {
 
-    	EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-    	EntityManager em = emf.createEntityManager();
+    	 EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+         EntityManager em = emf.createEntityManager();
 
-        em.getTransaction().begin();
+         em.getTransaction().begin();
 
-        Query query = isString ? em.createQuery("from " + table + " where " + toQuery + "='" + t + "'") : em.createQuery("from " + table + " where " + toQuery + "=" + t);
+         Query query = isString ? em.createQuery("from " + table + " where " + toQuery + "='" + t + "'") : em.createQuery("from " + table + " where " + toQuery + "=" + t);
 
-        List objects = query.getResultList();
+         List objects = query.getResultList();
 
-        em.getTransaction().commit();
+         em.getTransaction().commit();
+         em.close();
 
-        em.close();
-        emf.close();
-
-        return objects;
+         return objects;
     }
 
     public static List queryGetList(String table) {
@@ -93,7 +91,6 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
-        emf.close();
 
         return objects;
     }
@@ -111,7 +108,6 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
-        emf.close();
 
         return objects;
     }
@@ -129,7 +125,6 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
-        emf.close();
 
         return objects;
     }
