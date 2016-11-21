@@ -6,7 +6,7 @@
 			<attribute name="owner.project.facets" value="java"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.hibernate:hibernate-core:5.2.4.Final"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.hibernate:hibernate-core:5.2.4.Final"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/com.google.code.gson:gson:2.8.0"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/c3p0:c3p0:0.9.1.2"/>
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.USER_LIBRARY/org.glassfish.jersey.media:jersey-media-json-jackson:2.24"/>
