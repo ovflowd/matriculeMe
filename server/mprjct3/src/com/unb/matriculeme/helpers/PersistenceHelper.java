@@ -48,6 +48,7 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
+        emf.close();
     }
 
     public static <T> void delete(T t) {
@@ -61,6 +62,7 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
+        emf.close();
     }
 
     public static List queryCustom(String table, String toQuery, String t, boolean isString) {
@@ -75,6 +77,7 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
+        emf.close();
 
         return objects;
     }
@@ -91,6 +94,7 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
+        emf.close();
 
         return objects;
     }
@@ -107,6 +111,7 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
+        emf.close();
 
         return objects;
     }
@@ -123,6 +128,7 @@ public final class PersistenceHelper {
         em.getTransaction().commit();
 
         em.close();
+        emf.close();
 
         return objects;
     }
