@@ -1,6 +1,9 @@
 package domain;
 
+import helpers.ClientUtils;
 import manager.DataMining;
+import messages.AllRightMessage;
+import messages.BaseMessage;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -11,17 +14,11 @@ import javax.ws.rs.core.Response;
 @Path("/historico")
 public class HistoryController {
 
-    @Path("/setHist/")
+    @Path("/setHistory/")
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response setHistory(String mandado) throws Exception {
-
-        DataMining.RequestHistory(mandado);
-
-        return Response.status(200)
-                .header("Access-Control-Allow-Origin", "*")
-                .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS")
-                .allow("OPTIONS")
-                .build();
+    public Response setHistory(String history) throws Exception {
+        return ClientUtils.sendMessage(DataMining.RequestHistory(history) ? new AllRightMessage("History Inserted successfully.") :
+                new BaseMessage(500, "The History wasn't recovered successfully."));
     }
 }

@@ -55,7 +55,6 @@ public class StudentsController {
     @Consumes(MediaType.TEXT_PLAIN)
     public Response setSchedules(String mandatory) throws Exception {
         Student student = new Gson().fromJson(mandatory, Student.class);
-
         List students = PersistenceHelper.queryCustom("Login", "accessKey", student.getLogin().getAccessKey(), true);
 
         // User Doesn't Exists

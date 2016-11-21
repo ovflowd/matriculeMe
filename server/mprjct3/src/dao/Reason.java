@@ -3,15 +3,15 @@ package dao;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "semestre")
-public class Semestre {
+@Table(name = "motivo")
+public class Reason {
     @Id
     @GeneratedValue
     @Column(nullable = false, unique = true)
-    private int id;//Chave prim�ria da tabela Semestre
+    private int id;
 
     @Column
-    private String codigo;//
+    private String description;
 
     public int getId() {
         return id;
@@ -21,11 +21,11 @@ public class Semestre {
         this.id = id;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getDescription() {
+        return description;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setDescription(String description) {
+        this.description = description;
     }
 }

@@ -4,14 +4,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "mencao")
-public class Mencao {
+public class Mention {
     @Id
     @GeneratedValue
     @Column(nullable = false, unique = true)
-    private int id; //Chave Prim�ria da tabela Men��es
+    private int id;
 
     @Column
-    private String codigo; // Men��o atribuida ao aluno
+    private String code;
 
     public int getId() {
         return id;
@@ -21,11 +21,11 @@ public class Mencao {
         this.id = id;
     }
 
-    public String getCodigo() {
-        return codigo;
+    public String getCode() {
+        return code;
     }
 
-    public void setCodigo(String codigo) {
-        this.codigo = codigo;
+    public void setCode(String code) {
+        this.code = code;
     }
 }

@@ -3,7 +3,7 @@ package dao;
 import javax.persistence.*;
 
 @Entity
-public class Perfil {
+public class Profile {
 
     @Id
     @GeneratedValue
@@ -13,10 +13,10 @@ public class Perfil {
     @JoinTable(name = "aluno_id")
     private Student student;
 
-    private int departamento;
+    private int department;
 
     @Column
-    private int metrica;
+    private int metrics;
 
     public int getId() {
         return id;
@@ -26,20 +26,20 @@ public class Perfil {
         this.id = id;
     }
 
-    public int getMetrica() {
-        return metrica;
+    public int getMetrics() {
+        return metrics;
     }
 
-    public void setMetrica(int metrica) {
-        this.metrica = metrica;
+    public void setMetrics(int metrics) {
+        this.metrics = metrics;
     }
 
-    public int getDepartamento() {
-        return departamento;
+    public int getDepartment() {
+        return department;
     }
 
-    public void setDepartamento(int departamento) {
-        this.departamento = departamento;
+    public void setDepartment(int department) {
+        this.department = department;
     }
 
     public Student getStudent() {

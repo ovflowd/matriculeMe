@@ -1,9 +1,9 @@
 package domain;
 
 import com.google.gson.Gson;
+import dao.Department;
+import dao.Discipline;
 import helpers.PersistenceHelper;
-import dao.Departamento;
-import dao.Disciplina;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -13,11 +13,11 @@ import java.util.List;
 @Path("/disciplinas")
 public class DisciplineController {
 
-    @Path("/getDisciplina/innome={intext}")
+    @Path("/getDiscipline/innome={intext}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response trial(@PathParam("intext") String intext) {
-        List disciplinas = PersistenceHelper.queryCustomLike("Disciplina", "nome", intext);
+        List disciplinas = PersistenceHelper.queryCustomLike("Discipline", "nome", intext);
 
         return disciplinas.size() > 0 ?
                 Response.ok(new Gson().toJson(disciplinas),
@@ -27,33 +27,33 @@ public class DisciplineController {
                         .header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS").build();
     }
 
-    @Path("/getDisciplina/nome={nome}")
+    @Path("/getDiscipline/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome) {
-        List disciplinas = PersistenceHelper.queryCustom("Disciplina", "nome", nome, true);
+        List disciplinas = PersistenceHelper.queryCustom("Discipline", "nome", nome, true);
 
         return disciplinas.size() > 0 ? Response.ok(new Gson().toJson(disciplinas.get(0)),
                 MediaType.APPLICATION_JSON).build() : Response.status(404).build();
     }
 
-    @Path("/setDisciplina/")
+    @Path("/setDiscipline/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setHorarios(List<Disciplina> allDis) throws Exception {
+    public Response setHorarios(List<Discipline> allDis) throws Exception {
 
-        for (Disciplina dis : allDis) {
-            Disciplina disciplina = new Disciplina();
+        for (Discipline dis : allDis) {
+            Discipline discipline = new Discipline();
 
-            List department = PersistenceHelper.queryCustom("Departamento", "codigo", String.valueOf(allDis.get(0).getDepartamento().getCodigo()), false);
+            List department = PersistenceHelper.queryCustom("Department", "codigo", String.valueOf(allDis.get(0).getDepartment().getCode()), false);
 
-            disciplina.setCodigo(dis.getCodigo());
-            disciplina.setCredito(dis.getCredito());
-            disciplina.setNome(dis.getNome());
+            discipline.setCode(dis.getCode());
+            discipline.setCredits(dis.getCredits());
+            discipline.setName(dis.getName());
 
-            disciplina.setDepartamento((Departamento) department.get(0));
+            discipline.setDepartment((Department) department.get(0));
 
-            PersistenceHelper.persist(disciplina);
+            PersistenceHelper.persist(discipline);
         }
         return Response.status(200).build();
     }

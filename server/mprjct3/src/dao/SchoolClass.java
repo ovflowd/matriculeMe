@@ -4,14 +4,14 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "turma")
-public class Turma {
+public class SchoolClass {
     @Id
     @GeneratedValue
     @Column(nullable = false, unique = true)
     private int id;//Chave prim�ria da tabela Turmas
 
     @Column
-    private String codigo;//Turma de uma disciplina, pode valer de A-Z
+    private String codigo;//SchoolClass de uma disciplina, pode valer de A-Z
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "professor_turma")
@@ -22,11 +22,11 @@ public class Turma {
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "turma_oferta")
-    private Oferta oferta;//lista de disciplinas e turmas disponiveis a matricula em um periodo letivo
+    private Offer offer;//lista de disciplinas e turmas disponiveis a matricula em um periodo letivo
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "tipo_reserva_id")
-    private TipoReserva tipoReserva;//Qualifica a reserva de uma turma como por exemplo se
+    private ReserveType reserveType;//Qualifica a reserva de uma turma como por exemplo se
     //ela � disponivel apenas a um determinado curso
 
     @Column
@@ -59,20 +59,20 @@ public class Turma {
         this.professor = professor;
     }
 
-    public Oferta getOferta() {
-        return oferta;
+    public Offer getOffer() {
+        return offer;
     }
 
-    public void setOferta(Oferta oferta) {
-        this.oferta = oferta;
+    public void setOffer(Offer offer) {
+        this.offer = offer;
     }
 
-    public void setTiporeserva(TipoReserva tipoReserva) {
-        this.tipoReserva = tipoReserva;
+    public void setTiporeserva(ReserveType reserveType) {
+        this.reserveType = reserveType;
     }
 
-    public TipoReserva getTipoReserva() {
-        return tipoReserva;
+    public ReserveType getReserveType() {
+        return reserveType;
     }
 
     public int getVagas() {

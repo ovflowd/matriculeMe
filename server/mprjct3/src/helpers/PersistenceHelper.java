@@ -21,6 +21,8 @@ public final class PersistenceHelper {
             em = emf.createEntityManager();
         }
 
+        //@TODO: Create verifications to check if the connection is open or not.
+
         return em;
     }
 

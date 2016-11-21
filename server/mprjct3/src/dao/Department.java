@@ -3,8 +3,9 @@ package dao;
 import javax.persistence.*;
 
 @Entity
-@Table(name = "curso")
-public class Course {
+@Table(name = "departamento")
+public class Department {
+
     @Id
     @GeneratedValue
     private int id;
@@ -13,10 +14,10 @@ public class Course {
     private String name;
 
     @Column
-    private int code;
+    private String description;
 
-    @Column(name = "creditos_limite")
-    private int limitOfCredits;
+    @Column
+    private int code;
 
     public int getId() {
         return id;
@@ -34,19 +35,19 @@ public class Course {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public int getCode() {
         return code;
     }
 
     public void setCode(int code) {
         this.code = code;
-    }
-
-    public int getLimitOfCredits() {
-        return limitOfCredits;
-    }
-
-    public void setLimitOfCredits(int limitOfCredits) {
-        this.limitOfCredits = limitOfCredits;
     }
 }

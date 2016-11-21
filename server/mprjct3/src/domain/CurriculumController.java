@@ -3,9 +3,9 @@ package domain;
 
 import com.google.gson.Gson;
 import dao.Course;
+import dao.Curriculum;
 import helpers.PersistenceHelper;
-import dao.Curriculo;
-import dao.Disciplina;
+import dao.Discipline;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -17,13 +17,13 @@ import java.util.List;
 
 
 @Path("/curriculos")
-public class CurriculumController {
+public class CurriculumController  {
 
     @Path("/getCurriculos/")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculos() throws Exception {
-        List curriculos = PersistenceHelper.queryGetList("Curriculo");
+        List curriculos = PersistenceHelper.queryGetList("Curriculum");
         Gson gson = new Gson();
         String json = gson.toJson(curriculos);
         return Response.ok(json, MediaType.APPLICATION_JSON).build();
@@ -32,25 +32,25 @@ public class CurriculumController {
     @Path("/setAllCurr")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setAllCoisas(List<Curriculo> curriculos) throws Exception {
+    public Response setAllCoisas(List<Curriculum> curriculos) throws Exception {
         //Problema: se o cara nao passar id, nao eh possivel fazer a referencia, dai tem q instanciar
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
         EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
 
-        for (Curriculo curriculo : curriculos) {
-            Curriculo curr = new Curriculo();
+        for (Curriculum curriculo : curriculos) {
+            Curriculum curr = new Curriculum();
 
-            curr.setSemestreDisciplina(curriculo.getSemestreDisciplina());
+            curr.setSemester(curriculo.getSemester());
 
-            List cursos = PersistenceHelper.queryCustom("Course", "codigo", String.valueOf(curriculo.getCourse().getCodigo()), false);
+            List cursos = PersistenceHelper.queryCustom("Course", "codigo", String.valueOf(curriculo.getCourse().getCode()), false);
 
             curr.setCourse((Course) cursos.get(0));
 
-            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(curriculo.getDisciplina().getCodigo()), false);
+            List disciplinas = PersistenceHelper.queryCustom("Discipline", "codigo", String.valueOf(curriculo.getDiscipline().getCode()), false);
 
-            curr.setDisciplina((Disciplina) disciplinas.get(0));
+            curr.setDiscipline((Discipline) disciplinas.get(0));
 
             PersistenceHelper.persist(curr);
         }

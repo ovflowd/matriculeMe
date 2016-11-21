@@ -9,11 +9,13 @@ import javax.ws.rs.core.Response;
 
 public class DataMining {
 
-    public static void RequestHistory(String data) {
+    private static String serverAddress = "http://172.16.5.95:8081";
+    private static String historyPath = "/DataMining/rest/datamining/historico";
+
+    public static boolean RequestHistory(String data) {
         try {
             //@TODO Remove this thing
-            WebTarget target = ClientBuilder.newClient(new ClientConfig()).
-                    target("http://172.16.5.95:8081/DataMining/rest/datamining/historico");
+            WebTarget target = ClientBuilder.newClient(new ClientConfig()).target(getHistoryModule());
 
             Response response = target.request("application/textplain").post(Entity.entity(data, "application/textplain"), Response.class); // What to do here
 
@@ -21,12 +23,24 @@ public class DataMining {
             //String jsonLine = response.readEntity(String.class);
             //System.out.println(jsonLine);
 
-            if (response.getStatus() != 200) {
-                throw new RuntimeException("Failed : HTTP error code : " + response.getStatus());
-            }
+            return response.getStatus() == 200;
 
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        return false;
+    }
+
+    public static String getServerAddress() {
+        return serverAddress;
+    }
+
+    public static String getHistoryPath() {
+        return historyPath;
+    }
+
+    public static String getHistoryModule() {
+        return serverAddress + historyPath;
     }
 }

@@ -2,8 +2,8 @@ package domain;
 //TODO: esse ta liso, refazer o domain. tb tirar as alteracoes que deram problema no fk  perfil->departamento
 //@TODO Concordo, colocou query direto aqui.
 
+import dao.Profile;
 import helpers.PersistenceHelper;
-import dao.Perfil;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -50,16 +50,16 @@ public class ProfileController {
         return departamento;
     }
 
-    public void Update(Perfil perfil, Perfil newPerfil) {
+    public void Update(Profile profile, Profile newProfile) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
-        Perfil perfil2 = em.merge(perfil);
+        Profile profile2 = em.merge(profile);
 
-        //perfil2.set(perfil.getNome());
-        //perfil2.setCodigo(newPerfil.getCodigo());
+        //profile2.set(profile.getName());
+        //profile2.setCode(newProfile.getCode());
 
-        perfil2.setStudent(newPerfil.getStudent());
+        profile2.setStudent(newProfile.getStudent());
         em.getTransaction().commit();
         em.close();
     }
@@ -67,12 +67,12 @@ public class ProfileController {
     @Path("/setPerfil")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response sayPlainTextHello(Perfil perfil) throws Exception {
-        Perfil perfil1 = new Perfil();
-        perfil1.setStudent(perfil.getStudent());
-        perfil1.setDepartamento(perfil.getDepartamento());
-        perfil1.setMetrica(perfil.getMetrica());
-        PersistenceHelper.persist(perfil1);
+    public Response sayPlainTextHello(Profile profile) throws Exception {
+        Profile profile1 = new Profile();
+        profile1.setStudent(profile.getStudent());
+        profile1.setDepartment(profile.getDepartment());
+        profile1.setMetrics(profile.getMetrics());
+        PersistenceHelper.persist(profile1);
         return Response.status(200).build();
     }
 
@@ -81,17 +81,17 @@ public class ProfileController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch(@PathParam("id") int id) {
 
-        List perfis = PersistenceHelper.queryCustom("Perfil", "perfil_id", String.valueOf(id), false);
+        List perfis = PersistenceHelper.queryCustom("Profile", "perfil_id", String.valueOf(id), false);
 
-        Perfil perfil = (Perfil) perfis.get(0);
+        Profile profile = (Profile) perfis.get(0);
         //DataMining  firstThread = new DataMining();
         if (perfis.size() > 0) {
             //firstThread.start();
         }
 
-        return perfis.size() > 0 ? Response.ok("{\n\t\"departamento:\":" + perfil.getDepartamento()
-                + ",\n\t\"aluno_id\":\"" + perfil.getStudent() + "\""
-                + ",\n\t\"metrica\":\"" + perfil.getMetrica() + "\""
-                + ",\n\t\"Id\":" + perfil.getId() + "\n}", MediaType.APPLICATION_JSON).build() : Response.status(404).build();
+        return perfis.size() > 0 ? Response.ok("{\n\t\"departamento:\":" + profile.getDepartment()
+                + ",\n\t\"aluno_id\":\"" + profile.getStudent() + "\""
+                + ",\n\t\"metrica\":\"" + profile.getMetrics() + "\""
+                + ",\n\t\"Id\":" + profile.getId() + "\n}", MediaType.APPLICATION_JSON).build() : Response.status(404).build();
     }
 }

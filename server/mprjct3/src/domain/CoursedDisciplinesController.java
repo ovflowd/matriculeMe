@@ -1,7 +1,7 @@
 package domain;
 
 import helpers.PersistenceHelper;
-import dao.DisciplinasCursadas;
+import dao.CoursedDisciplines;
 
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
@@ -16,7 +16,7 @@ public class CoursedDisciplinesController {
     @Path("/setDisciplinasCursadas/")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
-    public Response example(List<DisciplinasCursadas> disciplinasCursadas) {
+    public Response example(List<CoursedDisciplines> disciplinasCursadas) {
         disciplinasCursadas.forEach(PersistenceHelper::persist);
         return Response.status(200).build();
     }

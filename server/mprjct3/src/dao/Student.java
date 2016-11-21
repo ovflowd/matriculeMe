@@ -8,26 +8,27 @@ public class Student {
 
     @Id
     @GeneratedValue
-    private int id; //Chave prim�ria da classe Alunos
+    private int id;
+
+    // Matricula from student
+    @Column
+    private int registerId;
 
     @Column
-    private int matricula; //Matricula do aluno na Universidade
+    private String name;
 
     @Column
-    private String nome; //Nome do Student
-
-    @Column
-    private int ira; //Indice de Rendimento Acad�mico do aluno
+    private int ira;
 
     @Column(name = "semestre_atual")
-    private int semestreAtual;
+    private int actualSemester;
 
     @OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "curso_aluno")
-    private Course course;//'FK'
+    private Course course;
 
     @Column
-    private String interesse;
+    private String interest;
 
     @OneToOne
     @JoinTable(name = "login_aluno")
@@ -41,12 +42,12 @@ public class Student {
         this.id = id;
     }
 
-    public String getNome() {
-        return nome;
+    public String getName() {
+        return name;
     }
 
-    public void setNome(String nome) {
-        this.nome = nome;
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getIra() {
@@ -57,20 +58,20 @@ public class Student {
         this.ira = ira;
     }
 
-    public int getMatricula() {
-        return matricula;
+    public int getRegisterId() {
+        return registerId;
     }
 
-    public void setMatricula(int matricula) {
-        this.matricula = matricula;
+    public void setRegisterId(int registerId) {
+        this.registerId = registerId;
     }
 
-    public int getSemestreAtual() {
-        return semestreAtual;
+    public int getActualSemester() {
+        return actualSemester;
     }
 
-    public void setSemestreAtual(int semestreAtual) {
-        this.semestreAtual = semestreAtual;
+    public void setActualSemester(int actualSemester) {
+        this.actualSemester = actualSemester;
     }
 
     public Course getCourse() {
@@ -81,12 +82,12 @@ public class Student {
         this.course = course;
     }
 
-    public String getInteresse() {
-        return interesse;
+    public String getInterest() {
+        return interest;
     }
 
-    public void setInteresse(String interesse) {
-        this.interesse = interesse;
+    public void setInterest(String interest) {
+        this.interest = interest;
     }
 
     public Login getLogin() {
