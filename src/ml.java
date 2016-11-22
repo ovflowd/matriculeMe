@@ -6,6 +6,8 @@ import java.math.*;
 import java.lang.*;
 
 
+//FK viram classes mudar isso
+
 public class ML {
 	
 	public int PesoSemestre(int sDepartamento,int sAluno){return Math.max(sAluno - sDepartamento,0);}
@@ -290,7 +292,7 @@ public class ML {
 		}
 		
 	}
-	public class Grades /////Classe Manipula as informaÁıes do algoritmo
+	public class Grades /////Classe Manipula as informa√ß√µes do algoritmo
 	{
 		LinkedList<Disciplina> listaOrdenada = null;
 		String pertencentes = "";
@@ -302,10 +304,10 @@ public class ML {
 		public Grades(LinkedList<Disciplina> l,String p,String[] h, int m, int t)
 		{
 		listaOrdenada = l;
-		pertencentes = p; //disciplinas "com" da ·rvore
+		pertencentes = p; //disciplinas "com" da √°rvore
 		horario = h;
-		metricaTotal = m; //mÈtrica resultante das pertencentes
-		totalCreditos = t; //total de crÈditos
+		metricaTotal = m; //m√©trica resultante das pertencentes
+		totalCreditos = t; //total de cr√©ditos
 		}
 		
 		public Grades(LinkedList<Disciplina> l)
@@ -338,7 +340,7 @@ public class ML {
 				Grades auxExclude = new Grades(grade.horario);
 				Grades auxSelecionado = new Grades(grade.horario);
 				int turmaId = 0;
-				for(Turma oferta : first.ofertas.turmas) ////Paralelismo das arvores para cada turma da disciplina em quest„o
+				for(Turma oferta : first.ofertas.turmas) ////Paralelismo das arvores para cada turma da disciplina em quest√£o
 					{  
 						
 						boolean valid = true;
@@ -351,7 +353,7 @@ public class ML {
 								{ valid=false;}
 							}
 						}	
-						if(valid) //existe vaga, caso n„o exista pula ramo de soluÁ„o
+						if(valid) //existe vaga, caso n√£o exista pula ramo de solu√ß√£o
 							{
 							for(int aloc = 0 ; aloc < oferta.horariosNonDB.length ; aloc++)//se valido altera horario
 							{
@@ -367,15 +369,15 @@ public class ML {
 								auxSelecionado.horario,
 								grade.metricaTotal+first.metrica,
 								grade.totalCreditos+first.creditos));
-							if(auxIncludeInter.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as possÌves solucıes incluindo
+							if(auxIncludeInter.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as poss√≠ves soluc√µes incluindo
 								{auxInclude = auxIncludeInter;}
 							
 							} 
 						
 					
 				      		}
-				//ramo que n„o inclui esta disciplina
-				if(grade.metricaTotal>10 | first.metrica<100) ////Poda soluÁıes das arvores, excluem as disciplinas iniciais ate o nÌvel de 10 creditos totais ou que tem um peso muito grande / que n„o incluem disciplinas mandatorias
+				//ramo que n√£o inclui esta disciplina
+				if(grade.metricaTotal>10 | first.metrica<100) ////Poda solu√ß√µes das arvores, excluem as disciplinas iniciais ate o n√≠vel de 10 creditos totais ou que tem um peso muito grande / que n√£o incluem disciplinas mandatorias
 					{
 					auxExclude = GetGrid(new Grades(grade.listaOrdenada,
 					grade.pertencentes,
@@ -384,16 +386,16 @@ public class ML {
 					grade.totalCreditos));
 					}
 					
-					if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 solucıes (incluir ou nao)
+					if(auxExclude.metricaTotal > auxInclude.metricaTotal) //Pega o maior entre as 2 soluc√µes (incluir ou nao)
 						{auxSelecionado = auxExclude;}
 					else
 						{auxSelecionado = auxInclude;}
-				if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas interaÁıes retorna a melhor
+				if(auxSelecionado.metricaTotal > selecionado.metricaTotal) //Das multiplas intera√ß√µes retorna a melhor
 					{selecionado = auxSelecionado;}
 				return selecionado;
 				}
 
-			else   ///Se a soluÁ„o n„o pode incluir essa disciplinas pois estoura o n˙mero de creditos
+			else   ///Se a solu√ß√£o n√£o pode incluir essa disciplinas pois estoura o n√∫mero de creditos
 				{
 					selecionado = GetGrid(new Grades(grade.listaOrdenada,grade.pertencentes,grade.horario,grade.metricaTotal,grade.totalCreditos));
 				}
@@ -409,11 +411,12 @@ public class ML {
 
 
 
-	public int MachineLearn(int AlunoId) {
-		Aluno cliente = LoadAluno(AlunoId);
+	export public int MachineLearn(Aluno cliente) {
+		//Aluno cliente = LoadAluno(AlunoId);
 		int curso = cliente.curso;
 		
-		LinkedList<Disciplina> bloco = cliente.LoadDisciplinasACursar(); //funcao de carga do conteudo do aluno e historico a definir
+		
+		LinkedList<Disciplina> bloco = cliente.LoadDisciplinasACursar("/Curriculo/"+curso); //funcao de carga do conteudo do aluno e historico a definir
 		
 		cliente.perfil = GeraPerfil(cliente.historicoAprovado);
 		LinkedList<Disciplina> disciplineList = new LinkedList<Disciplina>();
