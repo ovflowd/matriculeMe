@@ -43,7 +43,7 @@ public class DisciplineController {
         for (Disciplina dis : allDis) {
             Disciplina discipline = new Disciplina();
 
-            List department = PersistenceHelper.queryCustom("Departamento", "codigo", String.valueOf(allDis.get(0).getDepartamento().getCodigo()), false);
+            List department = PersistenceHelper.queryCustom("Departamento", "codigo", String.valueOf(dis.getDepartamento().getCodigo()), false);
 
             discipline.setCodigo(dis.getCodigo());
             discipline.setCredito(dis.getCredito());
