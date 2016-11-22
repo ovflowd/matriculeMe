@@ -58,7 +58,14 @@ public class StudentsController {
         List students = PersistenceHelper.queryCustom("Login", "accessKey", student.getLogin().getAccessKey(), true);
 
         // User Doesn't Exists
+        // TODO: Desfazer o que ta abaixo para nao precisar do default
+        // Curso e perfil sao setados para default para poder alterar depois
+        // Detalhe: TEM DE TER UM DEFAULT no BD previamente setado. Podera ser inserido manualmente ou mudando o codigo
+        // Exemplo: insert into curso (id,creditosLimite, codigo, ...) values (x, y, 0); <- """0""" EH O IMPORANTE ->
+        // O mesmo vale pra perfil....
         if (students.size() == 0) {
+            student.setCurso((Curso)(PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(0), false).get(0)));
+            student.setPerfil((Perfil)(PersistenceHelper.queryCustom("Perfil", "metrica", String.valueOf(0), false).get(0)));
             PersistenceHelper.persist(student.getLogin());
             PersistenceHelper.persist(student);
         }
