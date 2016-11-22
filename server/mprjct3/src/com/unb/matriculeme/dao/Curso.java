@@ -9,12 +9,13 @@ public class Curso
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@Column(nullable = false,length = 100)
+	@Column(length = 100)
 	private String nome;
-	@Column(nullable = false)
+	@Column
 	private int codigo;
-	@Column(nullable = false)
+	@Column
 	private int creditosLimite;
+	
 
 	public Curso() 
 	{

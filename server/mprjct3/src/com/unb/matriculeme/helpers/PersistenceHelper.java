@@ -4,23 +4,23 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import java.lang.reflect.Field;
 import java.util.List;
 
 public final class PersistenceHelper {
-    public static <T> void persist(T t) {
+
+    public static <T> void Persist(T t) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
         EntityManager em = emf.createEntityManager();
 
         em.getTransaction().begin();
         em.persist(t);
         em.getTransaction().commit();
- 
+
         em.close();
         emf.close();
-    } 
+    }
 
-    public static <T> void delete(T t) {
+    public static <T> void Delete(T t) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
         EntityManager em = emf.createEntityManager();
         em.getTransaction().begin();
@@ -30,6 +30,7 @@ public final class PersistenceHelper {
         em.remove(dynamicDelete);
         em.getTransaction().commit();
         em.close();
+        emf.close();
     }
 
     public static List queryCustom(String table, String toQuery, String t, boolean isString) {
@@ -44,6 +45,7 @@ public final class PersistenceHelper {
 
         em.getTransaction().commit();
         em.close();
+        emf.close();
 
         return objects;
     }
@@ -59,6 +61,7 @@ public final class PersistenceHelper {
 
         em.getTransaction().commit();
         em.close();
+        emf.close();
 
         return objects;
     }
@@ -75,26 +78,11 @@ public final class PersistenceHelper {
 
         em.getTransaction().commit();
         em.close();
+        emf.close();
 
         return objects;
     }
 
-    public static List queryCustom(String table, String toQuery, String value, String andQuery, String andValue, String otherQuery, String othervalue) {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
-
-        em.getTransaction().begin();
-
-        Query query = em.createQuery("from " + table + " where " + toQuery + "='" + value + "' AND " + andQuery + "='" + andValue + "' AND " + otherQuery + "='" + othervalue + "'");
-
-        List objects = query.getResultList();
-
-        em.getTransaction().commit();
-        em.close();
-
-        return objects;
-    }
-    
     public static List queryCustom(String table, String toQuery, String value, String andQuery, String andValue) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
         EntityManager em = emf.createEntityManager();
@@ -107,7 +95,25 @@ public final class PersistenceHelper {
 
         em.getTransaction().commit();
         em.close();
+        emf.close();
 
+        return objects;
+    }
+    
+    public static List queryCustom(String table, String toQuery, String value, String andQuery, String andValue, String otherQuery, String othervalue) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        Query query = em.createQuery("from " + table + " where " + toQuery + "='" + value + "' AND " + andQuery + "='" + andValue + "' AND " + otherQuery + "='" + othervalue + "'");
+
+        List objects = query.getResultList();
+
+        em.getTransaction().commit(); 
+        em.close();
+        emf.close();
+        
         return objects;
     }
 }

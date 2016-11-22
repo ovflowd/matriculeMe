@@ -1,5 +1,4 @@
 package com.unb.matriculeme.dao;
-
 import javax.persistence.*;
 
 @Entity
@@ -7,7 +6,7 @@ public class Professor {
     @Id
     @GeneratedValue
     @Column(nullable = false, unique = true)
-    private int id;//Chave prim�ria da tabela Professores
+    private int id;//Chave primria da tabela Professores
 
     @Column
     private String nome;//Nome do professor

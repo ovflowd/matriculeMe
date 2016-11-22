@@ -21,26 +21,23 @@ public class Disciplina
 	@JoinColumn
 	private Departamento departamento;
 	@Column(nullable = false)
-	private int credito;
+	private int credito; 
 	@Column(nullable = false)
-	private int codigo;
-	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
+	private int codigo; 
+	
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SUBSELECT)
-	@JoinTable(name = "requisito_disciplina")
-	private List<Requisito> requisitoDisciplina;
-	@OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
-	@Fetch(FetchMode.SUBSELECT)
-	@JoinTable(name = "requisito_disciplina")
-	private List<Turma> turmas;
+	@JoinTable(name="Requisito_Disciplina")
+	private List<Requisito> requisitoDisciplina; 
+
 
 	public Disciplina() 
 	{
-		this.nome = new String();
+		this.nome = new String(); 
 		this.departamento = new Departamento();
 		this.credito = 0;
 		this.codigo = 0;
 		this.requisitoDisciplina = new ArrayList<Requisito>();
-		this.turmas = new ArrayList<Turma>();
 	}
 	public int getId()
 	{
@@ -82,20 +79,12 @@ public class Disciplina
 	{
 		this.codigo = codigo;
 	}
-	public List<Requisito> getRequisitoDisciplina()
+	public List<Requisito> getRequisitoDisciplina() 
 	{
 		return requisitoDisciplina;
-	}
+	} 
 	public void setRequisitoDisciplina(List<Requisito> requisitoDisciplina)
 	{
 		this.requisitoDisciplina = requisitoDisciplina;
-	}
-	public List<Turma> getTurmas()
-	{
-		return turmas;
-	}
-	public void setTurmas(List<Turma> turmas)
-	{
-		this.turmas = turmas;
 	}
 }

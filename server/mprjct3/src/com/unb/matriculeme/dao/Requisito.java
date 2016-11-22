@@ -1,37 +1,43 @@
 package com.unb.matriculeme.dao;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
 public class Requisito 
 {
-
+ 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@Column(nullable = false,length = 120)
-	private String discicplinaRequisito; 
-	@Column(nullable = false)
-	private int tipo;
+	@Column(length = 120)
+	private String codigo; 
+	@Column
+	private String tipo;
 	
 	public Requisito() 
 	{
-		this.discicplinaRequisito = new String();
-		this.tipo = 0;
+		this.codigo = new String();
+		this.tipo = new String();
 	}
 	public int getId() 
 	{
 		return id;
 	}
-	public String getDisciplinaRequisito() 
+	public String getCodigo() 
 	{
-		return discicplinaRequisito;
+		return this.codigo;
 	}
-	public void setTipo(int tipo)
+	public void setCodigo(String codigo)
+	{
+		this.codigo = codigo;
+	}
+	public void setTipo(String tipo)
 	{
 		this.tipo = tipo;
 	}
-	public int getTipo() 
+	public String getTipo() 
 	{
 		return tipo;
 	}

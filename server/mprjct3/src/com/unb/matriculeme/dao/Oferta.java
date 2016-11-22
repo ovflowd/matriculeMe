@@ -11,7 +11,7 @@ public class Oferta
 	@OneToOne(cascade = {CascadeType.REFRESH,CascadeType.MERGE})
 	@JoinColumn
 	private Disciplina disciplina;
-	@OneToOne(cascade = {CascadeType.REFRESH})
+	@OneToOne(cascade = {CascadeType.REFRESH, CascadeType.MERGE})
 	@JoinColumn
 	private Semestre semestre;
 	

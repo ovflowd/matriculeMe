@@ -1,5 +1,10 @@
 package com.unb.matriculeme.dao;
+import java.util.List;
+
 import javax.persistence.*;
+
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
 
 @Entity
 public class Turma 
@@ -12,7 +17,7 @@ public class Turma
 	private String codigo;
 	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH,})
 	@JoinColumn
-	private Professor professor;
+	private Professor professor; 
 	@Column(nullable = false)
 	private int campus;
 	@ManyToOne(cascade = {CascadeType.MERGE})
@@ -20,8 +25,10 @@ public class Turma
 	private Oferta oferta;
 	@Column(nullable = false)
 	private int vagas;
-	@Column(nullable = false)
-	private int vagasReserva;
+	@ManyToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH},fetch = FetchType.EAGER)
+	@Fetch(FetchMode.SUBSELECT)
+	@JoinTable(name="Turma_Horario")
+	private List<Horario> horario;
 	
 	public Turma() 
 	{
@@ -30,7 +37,6 @@ public class Turma
 		this.campus = 0;
 		this.oferta = new Oferta();
 		this.vagas = 0;
-		this.vagasReserva = 0;
 	}
 	public int getId()
 	{
@@ -80,12 +86,10 @@ public class Turma
 	{
 		this.vagas = vagas;
 	}
-	public int getVagasReserva()
-	{
-		return vagasReserva;
+	public List<Horario> getHorario(){
+		return this.horario;
 	}
-	public void setVagasReserva(int vagasReserva)
-	{
-		this.vagasReserva = vagasReserva;
+	public void setHotario(List<Horario> horario){
+		this.horario = horario;
 	}
-}
+} 

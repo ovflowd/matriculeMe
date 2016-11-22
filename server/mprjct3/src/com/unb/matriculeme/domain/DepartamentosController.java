@@ -1,5 +1,6 @@
 package com.unb.matriculeme.domain;
 
+import com.google.gson.Gson;
 import com.unb.matriculeme.dao.Departamento;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
@@ -9,13 +10,13 @@ import com.unb.matriculeme.messages.NotFoundMessage;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import java.util.List;
 
 @Path("/departamentos/")
-public class DepartmentController {
+public class DepartamentosController {
 
-    // Why not change "nome" to "name"?
-    @Path("/getDepartamento/nome={nome}")
+	@Path("/getDepartamento/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String name) {
@@ -23,23 +24,26 @@ public class DepartmentController {
         return departments.size() > 0 ? ClientUtils.sendResponse(departments.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The department wasn't found on the system."));
     }
 
-    // Why not /setAllDepartamentos?
     @Path("/setAllDeps/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addAllDepartments(List<Departamento> allDepartments) throws Exception {
-        // Why you added this SystemOut?
-        //System.out.println("received size: " + allDepartments.size());
+    public Response setAllCoisas(List<Departamento> allDepartments) throws Exception {
+        // Para que Esse System.out?
+        System.out.println("received size: " + allDepartments.size());
 
-        //allDepartments.forEach(PersistenceHelper::persist);
-        return ClientUtils.sendMessage(new AllRightMessage("The set of Departments was added successfully on the system."));
+        for (int i = 0; i < allDepartments.size(); i++)
+        { 
+        	PersistenceHelper.Persist(allDepartments.get(i));
+       	}
+
+        return Response.status(200).build();
     }
 
     @Path("/setDepartamento/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setHorarios(Departamento department) throws Exception {
-        PersistenceHelper.persist(department);
+        PersistenceHelper.Persist(department);
         return ClientUtils.sendMessage(new AllRightMessage("The Department was added successfully on the system."));
     }
 }

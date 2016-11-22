@@ -1,6 +1,4 @@
 package com.unb.matriculeme.dao;
-
-
 import javax.persistence.*;
 
 @Entity

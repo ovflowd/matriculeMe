@@ -24,15 +24,15 @@ public class Aluno {
 	@Column
 	private int semestreAtual;
 
-	@OneToOne(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.ALL })
-	@JoinColumn
-	private Curso curso;
-
-	@Column
-	private String interesse;
-
-	@OneToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH,CascadeType.REMOVE, CascadeType.ALL})
-	@JoinColumn
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinColumn (nullable = true)  
+	private Curso curso;  
+  
+	@Column   
+	private String interesse; 
+ 
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
+	@JoinColumn 
 	private Perfil perfil;
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
@@ -43,7 +43,6 @@ public class Aluno {
 	@JoinColumn
 	private Login login;
 	
-	//TODO: why the fuck aint suggestion working
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	@Fetch(FetchMode.SUBSELECT)
 	@JoinTable(name = "aluno_sugestoes")
@@ -122,9 +121,9 @@ public class Aluno {
 	{
 		return perfil;
 	}
-	public void setPerfil(Perfil perfil)
+	public void setPerfil(Perfil perfil2)
 	{
-		this.perfil = perfil;
+		this.perfil = perfil2;
 	}
 	public Login getLogin()
 	{

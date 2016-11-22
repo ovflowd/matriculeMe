@@ -14,7 +14,7 @@ import com.unb.matriculeme.helpers.*;
 import com.unb.matriculeme.messages.*;
 
 @Path("/professor")
-public class ProfessorController {
+public class ProfessoresController {
 
     @Path("/setProfessor")
     @POST
@@ -23,7 +23,7 @@ public class ProfessorController {
 
         Professor p1 = new Professor();
         p1.setNome(professor.getNome());
-        PersistenceHelper.persist(p1);
+        PersistenceHelper.Persist(p1);
         return Response.status(200).build();
     }
 
