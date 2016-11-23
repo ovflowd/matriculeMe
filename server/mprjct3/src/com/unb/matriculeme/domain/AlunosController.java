@@ -35,22 +35,22 @@ public class AlunosController {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response UpdateCurso(Curso curso, @PathParam("matricula") int Matricula )
-	{	
-    	List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(Matricula), false);
-    	List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(curso.getCodigo()), false);
-    	if (alunos.size() > 0 && cursos.size() > 0){
-    		EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-    		EntityManager em = emf.createEntityManager();
-    		em.getTransaction().begin();
-    		Aluno a1 = (Aluno)em.merge(alunos.get(0)); 
-    		a1.setCurso((Curso)cursos.get(0));
-    		em.getTransaction().commit();
-    		em.close();
-        	return Response.status(200).build();
-    	}
-    	else 
-    		return Response.status(404).build();  
-	}
+    {   
+        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(Matricula), false);
+        List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(curso.getCodigo()), false);
+        if (alunos.size() > 0 && cursos.size() > 0){
+            EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+            EntityManager em = emf.createEntityManager();
+            em.getTransaction().begin();
+            Aluno a1 = (Aluno)em.merge(alunos.get(0)); 
+            a1.setCurso((Curso)cursos.get(0));
+            em.getTransaction().commit();
+            em.close();
+            return Response.status(200).build();
+        }
+        else 
+            return Response.status(404).build();  
+    }
     
     @Path("/getAluno/login={login}&senha={senha}")
     @GET
@@ -77,9 +77,9 @@ public class AlunosController {
         // User Doesn't Exists
         // Curso e perfil sao setados para default para poder alterar depois
         if (students.size() == 0) {
-        	student.setCurso((Curso)(PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(0), false).get(0)));
-            student.setPerfil((Perfil)(PersistenceHelper.queryCustom("Perfil", "metrica", String.valueOf(0), false).get(0)));
-        	PersistenceHelper.Persist(student.getLogin());
+            student.setCurso((Curso)(PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(0), false).get(0)));
+            //student.setPerfil((Perfil)(PersistenceHelper.queryCustom("Perfil", "metrica", String.valueOf(0), false).get(0)));
+            PersistenceHelper.Persist(student.getLogin());
             PersistenceHelper.Persist(student);
         }
 

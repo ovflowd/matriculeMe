@@ -31,9 +31,9 @@ public class Aluno {
 	@Column   
 	private String interesse; 
  
-	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
-	@JoinColumn 
-	private Perfil perfil;
+	//@OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE}, mappedBy = "aluno")
+	//@JoinColumn (nullable = true)
+	//private Perfil perfil;
 
 	@OneToMany(cascade = { CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST }, fetch = FetchType.EAGER)
 	@JoinTable(name = "disciplinasCursadas")
@@ -56,7 +56,7 @@ public class Aluno {
 		this.semestreAtual = 0;
 		this.curso = new Curso();
 		this.interesse = new String();
-		this.perfil = new Perfil();
+		//this.perfil = new Perfil();
 		this.login = new Login();
 		this.disciplinasCursadas = new ArrayList<DisciplinasCursadas>();
 		this.sugestoes = new ArrayList<Sugestao>();
@@ -117,14 +117,14 @@ public class Aluno {
 	{
 		this.interesse = interesse;
 	}
-	public Perfil getPerfil()
+	/*public Perfil getPerfil()
 	{
 		return perfil;
 	}
 	public void setPerfil(Perfil perfil2)
 	{
 		this.perfil = perfil2;
-	}
+	}*/
 	public Login getLogin()
 	{
 		return login;

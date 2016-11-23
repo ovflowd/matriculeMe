@@ -8,15 +8,18 @@ public class Perfil
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
-	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH, CascadeType.ALL})
+	@ManyToOne(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
 	@JoinColumn
-	private Departamento departamentos;
+	private Departamento departamento;
 	@Column(nullable = false)
 	private int metrica;
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinColumn
+	private Aluno aluno;
 	
 	public Perfil() 
 	{
-		this.departamentos = new Departamento();
+		this.departamento = new Departamento();
 		this.metrica = 0;
 	}
 	public int getId()
@@ -27,13 +30,13 @@ public class Perfil
 	{
 		this.id = id;
 	}
-	public Departamento getDepartamentos()
+	public Departamento getDepartamento()
 	{
-		return departamentos;
+		return departamento;
 	}
-	public void setDepartamentos(Departamento departamentos)
+	public void setDepartamento(Departamento departamento)
 	{
-		this.departamentos = departamentos;
+		this.departamento = departamento;
 	}
 	public int getMetrica()
 	{
@@ -42,5 +45,11 @@ public class Perfil
 	public void setMetrica(int metrica)
 	{
 		this.metrica = metrica;
+	}
+	public Aluno getAluno(){
+		return this.aluno;
+	}
+	public void setAluno(Aluno aluno){
+		this.aluno = aluno;
 	}
 }
