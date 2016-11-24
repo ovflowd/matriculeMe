@@ -1,5 +1,6 @@
 package com.unb.matriculeme.domain;
 
+import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.dao.Oferta;
 import com.unb.matriculeme.dao.Semestre;
@@ -20,11 +21,9 @@ public class OfertaController {
     @Path("/setOferta")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setOferta(Oferta ofertaRecebida) {
-        Oferta oferta = new Oferta();
-
-        oferta.setDisciplina((Disciplina) (Persistence.queryCustom(Disciplina.class, "codigo", ofertaRecebida.getDisciplina().getCodigo()).get(0)));
-        oferta.setSemestre((Semestre) (Persistence.queryCustom(Semestre.class, "codigo", ofertaRecebida.getSemestre().getCodigo()).get(0)));
+    public Response setOferta(Oferta oferta) {
+        oferta.setDisciplina((Disciplina) (Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", oferta.getDisciplina().getCodigo())), true).get(0)));
+        oferta.setSemestre((Semestre) (Persistence.select(Semestre.class, Persistence.createExpression(new Pair<>("codigo", oferta.getSemestre().getCodigo())), true).get(0)));
 
         Persistence.insert(oferta);
 

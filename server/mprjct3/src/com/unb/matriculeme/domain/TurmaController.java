@@ -1,5 +1,6 @@
 package com.unb.matriculeme.domain;
 
+import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.dao.Semestre;
 import com.unb.matriculeme.dao.Turma;
@@ -19,7 +20,7 @@ public class TurmaController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTurmaByCodigo(@PathParam("codigo") String codigo) throws Exception {
-        List turmas = Persistence.queryCustom(Turma.class, "codigo", codigo);
+        List<Turma> turmas = Persistence.select(Turma.class, Persistence.createExpression(new Pair<>("codigo", codigo)), true);
 
         return turmas.size() > 0 ? ClientUtils.sendResponse(turmas) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
@@ -30,8 +31,10 @@ public class TurmaController {
     public Response setTurma(List<Turma> allTurmas) throws Exception {
         for (Turma allTurma : allTurmas) {
             Persistence.insert(allTurma.getProfessor());
-            allTurma.getOferta().setDisciplina((Disciplina) (Persistence.queryCustom(Disciplina.class, "codigo", allTurma.getOferta().getDisciplina().getCodigo()).get(0)));
-            allTurma.getOferta().setSemestre((Semestre) (Persistence.queryCustom(Semestre.class, "codigo", allTurma.getOferta().getSemestre().getCodigo()).get(0)));
+
+            allTurma.getOferta().setDisciplina((Disciplina) (Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", allTurma.getOferta().getDisciplina().getCodigo())), true).get(0)));
+            allTurma.getOferta().setSemestre((Semestre) (Persistence.select(Semestre.class, Persistence.createExpression(new Pair<>("codigo", allTurma.getOferta().getSemestre().getCodigo())), true).get(0)));
+
             Persistence.insert(allTurma.getOferta());
 
             for (int j = 0; j < allTurma.getHorario().size(); j++) {

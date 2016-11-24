@@ -1,5 +1,6 @@
 package com.unb.matriculeme.domain;
 
+import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.Professor;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.Persistence;
@@ -17,11 +18,7 @@ public class ProfessoresController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setProfessor(Professor professor) throws Exception {
-        Professor p1 = new Professor();
-
-        p1.setNome(professor.getNome());
-
-        Persistence.insert(p1);
+        Persistence.insert(professor);
 
         return ClientUtils.sendMessage(new AllRightMessage("Professor added successfully in the system."));
     }
@@ -30,7 +27,7 @@ public class ProfessoresController {
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
     public Response getProfessorByNome(@PathParam("nome") String nome) {
-        List professors = Persistence.queryCustom(Professor.class, "nome", nome);
+        List<Professor> professors = Persistence.select(Professor.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
 
         return professors.size() > 0 ? ClientUtils.sendResponse(professors.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This Professor wasn't found on our system."));
     }
@@ -39,7 +36,7 @@ public class ProfessoresController {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateProfessor(@PathParam("nome") String nome, Professor professor) throws Exception {
-        List professors = Persistence.queryCustom(Professor.class, "nome", nome);
+        List<Professor> professors = Persistence.select(Professor.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
 
         if (professors.size() > 0) {
             Persistence.update(professors.get(0), professor);
