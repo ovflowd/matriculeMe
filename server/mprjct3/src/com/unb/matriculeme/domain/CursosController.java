@@ -30,6 +30,7 @@ public class CursosController {
 
         em.getTransaction().commit();
         em.close();
+        emf.close();
     }
 
     @Path("/alterCurso/name={nome}")

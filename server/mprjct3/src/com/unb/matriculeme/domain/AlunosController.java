@@ -46,6 +46,7 @@ public class AlunosController {
             a1.setCurso((Curso)cursos.get(0));
             em.getTransaction().commit();
             em.close();
+            emf.close();
             return Response.status(200).build();
         }
         else 

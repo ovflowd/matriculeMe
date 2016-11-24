@@ -37,11 +37,6 @@ public class CurriculoController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setAllCoisas(List<Curriculo> curriculos) throws Exception {
         //Problema: se o cara nao passar id, nao eh possivel fazer a referencia, dai tem q instanciar
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
-
-        em.getTransaction().begin();
-
         for (Curriculo curriculo : curriculos) {
             Curriculo curr = new Curriculo();
 
@@ -57,6 +52,7 @@ public class CurriculoController {
 
             PersistenceHelper.Persist(curr);
         }
+
         return Response.status(200).build();
     }
     
