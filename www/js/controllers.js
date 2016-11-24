@@ -488,8 +488,30 @@ angular.module('starter.controllers', [])
               'Content-Type' : 'text/plain'
             }
           }
-	  clearinterval(timer);
-          $http.post(Url+'/historico/setHist',y.body.innerHTML,config);
+	 clearInterval(timer);
+          $http.post(Url+'/disciplinasCursadas/setHist',y.body.innerHTML,config)
+			.success(function(response){
+				var notice = $ionicPopup.alert({
+        			title: 'FUNCIONOU!!',
+        			template: 'seu historico foi atualizado'});
+				$state.go('app.grade');
+			}).error(function(response){
+				var popUp= $ionicPopup.confirm({
+            		title: 'Fora do ar!?',
+		            subTitle: 'Não foi possivel conectar com nosso servidor',	
+		            template: 'O que deseja fazer?',
+    		        cancelText: 'Tentar novamente',
+    		        okText: 'Tentar mais tarde'
+	        	}).then(function(res){	
+	            	if(res){
+    	        	    clearInterval(timer);
+    	        	    $state.go('app.grade');
+    	        	}else{
+    	        	    count=0;
+    	        	    timer=setInterval(verifica,3000);
+	            	}
+		        });
+			});
           //por alguma razão o echo não acontece imediatamente
           //$scope.saida=y.body.innerHTML;//echo
           //O alert abaixo funciona, logo esta parte da função é executada em algum momento
