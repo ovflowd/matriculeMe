@@ -15,7 +15,7 @@ public class BaseMessage implements MessageInterface {
         this.Message = message;
     }
 
-    private BaseMessage() throws NotImplementedException {
+    BaseMessage() throws NotImplementedException {
         //Not Allowed Here
     }
 
@@ -37,9 +37,6 @@ public class BaseMessage implements MessageInterface {
 
     @Override
     public String RenderMessage() {
-        GsonBuilder builder = new GsonBuilder();
-        builder.disableHtmlEscaping();
-        Gson gson = builder.create();
-        return gson.toJson(this);
+        return new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create().toJson(this);
     }
 }
