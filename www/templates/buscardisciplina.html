@@ -1,10 +1,10 @@
 <ion-view view-title="Buscar Disciplinas">
   <ion-content class="pag">
-    <p align="center">Use o campo abaixo para localizar uma disciplina. Clique na disciplina para ver mais informações.</p>
+  	<p>Use o campo abaixo para localizar uma disciplina. Você pode tanto digitar o nome da disciplina (de acordo como a forma expressa no MatriculaWeb), quanto somente parte dele. Clique na disciplina para ver mais informações.</p>
     <div>
         <form ng-submit="procurar(busca)">
-            <div class="list" style="padding: 10px">
-                <label class="item item-input largura" >
+            <div class="list">
+                <label class="item item-input largura">
                     <input  type="text" placeholder="Nome ou Código da disciplina." ng-model="busca.title">
                     <button type="submit" class="button button-icon ion-search"></button>
                 </label>
@@ -12,27 +12,39 @@
         </form>
     </div>
     <div>
-            <div class="row" ng-repeat="disciplina in disciplinas | orderBy : 'nomeDisc' ">
+        <ion-item ng-repeat="disciplina in disciplinas | orderBy : 'nomeDisc' ">
+            <div class="row">
                 <!-- esta div deve ocupar o restante da tela -->
-                <div class="margin1" style="padding: 10px">
+                <div class="margin1">
                     <button style="height:40px;width:300px;text-align:left;" class="button button-royal ion-information-circled" ng-click="mostrarInfo(disciplina,$index)">
                         {{disciplina.dept}} - {{disciplina.nomeDisc}}
                     </button>
                 </div>
             </div>
     </div>
+  </ion-content>
   <script id="pop-up-info.html" type="text/ng-template">
       <div class="modal">
         <ion-header-bar class="bar-secondary">
           <h1 class="title">Informações</h1>
         </ion-header-bar>
-        <ion-content>
-          <h4>Código da disciplina: <p>{{swap.codDisc}}</p></h4>
-          <h4>Nome da disciplina: <p>{{swap.nomeDisc}}</p></h4>
-          <h4>Departamento: <p>{{swap.dept}}</p></h4>
-          <h4>Créditos: <p>{{swap.creditos}}</p></h4>
-        </ion-content>
-        <ion-footer-bar class="bar-secundary" >
+
+
+      <ion-content><br>
+        <div class="wrapper"><h4>Código da disciplina:<div class="wrapper"><p>{{swap.codDisc}}</p></div></h4></div>
+
+
+        <div class="wrapper"><h4>&nbsp;&nbsp;&nbsp;Nome da disciplina:<div class="wrapper"><p>{{swap.nomeDisc}}</p></div></h4></div>
+
+
+        <div class="wrapper"><h4>Departamento: <div class="wrapper"><p>{{swap.dept}}</p></div></h4></div>
+
+
+        <div class="wrapper"><h4>Créditos: <div class="wrapper"><p>{{swap.creditos}}</div></p></h4></div>
+	</ion-content>
+        
+
+	<ion-footer-bar class="bar-secundary" >
             <!-- O botão a seguir deve linkar com a tela 5 (de turmas), passando como parâmetros o que for necessário para acesso às turmas da disciplina selecionada -->
             <button class="button button-positive" ng-click="irParaTurmas(disciplina)">Ver Turmas</button>
             <!-- inserir um espaço entre este e o anterior, centralizando este (?) -->
@@ -42,5 +54,4 @@
       </div>
   </script>
 </ion-view>
-
 
