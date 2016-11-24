@@ -6,18 +6,22 @@ import com.unb.matriculeme.messages.MessageInterface;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List; 
+import java.util.List;
 
 public class ClientUtils {
 
     private static Gson gson = null;
 
     private static Gson getGson() {
-        if(gson == null) {
+        if (gson == null) {
             gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
         }
 
         return gson;
+    }
+
+    public static <T> T getGson(String content, Class entity) {
+        return (T) getGson().fromJson(content, entity);
     }
 
     public static Response sendResponse(String message, String type, int statusCode) {

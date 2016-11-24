@@ -4,7 +4,7 @@ import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.dao.Semestre;
 import com.unb.matriculeme.dao.Turma;
 import com.unb.matriculeme.helpers.ClientUtils;
-import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.helpers.Persistence;
 import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
@@ -19,7 +19,7 @@ public class TurmaController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTurmaByCodigo(@PathParam("codigo") String codigo) throws Exception {
-        List turmas = PersistenceHelper.queryCustom(Turma.class, "codigo", codigo);
+        List turmas = Persistence.queryCustom(Turma.class, "codigo", codigo);
 
         return turmas.size() > 0 ? ClientUtils.sendResponse(turmas) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
@@ -29,16 +29,16 @@ public class TurmaController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setTurma(List<Turma> allTurmas) throws Exception {
         for (Turma allTurma : allTurmas) {
-            PersistenceHelper.insert(allTurma.getProfessor());
-            allTurma.getOferta().setDisciplina((Disciplina) (PersistenceHelper.queryCustom(Disciplina.class, "codigo", allTurma.getOferta().getDisciplina().getCodigo()).get(0)));
-            allTurma.getOferta().setSemestre((Semestre) (PersistenceHelper.queryCustom(Semestre.class, "codigo", allTurma.getOferta().getSemestre().getCodigo()).get(0)));
-            PersistenceHelper.insert(allTurma.getOferta());
+            Persistence.insert(allTurma.getProfessor());
+            allTurma.getOferta().setDisciplina((Disciplina) (Persistence.queryCustom(Disciplina.class, "codigo", allTurma.getOferta().getDisciplina().getCodigo()).get(0)));
+            allTurma.getOferta().setSemestre((Semestre) (Persistence.queryCustom(Semestre.class, "codigo", allTurma.getOferta().getSemestre().getCodigo()).get(0)));
+            Persistence.insert(allTurma.getOferta());
 
             for (int j = 0; j < allTurma.getHorario().size(); j++) {
-                PersistenceHelper.insert(allTurma.getHorario().get(j));
+                Persistence.insert(allTurma.getHorario().get(j));
             }
 
-            PersistenceHelper.insert(allTurma);
+            Persistence.insert(allTurma);
         }
 
         return ClientUtils.sendMessage(new AllRightMessage("The turma was added successfully on the system."));

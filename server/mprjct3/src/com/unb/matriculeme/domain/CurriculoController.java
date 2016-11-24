@@ -1,10 +1,11 @@
 package com.unb.matriculeme.domain;
 
+import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.Curriculo;
 import com.unb.matriculeme.dao.Curso;
 import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.helpers.ClientUtils;
-import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.helpers.Persistence;
 import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
@@ -20,7 +21,7 @@ public class CurriculoController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculos() throws Exception {
-        List curriculos = PersistenceHelper.queryGetList(Curriculo.class);
+        List<Curriculo> curriculos = Persistence.select(Curriculo.class);
 
         return curriculos.size() > 0 ? ClientUtils.sendResponse(curriculos) : ClientUtils.sendMessage(new NotFoundMessage("No one resume was found in our system."));
     }
@@ -32,18 +33,17 @@ public class CurriculoController {
         //@TODO: Need pass the Identifier (Obligatorily)
         //@TODO: Need check if Identifiers are given.
         for (Curriculo curriculo : curriculos) {
-            Curriculo curr = new Curriculo();
-            curr.setSemestreDisciplina(curriculo.getSemestreDisciplina());
+            curriculo.setSemestreDisciplina(curriculo.getSemestreDisciplina());
 
-            List cursos = PersistenceHelper.queryCustom(Curso.class, "codigo", curriculo.getCurso().getCodigo());
+            List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getCurso().getCodigo())), true);
 
-            curr.setCurso((Curso) cursos.get(0));
+            curriculo.setCurso(cursos.get(0));
 
-            List disciplinas = PersistenceHelper.queryCustom(Disciplina.class, "codigo", curriculo.getDisciplina().getCodigo());
+            List<Disciplina> disciplinas = Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getDisciplina().getCodigo())), true);
 
-            curr.setDisciplina((Disciplina) disciplinas.get(0));
+            curriculo.setDisciplina(disciplinas.get(0));
 
-            PersistenceHelper.insert(curr);
+            Persistence.insert(curriculo);
         }
 
         return ClientUtils.sendMessage(new AllRightMessage("All resumes were added correctly in the system."));
@@ -53,8 +53,8 @@ public class CurriculoController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculoByNome(@PathParam("nome") String nome) throws Exception {
-        List cursos = PersistenceHelper.queryCustom(Curso.class, "nome", nome);
-        List curriculo = PersistenceHelper.queryCustom(Curriculo.class, "curso", ((Curso) cursos.get(0)).getId());
+        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
+        List<Curriculo> curriculo = Persistence.select(Curriculo.class, Persistence.createExpression(new Pair<>("curso", (cursos.get(0)).getId())), true);
 
         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo.get(0)) :
                 ClientUtils.sendMessage(new NotFoundMessage("This curriculum wasn't found on our system."));

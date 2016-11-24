@@ -1,11 +1,11 @@
 package com.unb.matriculeme.domain;
 
-import com.google.gson.Gson;
+import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.Aluno;
 import com.unb.matriculeme.dao.Curso;
 import com.unb.matriculeme.dao.Login;
 import com.unb.matriculeme.helpers.ClientUtils;
-import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.helpers.Persistence;
 import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.BaseMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
@@ -13,7 +13,6 @@ import com.unb.matriculeme.messages.NotFoundMessage;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
 import java.util.List;
 
 @Path("/alunos")
@@ -22,23 +21,22 @@ public class AlunosController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAlunoByNome(@PathParam("nome") String nome) {
-        List students = PersistenceHelper.queryCustom(Aluno.class, "nome", nome);
+        List<Aluno> alunos = Persistence.select(Aluno.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
 
-        return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+        return alunos.size() > 0 ? ClientUtils.sendResponse(alunos.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
     @Path("/updateAlunoCurso/matricula={matricula}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateCurso(Curso curso, @PathParam("matricula") int matricula) {
-        List alunos = PersistenceHelper.queryCustom(Aluno.class, "matricula", matricula),
-                cursos = PersistenceHelper.queryCustom(Curso.class, "codigo", curso.getCodigo());
+    public Response updateCurso(Curso curso, @PathParam("matricula") int matricula) throws IllegalAccessException {
+        List<Aluno> alunos = Persistence.select(Aluno.class, Persistence.createExpression(new Pair<>("matricula", matricula)), true);
+        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", curso.getCodigo())), true);
 
-        Aluno aluno = (Aluno) alunos.get(0);
-        aluno.setCurso((Curso) cursos.get(0));
+        alunos.get(0).setCurso(cursos.get(0));
 
         if (alunos.size() > 0 && cursos.size() > 0) {
-            PersistenceHelper.update(alunos.get(0), aluno);
+            Persistence.update(alunos.get(0));
         }
 
         return ClientUtils.sendMessage(alunos.size() > 0 && cursos.size() > 0 ? new AllRightMessage("The meta data from the course was updated successfully.") :
@@ -49,28 +47,24 @@ public class AlunosController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAlunoByLogin(@PathParam("login") String accessKey, @PathParam("senha") String senha) {
-        List students = PersistenceHelper.queryCustom(Login.class, "accessKey", accessKey, "password", senha), alunos = new ArrayList();
+        List<Login> logins = Persistence.select(Login.class, Persistence.createExpression(new Pair<>("accessKey", accessKey), new Pair<>("password", senha)), true);
 
-        if (students.size() > 0) {
-            alunos = PersistenceHelper.queryCustom(Aluno.class, "id", ((Login) students.get(0)).getId());
-        }
-
-        return students.size() > 0 ? ClientUtils.sendResponse(alunos.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+        return logins.size() > 0 ? ClientUtils.sendResponse(Persistence.select(Aluno.class, Persistence.createExpression(new Pair<>("login", logins.get(0).getId())), true).get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
     @Path("/setAluno/")
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response setHorarios(String aluno) throws Exception {
-        Aluno student = new Gson().fromJson(aluno, Aluno.class);
-        List students = PersistenceHelper.queryCustom(Login.class, "accessKey", student.getLogin().getAccessKey());
+    public Response setHorarios(String alunoRaw) throws Exception {
+        Aluno aluno = ClientUtils.getGson(alunoRaw, Aluno.class);
+        List students = Persistence.select(Login.class, Persistence.createExpression(new Pair<>("accessKey", aluno.getLogin().getAccessKey())), true);
 
         // User Doesn't Exists
         // Profile & Course set by default and can be changed latter.
         if (students.size() == 0) {
-            student.setCurso((Curso) (PersistenceHelper.queryCustom(Curso.class, "codigo", 0).get(0)));
-            PersistenceHelper.insert(student.getLogin());
-            PersistenceHelper.insert(student);
+            aluno.setCurso((Curso) Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", 0)), true).get(0));
+            Persistence.insert(aluno.getLogin());
+            Persistence.insert(aluno);
         }
 
         // If User Exists Return 403. If not, Return 200.

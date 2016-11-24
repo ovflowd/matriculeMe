@@ -2,7 +2,7 @@ package com.unb.matriculeme.domain;
 
 import com.unb.matriculeme.dao.Semestre;
 import com.unb.matriculeme.helpers.ClientUtils;
-import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.helpers.Persistence;
 import com.unb.matriculeme.messages.AllRightMessage;
 
 import javax.ws.rs.Consumes;
@@ -19,7 +19,7 @@ public class SemestreController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setSemestre(List<Semestre> semestre) {
-        semestre.forEach(PersistenceHelper::insert);
+        semestre.forEach(Persistence::insert);
 
         return ClientUtils.sendMessage(new AllRightMessage("The semester was added successfully on the system."));
     }

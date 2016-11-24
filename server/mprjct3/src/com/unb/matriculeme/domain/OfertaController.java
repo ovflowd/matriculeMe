@@ -4,7 +4,7 @@ import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.dao.Oferta;
 import com.unb.matriculeme.dao.Semestre;
 import com.unb.matriculeme.helpers.ClientUtils;
-import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.helpers.Persistence;
 import com.unb.matriculeme.messages.AllRightMessage;
 
 import javax.ws.rs.Consumes;
@@ -23,10 +23,10 @@ public class OfertaController {
     public Response setOferta(Oferta ofertaRecebida) {
         Oferta oferta = new Oferta();
 
-        oferta.setDisciplina((Disciplina) (PersistenceHelper.queryCustom(Disciplina.class, "codigo", ofertaRecebida.getDisciplina().getCodigo()).get(0)));
-        oferta.setSemestre((Semestre) (PersistenceHelper.queryCustom(Semestre.class, "codigo", ofertaRecebida.getSemestre().getCodigo()).get(0)));
+        oferta.setDisciplina((Disciplina) (Persistence.queryCustom(Disciplina.class, "codigo", ofertaRecebida.getDisciplina().getCodigo()).get(0)));
+        oferta.setSemestre((Semestre) (Persistence.queryCustom(Semestre.class, "codigo", ofertaRecebida.getSemestre().getCodigo()).get(0)));
 
-        PersistenceHelper.insert(oferta);
+        Persistence.insert(oferta);
 
         return ClientUtils.sendMessage(new AllRightMessage("The oferta was inserted successfully in the system."));
     }

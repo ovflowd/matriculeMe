@@ -1,8 +1,9 @@
 package com.unb.matriculeme.domain;
 
+import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.Curso;
 import com.unb.matriculeme.helpers.ClientUtils;
-import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.helpers.Persistence;
 import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
@@ -17,10 +18,10 @@ public class CursosController {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response alterCurso(@PathParam("nome") String nome, Curso curso) throws Exception {
-        List cursos = PersistenceHelper.queryCustom(Curso.class, "nome", nome);
+        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
 
         if (cursos.size() > 0) {
-            PersistenceHelper.update(cursos.get(0), curso);
+            Persistence.update(cursos.get(0), curso);
         }
 
         return ClientUtils.sendMessage(cursos.size() > 0 ? new AllRightMessage("The course meta data was updated successfully.") : new NotFoundMessage("The course wasn't found on our system."));
@@ -30,7 +31,7 @@ public class CursosController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addCourse(List<Curso> cursos) throws Exception {
-        cursos.stream().filter(curso -> PersistenceHelper.queryCustom(Curso.class, "codigo", curso.getCodigo()).size() == 0).forEach(PersistenceHelper::insert);
+        cursos.stream().filter(curso -> Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", curso.getCodigo())), true).size() == 0).forEach(Persistence::insert);
 
         return ClientUtils.sendMessage(new AllRightMessage("Course registered successfully in the system."));
     }
@@ -39,7 +40,7 @@ public class CursosController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCursoByNome(@PathParam("nome") String nome) {
-        List cursos = PersistenceHelper.queryCustom(Curso.class, "nome", nome);
+        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
 
         return cursos.size() > 0 ? ClientUtils.sendResponse(cursos.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The course wasn't found in the system."));
     }
@@ -48,7 +49,7 @@ public class CursosController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCourseByNome(@PathParam("nome") String nome, @PathParam("codigo") int codigo) {
-        List cursos = PersistenceHelper.queryCustom(Curso.class, "nome", nome, "codigo", codigo);
+        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("nome", nome), new Pair<>("codigo", codigo)), true);
 
         return cursos.size() > 0 ? ClientUtils.sendResponse(cursos.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The course wasn't found on the system."));
     }

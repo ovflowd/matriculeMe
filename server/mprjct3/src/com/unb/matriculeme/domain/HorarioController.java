@@ -1,8 +1,9 @@
 package com.unb.matriculeme.domain;
 
+import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.Horario;
 import com.unb.matriculeme.helpers.ClientUtils;
-import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.helpers.Persistence;
 import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
@@ -17,13 +18,7 @@ public class HorarioController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setHorario(Horario horario) {
-        Horario horario1 = new Horario();
-
-        horario1.setDia(horario.getDia());
-        horario1.setHorarioFim(horario.getHorarioFim());
-        horario1.setHorarioInicio(horario.getHorarioInicio());
-
-        PersistenceHelper.insert(horario1);
+        Persistence.insert(horario);
 
         return ClientUtils.sendMessage(new AllRightMessage("The course was inserted on the system successfully."));
     }
@@ -32,7 +27,7 @@ public class HorarioController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getHorarioByDia(@PathParam("dia") String dia) {
-        List horario = PersistenceHelper.queryCustom(Horario.class, "dia", dia);
+        List<Horario> horario = Persistence.select(Horario.class, Persistence.createExpression(new Pair<>("dia", dia)), true);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) : ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
     }
@@ -41,7 +36,7 @@ public class HorarioController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getHorarioByEndDate(@PathParam("horarioFim") String horarioFim) {
-        List horario = PersistenceHelper.queryCustom(Horario.class, "fim", horarioFim);
+        List<Horario> horario = Persistence.select(Horario.class, Persistence.createExpression(new Pair<>("fim", horarioFim)), true);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) : ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
     }
@@ -50,31 +45,27 @@ public class HorarioController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getHorarioByStartDate(@PathParam("horarioInicio") String horarioInicio) {
-        List horario = PersistenceHelper.queryCustom(Horario.class, "horarioInicio", horarioInicio);
+        List<Horario> horario = Persistence.select(Horario.class, Persistence.createExpression(new Pair<>("horarioInicio", horarioInicio)), true);
 
-        return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
-                ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
+        return horario.size() > 0 ? ClientUtils.sendResponse(horario) : ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
     }
 
     @Path("/getHorario/dia={dia}&inicio={horarioInicio}&fim={horarioFim}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getHorarioByStartDate(@PathParam("dia") String dia, @PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim) {
-        List horario = PersistenceHelper.queryCustom(Horario.class, "dia", dia, "horarioInicio", horarioInicio, "horarioFim", horarioFim);
+    public Response getHorarioByAllCriterias(@PathParam("dia") String dia, @PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim) {
+        List<Horario> horario = Persistence.select(Horario.class, Persistence.createExpression(new Pair<>("dia", dia), new Pair<>("horarioInicio", horarioInicio), new Pair<>("horarioFim", horarioFim)), true);
 
-        return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
-                ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
+        return horario.size() > 0 ? ClientUtils.sendResponse(horario) : ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
     }
 
     @Path("/getHorario/inicio={horarioInicio}&fim={horarioFim}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getHorarioByStartDate(@PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim) {
+    public Response getHorarioByStartAndEndDate(@PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim) {
+        List<Horario> horario = Persistence.select(Horario.class, Persistence.createExpression(new Pair<>("horarioInicio", horarioInicio), new Pair<>("horarioFim", horarioFim)), true);
 
-        List horario = PersistenceHelper.queryCustom(Horario.class, "horarioInicio", horarioInicio, "horarioFim", horarioFim);
-
-        return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
-                ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
+        return horario.size() > 0 ? ClientUtils.sendResponse(horario) : ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
     }
 }
 
