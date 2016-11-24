@@ -21,7 +21,7 @@ public class ClientUtils {
     }
 
     public static Response sendResponse(String message, String type, int statusCode) {
-        return Response.status(statusCode).entity(message).type(type).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS").allow("OPTIONS").build();
+        return Response.status(statusCode).entity(message).type(type).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS").build();
     }
 
     public static Response sendResponse(String message, String type) {

@@ -1,6 +1,5 @@
 package com.unb.matriculeme.domain;
 
-
 import com.unb.matriculeme.dao.Horario;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
@@ -14,47 +13,44 @@ import java.util.List;
 
 @Path("/horario")
 public class HorarioController {
-
     @Path("/setHorario")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response sayPlainTextHello(Horario horario){
-
+    public Response setHorario(Horario horario) {
         Horario horario1 = new Horario();
 
         horario1.setDia(horario.getDia());
         horario1.setHorarioFim(horario.getHorarioFim());
         horario1.setHorarioInicio(horario.getHorarioInicio());
-        PersistenceHelper.Persist(horario1);
+
+        PersistenceHelper.insert(horario1);
+
         return ClientUtils.sendMessage(new AllRightMessage("The course was inserted on the system successfully."));
     }
 
     @Path("/getHorario/dia={dia}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch(@PathParam("dia") String dia){
+    public Response getHorarioByDia(@PathParam("dia") String dia) {
+        List horario = PersistenceHelper.queryCustom(Horario.class, "dia", dia);
 
-        List horario = PersistenceHelper.queryCustom("Horario", "dia", dia, true);
-
-        return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
-                ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
+        return horario.size() > 0 ? ClientUtils.sendResponse(horario) : ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
     }
 
     @Path("/getHorario/fim={horarioFim}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch1(@PathParam("horarioFim") String horarioFim){
-        List horario = PersistenceHelper.queryCustom("Horario", "fim", horarioFim, true);
+    public Response getHorarioByEndDate(@PathParam("horarioFim") String horarioFim) {
+        List horario = PersistenceHelper.queryCustom(Horario.class, "fim", horarioFim);
 
-        return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
-                ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
+        return horario.size() > 0 ? ClientUtils.sendResponse(horario) : ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
     }
 
     @Path("/getHorario/inicio={horarioInicio}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch2(@PathParam("horarioInicio") String horarioInicio){
-        List horario = PersistenceHelper.queryCustom("Horario", "horarioInicio", horarioInicio, true);
+    public Response getHorarioByStartDate(@PathParam("horarioInicio") String horarioInicio) {
+        List horario = PersistenceHelper.queryCustom(Horario.class, "horarioInicio", horarioInicio);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
@@ -63,9 +59,8 @@ public class HorarioController {
     @Path("/getHorario/dia={dia}&inicio={horarioInicio}&fim={horarioFim}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch2(@PathParam("dia") String dia,@PathParam("horarioInicio") String horarioInicio,
-                                        @PathParam("horarioFim") String horarioFim){
-        List horario = PersistenceHelper.queryCustom("Horario", "dia", dia, "horarioInicio", horarioInicio,"horarioFim", horarioFim);
+    public Response getHorarioByStartDate(@PathParam("dia") String dia, @PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim) {
+        List horario = PersistenceHelper.queryCustom(Horario.class, "dia", dia, "horarioInicio", horarioInicio, "horarioFim", horarioFim);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
@@ -74,14 +69,12 @@ public class HorarioController {
     @Path("/getHorario/inicio={horarioInicio}&fim={horarioFim}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch2(@PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim){
+    public Response getHorarioByStartDate(@PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim) {
 
-        List horario = PersistenceHelper.queryCustom("Horario", "horarioInicio", horarioInicio, "horarioFim", horarioFim);
+        List horario = PersistenceHelper.queryCustom(Horario.class, "horarioInicio", horarioInicio, "horarioFim", horarioFim);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
     }
-
-
 }
 

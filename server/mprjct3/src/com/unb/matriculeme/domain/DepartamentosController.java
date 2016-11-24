@@ -1,6 +1,5 @@
 package com.unb.matriculeme.domain;
 
-import com.google.gson.Gson;
 import com.unb.matriculeme.dao.Departamento;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
@@ -10,40 +9,34 @@ import com.unb.matriculeme.messages.NotFoundMessage;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.util.List;
 
 @Path("/departamentos/")
 public class DepartamentosController {
-
-	@Path("/getDepartamento/nome={nome}")
+    @Path("/getDepartamento/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response example(@PathParam("nome") String name) {
-    	List departments = PersistenceHelper.queryCustom("Departamento", "nome", name, true);
+    public Response getDepartment(@PathParam("nome") String name) {
+        List departments = PersistenceHelper.queryCustom(Departamento.class, "nome", name);
+
         return departments.size() > 0 ? ClientUtils.sendResponse(departments.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The department wasn't found on the system."));
     }
 
     @Path("/setAllDeps/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setAllCoisas(List<Departamento> allDepartments) throws Exception {
-        // Para que Esse System.out?
-        System.out.println("received size: " + allDepartments.size());
+    public Response addManyDepartments(List<Departamento> allDepartments) throws Exception {
+        allDepartments.forEach(PersistenceHelper::insert);
 
-        for (int i = 0; i < allDepartments.size(); i++)
-        { 
-        	PersistenceHelper.Persist(allDepartments.get(i));
-       	}
-
-        return Response.status(200).build();
+        return ClientUtils.sendMessage(new AllRightMessage("All departments were added successfully in the system."));
     }
 
     @Path("/setDepartamento/")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setHorarios(Departamento department) throws Exception {
-        PersistenceHelper.Persist(department);
+        PersistenceHelper.insert(department);
+
         return ClientUtils.sendMessage(new AllRightMessage("The Department was added successfully on the system."));
     }
 }
