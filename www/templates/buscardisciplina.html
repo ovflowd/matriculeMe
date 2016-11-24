@@ -1,10 +1,10 @@
 <ion-view view-title="Buscar Disciplinas">
   <ion-content class="pag">
-  	<p>Use o campo abaixo para localizar uma disciplina. Você pode tanto digitar o nome da disciplina (de acordo como a forma expressa no MatriculaWeb), quanto somente parte dele. Clique na disciplina para ver mais informações.</p>
+    <p align="center">Use o campo abaixo para localizar uma disciplina. Clique na disciplina para ver mais informações.</p>
     <div>
         <form ng-submit="procurar(busca)">
-            <div class="list">
-                <label class="item item-input largura">
+            <div class="list" style="padding: 10px">
+                <label class="item item-input largura" >
                     <input  type="text" placeholder="Nome ou Código da disciplina." ng-model="busca.title">
                     <button type="submit" class="button button-icon ion-search"></button>
                 </label>
@@ -12,17 +12,15 @@
         </form>
     </div>
     <div>
-        <ion-item ng-repeat="disciplina in disciplinas | orderBy : 'nomeDisc' ">
-            <div class="row">
+            <div class="row" ng-repeat="disciplina in disciplinas | orderBy : 'nomeDisc' ">
                 <!-- esta div deve ocupar o restante da tela -->
-                <div class="margin1">
+                <div class="margin1" style="padding: 10px">
                     <button style="height:40px;width:300px;text-align:left;" class="button button-royal ion-information-circled" ng-click="mostrarInfo(disciplina,$index)">
                         {{disciplina.dept}} - {{disciplina.nomeDisc}}
                     </button>
                 </div>
             </div>
     </div>
-  </ion-content>
   <script id="pop-up-info.html" type="text/ng-template">
       <div class="modal">
         <ion-header-bar class="bar-secondary">
