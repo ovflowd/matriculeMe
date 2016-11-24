@@ -1,6 +1,7 @@
 package com.unb.matriculeme.messages;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 
 public class BaseMessage implements MessageInterface {
@@ -14,7 +15,7 @@ public class BaseMessage implements MessageInterface {
         this.Message = message;
     }
 
-    BaseMessage() throws NotImplementedException {
+    private BaseMessage() throws NotImplementedException {
         //Not Allowed Here
     }
 
@@ -36,6 +37,9 @@ public class BaseMessage implements MessageInterface {
 
     @Override
     public String RenderMessage() {
-        return new Gson().toJson(this);
+        GsonBuilder builder = new GsonBuilder();
+        builder.disableHtmlEscaping();
+        Gson gson = builder.create();
+        return gson.toJson(this);
     }
 }
