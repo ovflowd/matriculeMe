@@ -1,6 +1,7 @@
 package com.unb.matriculeme.helpers;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.unb.matriculeme.messages.MessageInterface;
 
 import javax.ws.rs.core.MediaType;
@@ -8,6 +9,16 @@ import javax.ws.rs.core.Response;
 import java.util.List; 
 
 public class ClientUtils {
+
+    private static Gson gson = null;
+
+    private static Gson getGson() {
+        if(gson == null) {
+            gson = new GsonBuilder().setPrettyPrinting().disableHtmlEscaping().create();
+        }
+
+        return gson;
+    }
 
     public static Response sendResponse(String message, String type, int statusCode) {
         return Response.status(statusCode).entity(message).type(type).header("Access-Control-Allow-Origin", "*").header("Access-Control-Allow-Methods", "GET, POST, DELETE, PUT, OPTIONS").allow("OPTIONS").build();
@@ -26,18 +37,18 @@ public class ClientUtils {
     }
 
     public static Response sendResponse(Object message) {
-        return sendResponse(new Gson().toJson(message), MediaType.APPLICATION_JSON);
+        return sendResponse(getGson().toJson(message), MediaType.APPLICATION_JSON);
     }
 
     public static Response sendResponse(List message) {
-        return sendResponse(new Gson().toJson(message), MediaType.APPLICATION_JSON);
+        return sendResponse(getGson().toJson(message), MediaType.APPLICATION_JSON);
     }
 
     public static Response sendResponse(Object message, String type) {
-        return sendResponse(new Gson().toJson(message), type);
+        return sendResponse(getGson().toJson(message), type);
     }
 
     public static Response sendResponse(List message, String type) {
-        return sendResponse(new Gson().toJson(message), type);
+        return sendResponse(getGson().toJson(message), type);
     }
 }
