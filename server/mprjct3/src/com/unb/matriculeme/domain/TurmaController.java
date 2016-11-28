@@ -2,6 +2,7 @@ package com.unb.matriculeme.domain;
 
 import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.Disciplina;
+import com.unb.matriculeme.dao.Oferta;
 import com.unb.matriculeme.dao.Semestre;
 import com.unb.matriculeme.dao.Turma;
 import com.unb.matriculeme.helpers.ClientUtils;
@@ -24,14 +25,15 @@ public class TurmaController {
 
         return turmas.size() > 0 ? ClientUtils.sendResponse(turmas) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
+
     @Path("/getTurmas/dia={dia}&horarioInicio={horarioInicio}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON) 
-	public Response getAllCoisas(@PathParam("dia") String dia, @PathParam("horarioInicio") String horarioInicio) throws Exception{
-		List Turmas = PersistenceHelper.queryCustomJoin(dia, horarioInicio); 
-		return Turmas.size() > 0 ? ClientUtils.sendResponse(Turmas) :
-            ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system.")); 
-	}  
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTurmas(@PathParam("dia") String dia, @PathParam("horarioInicio") String horarioInicio) throws Exception {
+        List Turmas = Persistence.selectJoin(Turma.class, dia, horarioInicio);
+        return Turmas.size() > 0 ? ClientUtils.sendResponse(Turmas) :
+                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+    }
 
     @Path("/setTurmas/")
     @POST
@@ -54,25 +56,22 @@ public class TurmaController {
 
         return ClientUtils.sendMessage(new AllRightMessage("The turma was added successfully on the system."));
     }
-    
-	@Path("/getTurmas/disciplina={nome}")
-	@GET
-	@Produces(MediaType.APPLICATION_JSON)
-	public Response getTurmas(@PathParam("nome") String nome){
-		List disciplinas = PersistenceHelper.queryCustom("Disciplina", "nome", nome, true);
-		if (disciplinas.size() > 0)
-		{
-			List ofertas	 = PersistenceHelper.queryCustom("Oferta", "disciplina_id", String.valueOf(((Disciplina)disciplinas.get(0)).getId()), false);
-			if (ofertas.size() > 0)
-			{
-				System.out.println(((Oferta)ofertas.get(0)).getId());
-				List turmas		 = PersistenceHelper.queryCustom("Turma", "oferta_id", String.valueOf(((Oferta)ofertas.get(0)).getId()), false);
-				return turmas.size() > 0 ? ClientUtils.sendResponse(turmas) :
-		            ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
-			}
-			
-		}
-		return ClientUtils.sendMessage(new NotFoundMessage("This disciplina or oferta wasn't found on our system. "));
-	} 
-    
+
+    @Path("/getTurmas/disciplina={nome}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public Response getTurmas(@PathParam("nome") String nome) {
+        List<Disciplina> disciplinas = Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
+
+        if (disciplinas.size() > 0) {
+            List<Oferta> ofertas = Persistence.select(Oferta.class, Persistence.createExpression(new Pair<>("disciplina_id", disciplinas.get(0).getId())), true);
+            if (ofertas.size() > 0) {
+                List turmas = Persistence.select(Turma.class, Persistence.createExpression(new Pair<>("oferta_id", ofertas.get(0).getId())), true);
+                return turmas.size() > 0 ? ClientUtils.sendResponse(turmas) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+            }
+
+        }
+        return ClientUtils.sendMessage(new NotFoundMessage("This disciplina or oferta wasn't found on our system. "));
+    }
+
 }

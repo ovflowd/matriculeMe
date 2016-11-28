@@ -3,6 +3,7 @@ package com.unb.matriculeme.helpers;
 import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.manager.Connection;
 
+import javax.persistence.Query;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.lang.reflect.Field;
@@ -82,6 +83,26 @@ public final class Persistence {
         c.closeManager();
 
         return result;
+    }
+
+    public static  <T> List<T> selectJoin(Class from, String argumentOne, String argumentTwo)
+    {
+        Connection c = new Connection();
+
+        c.getManager().getTransaction().begin();
+
+        //CriteriaQuery q = c.getManager().getCriteriaBuilder().createQuery();
+
+        //Root r = q.from(from);
+
+        Query q = c.getManager().createQuery("from Turma turma inner join turma.horario horar where horar.dia like '%" + argumentOne + "%' AND horar.horarioInicio like '%" + argumentTwo + "%'");
+
+        List<T> o = q.getResultList();
+
+        c.getManager().getTransaction().commit();
+        c.closeManager();
+
+        return o;
     }
 
     public static <T> List<T> select(Class from) {
