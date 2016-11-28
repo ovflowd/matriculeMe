@@ -39,7 +39,7 @@ public class Aluno {
     private List<DisciplinasCursadas> disciplinasCursadas;
 
     @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE})
-    @JoinColumn(name = "aluno_id")
+    @JoinColum
     private Login login;
 
     @OneToMany(cascade = {CascadeType.MERGE, CascadeType.REFRESH, CascadeType.REMOVE, CascadeType.PERSIST}, fetch = FetchType.EAGER)

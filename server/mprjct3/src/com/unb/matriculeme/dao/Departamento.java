@@ -14,6 +14,8 @@ public class Departamento {
     private String descricao;
     @Column(nullable = false)
     private int codigo;
+    @Column
+    private String sigla;
 
     public Departamento() {
         this.nome = new String();
@@ -47,5 +49,13 @@ public class Departamento {
 
     public void setCodigo(int codigo) {
         this.codigo = codigo;
+    }
+    
+    public void setSigla(String sigla){
+    	this.sigla = sigla;
+    }
+    
+    public String getSigla(){
+    	return sigla;
     }
 }

@@ -37,7 +37,6 @@ public class PerfilController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getPerfil(@PathParam("matricula") int matricula) throws IllegalAccessException {
         List<Aluno> alunos = Persistence.select(Aluno.class, Persistence.createExpression(new Pair<>("matricula", matricula)), true);
-
         return alunos.size() > 0 ? ClientUtils.sendResponse(Persistence.select(Perfil.class, Persistence.createExpression(new Pair<>("aluno", alunos.get(0).getId())), true).get(0)) :
                 ClientUtils.sendMessage(new NotFoundMessage("This Profile wasn't found on our system."));
     }
