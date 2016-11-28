@@ -56,8 +56,9 @@ angular.module('starter.controllers', [])
         esc=escolhas[i];
         for (var j = 0; j < esc.turma.horario.length; j++) {
           slot=esc.turma.horario[j];
-          var dias=["Segunda","Terça","Quarta","Quinta","Sexta","Sábado"];
-          grade[(slot.horaIni-6)/2][dias.indexOf(slot.dia)]=esc;
+	  var unfuck = ["06", "08", "10", "12", "14", "16", "18", "20", "22", "24"];
+          dias = ["1","2","3","4","5","6"];
+          grade[unfuck.indexOf(slot.horarioInicio)][dias.indexOf(slot.dia)]=esc;
         }
       }
       $scope.grade = grade;
@@ -152,10 +153,19 @@ angular.module('starter.controllers', [])
           subTitle: 'Pesquisando',
           template: '<img src="img/loader.gif" height="42" width="42">'
         });
-        $http.get('disciplinas.json')
+        $http.get(Url + '/disciplinas/getDisciplina/innome=' + busca.title)
             .success(function (data) {
+		$scope.disciplinas = [];
                 popUp.close();
-                $scope.disciplinas=data.disciplinas;
+                for(i = 0;i < data.length;i++){
+                  var fuck = {
+                    codDisc:  data[i].codigo,
+                    nomeDisc: data[i].nome,
+                    dept:     data[i].departamento.sigla,
+                    creditos: data[i].credito
+                  };
+                  $scope.disciplinas.push(fuck);
+                }
             })
             .error(function(data) {
                 popUp.close();
@@ -185,7 +195,7 @@ angular.module('starter.controllers', [])
     
     $scope.irParaTurmas=function(disciplina){
         //esqueleto para a função. Redirecionar para a tela 5
-        $state.go("app2.tela5",{"discId": $scope.swap.codDisc});
+        $state.go("app2.tela5",{"discId": $scope.swap.nomeDisc});
         $scope.taskModal.hide();
         //console.log('você selecionou turmas para ',$scope.swap.nomeDisc,'código:',$scope.swap.codDisc);
     };
@@ -290,7 +300,7 @@ angular.module('starter.controllers', [])
 
     $scope.login = function() {
 	//Modificação do danilo: "Apenas deixei como comentário para teste no mobile!	    
-      /* var result = (MD5($scope.data.password));
+       var result = (MD5($scope.data.password));
        $scope.data.senha = result;
        var popUp= $ionicPopup.show({
           title: 'Aguarde',
@@ -298,15 +308,15 @@ angular.module('starter.controllers', [])
           template: '<img src="img/loader.gif" height="42" width="42">'
        });
        $http.get(Url+'/alunos/getAlunos/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
-            popUp.close();*/
+            popUp.close();
             $state.go('app.grade');
-        /* }).error(function(data) {
+         }).error(function(data) {
              popUp.close();
              var alertPopup = $ionicPopup.alert({
                  title: 'Falha no login!',
                  template: 'Por favor  cheque seus dados!'
              });
-         });*/
+         });
     }
 })
 
@@ -378,10 +388,19 @@ angular.module('starter.controllers', [])
           subTitle: 'Recuperando turmas da base de dados',
           template: '<img src="img/loader.gif" height="42" width="42">'
     });
-    $http.get('turmas.json')
+    $http.get(Url + '/turmas/getTurmas/disciplina=' + $stateParams.discId)
         .success(function (data){
+	    var fuck = {
+          	codDisc: data[0].oferta.disciplina.codigo,
+          	nomeDisc: data[0].oferta.disciplina.nome,
+          	turmas: []
+            };
+	    for (i = 0; i < data.length; i++) {
+          	var turma = {codTurma: data[i].codigo, nomeProf: data[i].professor.nome, horario: data[i].horario};
+          	fuck.turmas.push(turma);
+            }
             popUp.close();
-            $scope.disciplina=data.disciplina;
+            $scope.disciplina = fuck;
         })
         .error(function(data) {
             popUp.close();
