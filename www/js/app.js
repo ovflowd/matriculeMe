@@ -106,7 +106,7 @@ angular.module('starter', ['ionic', 'starter.controllers','starter.services'])
   })
     
     .state('app.tela6', {
-      url: '/buscardisciplina',
+      url: '/buscardisciplina/:dia/:hora',
       views: {
         'menuContent': {
           templateUrl: 'templates/buscardisciplina.html',
