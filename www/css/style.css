@@ -60,11 +60,12 @@
 }
 
 .margin1{
-  margin-left: 36.8%;
+  margin: auto;
+  display:block;
 }
 
 .margin2{
-  margin-left: 2.5%;
+  margin: 2.5%;
 }
 
 
