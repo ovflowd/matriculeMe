@@ -90,7 +90,7 @@ angular.module('starter.controllers', [])
           $scope.swap=disciplina;
           $scope.taskModal.show();
         }else{
-          $state.go('app.tela6')
+          $state.go('app.tela6',{'dia':$scope.dia,'hora':$scope.hora});
         }
     };
 
@@ -135,10 +135,14 @@ angular.module('starter.controllers', [])
     
   })
 
-  .controller("BuscaCtrl",function($scope,$http,$ionicPopup,$ionicModal,$state) {
+  .controller("BuscaCtrl",function($scope,$http,$ionicPopup,$ionicModal,$state,$stateParams) {
     /* Esta função acessa o servidor e recupera uma lista de disciplinas com nome ou código semelhante a busca.title 
      * Em seguida ele coloca o resultado na lista para serem apresentados
      * Estou supondo que é possivel solicitar com filtro (valor de busca.title) e que o resultado chegue filtrado */
+    $scope.msg='todos os horários';
+    if($stateParams.dia && $stateParams.hora){
+    	$scope.msg=$stateParams.dia+' às '+$stateParams.hora;
+    }
     $scope.procurar= function(busca) {
         if(!busca.title){
             return;
