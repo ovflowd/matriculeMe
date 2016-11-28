@@ -1,7 +1,6 @@
-public class requisitos
-	{
-		int disciplina_origem;
-		char[] disciplina_requisito = new char[20];
-		int tipo; //coorequisito ou pre
-		
-	}
+public class Requisitos {
+	int disciplina_origem;
+	char[] disciplina_requisito;
+	int tipo; // coorequisito ou pre
+
+}

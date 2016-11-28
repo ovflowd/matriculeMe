@@ -4,7 +4,8 @@ public class Grades /////Classe Manipula as informações do algoritmo
 	{
 		LinkedList<Disciplina> listaOrdenada = null;
 		String pertencentes = "";
-		String[] horario = new String[108];
+		 transient String[] horario = new String[108];
+		String horarios;
 		int metricaTotal = 0;
 		int totalCreditos = 0;
 
@@ -31,3 +32,5 @@ public class Grades /////Classe Manipula as informações do algoritmo
 		
 		
 	}
+
+	
