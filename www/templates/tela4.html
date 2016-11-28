@@ -2,12 +2,10 @@
   <ion-content class = "pag">
   	<p align="center">Estas são nossas sugestões para você. Clique em uma disciplina para obter mais informações.</p>
         <div class="row" ng-repeat="sugestao in sugestoes | orderBy : 'prioridade' : reverse=true ">
-          <div class="margin1" style="padding: 10px">
+          <div class="margin1" style="padding: 10px;">
             <button style="height:40px;width:300px;text-align:left;" class="button button-royal ion-information-circled" ng-click="mostraMotivo(sugestao,$index)">
               {{sugestao.nomeDisc}}
             </button>
-          </div>
-          <div class="margin2">
             <button id='polegar{{$index}}' class="button button-icon ion-arrow-down-a" ng-click="desgostar(sugestao,$index)"> Rejeitar </button>
           </div>
         </div>
@@ -21,7 +19,6 @@
           <h4 class="center">A disciplina: <p>{{swap.nomeDisc}}</p> Foi sugerida pelo seguinte motivo: <p>{{swap.motivo}}</p> </h4>
         </ion-content>
         <ion-footer-bar class="bar-secundary">
-            <!-- O botão a seguir deve linkar com a tela 5 (de turmas), passando como parâmetros o que for necessário para acesso às turmas da disciplina selecionada -->
             <button class="button button-positive" ng-click="irParaTurmas(sugestao)">Ver Turmas</button>
             <button class="button button-positive" ng-click="closePopUp()">Fechar</button>
         </ion-footer-bar>
