@@ -307,7 +307,7 @@ angular.module('starter.controllers', [])
           subTitle: 'Fazendo Login no Servidor',
           template: '<img src="img/loader.gif" height="42" width="42">'
        });
-       $http.get(Url+'/alunos/getAlunos/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
+       $http.get(Url+'/alunos/getAluno/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
             popUp.close();
             $state.go('app.grade');
          }).error(function(data) {
