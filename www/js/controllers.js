@@ -338,7 +338,7 @@ angular.module('starter.controllers', [])
         'Content-Type' : 'text/plain'
       }
     }
-    $http.post(Url+'/alunos/setAlunos/',$scope.data,config
+    $http.post(Url+'/alunos/setAluno/',$scope.data,config
     ).success(function(response) {
       popUp.close();
       var notice = $ionicPopup.alert({
