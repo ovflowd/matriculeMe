@@ -177,6 +177,9 @@ public class ML {
 					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("SS")){
 						arrayDiscACursar.remove(i);
 						break;
+					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("CC")){
+						arrayDiscACursar.remove(i);
+						break;
 					}					
 				}
 			}
