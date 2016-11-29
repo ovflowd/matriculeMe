@@ -13,11 +13,6 @@ public class Requisito {
     @Column
     private String tipo;
 
-    public Requisito() {
-        this.codigo = new String();
-        this.tipo = new String();
-    }
-
     public int getId() {
         return id;
     }

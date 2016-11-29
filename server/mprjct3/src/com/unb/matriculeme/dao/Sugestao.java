@@ -20,14 +20,6 @@ public class Sugestao {
     @Column(nullable = false)
     private int creditos;
 
-    public Sugestao() {
-        this.curriculo = new Curriculo();
-        this.prioridade = 0;
-        this.vagas = false;
-        this.motivo = new Motivo();
-        this.creditos = 0;
-    }
-
     public int getId() {
         return id;
     }

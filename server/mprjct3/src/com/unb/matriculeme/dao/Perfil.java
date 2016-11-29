@@ -16,11 +16,6 @@ public class Perfil {
     @JoinColumn
     private Aluno aluno;
 
-    public Perfil() {
-        this.departamento = new Departamento();
-        this.metrica = 0;
-    }
-
     public int getId() {
         return id;
     }

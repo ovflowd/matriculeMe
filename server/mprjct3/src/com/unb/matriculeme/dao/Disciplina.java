@@ -4,7 +4,6 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -27,15 +26,6 @@ public class Disciplina {
     @Fetch(FetchMode.SUBSELECT)
     @JoinTable(name = "Requisito_Disciplina")
     private List<Requisito> requisitoDisciplina;
-
-
-    public Disciplina() {
-        this.nome = new String();
-        this.departamento = new Departamento();
-        this.credito = 0;
-        this.codigo = 0;
-        this.requisitoDisciplina = new ArrayList<Requisito>();
-    }
 
     public int getId() {
         return id;

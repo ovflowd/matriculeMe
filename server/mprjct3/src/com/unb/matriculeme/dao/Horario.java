@@ -15,12 +15,6 @@ public class Horario {
     @Column(nullable = false, length = 10)
     private String horarioFim;
 
-    public Horario() {
-        this.dia = "";
-        this.horarioInicio = "";
-        this.horarioFim = "";
-    }
-
     public int getId() {
         return id;
     }

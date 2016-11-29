@@ -14,11 +14,6 @@ public class DisciplinasCursadas {
     @JoinColumn
     private Oferta oferta;
 
-    public DisciplinasCursadas() {
-        this.mencao = new Mencao();
-        this.oferta = new Oferta();
-    }
-
     public int getId() {
         return id;
     }

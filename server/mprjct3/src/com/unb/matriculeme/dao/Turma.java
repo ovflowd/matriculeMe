@@ -29,14 +29,6 @@ public class Turma {
     @JoinTable(name = "Turma_Horario")
     private List<Horario> horario;
 
-    public Turma() {
-        this.codigo = new String();
-        this.professor = new Professor();
-        this.campus = 0;
-        this.oferta = new Oferta();
-        this.vagas = 0;
-    }
-
     public int getId() {
         return id;
     }

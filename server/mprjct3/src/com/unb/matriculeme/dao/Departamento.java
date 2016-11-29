@@ -17,12 +17,6 @@ public class Departamento {
     @Column
     private String sigla;
 
-    public Departamento() {
-        this.nome = new String();
-        this.descricao = new String();
-        this.codigo = 0;
-    }
-
     public int getId() {
         return id;
     }

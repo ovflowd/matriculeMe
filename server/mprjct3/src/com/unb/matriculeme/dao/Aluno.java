@@ -4,7 +4,6 @@ import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
 
 import javax.persistence.*;
-import java.util.ArrayList;
 import java.util.List;
 
 
@@ -48,16 +47,7 @@ public class Aluno {
     private List<Sugestao> sugestoes;
 
     public Aluno() {
-        this.matricula = 0;
-        this.nome = new String();
-        this.ira = 0;
-        this.semestreAtual = 0;
-        this.curso = new Curso();
-        this.interesse = new String();
-        //this.perfil = new Perfil();
-        this.login = new Login();
-        this.disciplinasCursadas = new ArrayList<DisciplinasCursadas>();
-        this.sugestoes = new ArrayList<Sugestao>();
+
     }
 
     public int getId() {

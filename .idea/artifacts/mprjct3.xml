@@ -1,12 +1,12 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" build-on-make="true" name="mprjct3">
+  <artifact type="war" build-on-make="true" name="mprjct3">
     <output-path>$PROJECT_DIR$/out/artifacts/mprjct3</output-path>
-    <root id="root">
+    <root id="archive" name="mprjct3.war">
       <element id="directory" name="WEB-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/server/mprjct3/WebContent/WEB-INF/web.xml" />
         <element id="directory" name="classes">
           <element id="dir-copy" path="$PROJECT_DIR$/server/mprjct3/build/classes" />
         </element>
-        <element id="file-copy" path="$PROJECT_DIR$/server/mprjct3/WebContent/WEB-INF/web.xml" />
         <element id="directory" name="lib">
           <element id="dir-copy" path="$PROJECT_DIR$/server/mprjct3/WebContent/WEB-INF/lib" />
         </element>

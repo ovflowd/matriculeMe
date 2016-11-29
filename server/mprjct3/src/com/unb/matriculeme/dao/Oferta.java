@@ -14,11 +14,6 @@ public class Oferta {
     @JoinColumn
     private Semestre semestre;
 
-    public Oferta() {
-        this.disciplina = new Disciplina();
-        this.semestre = new Semestre();
-    }
-
     public int getId() {
         return id;
     }

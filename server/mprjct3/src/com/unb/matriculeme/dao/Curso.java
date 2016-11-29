@@ -15,13 +15,6 @@ public class Curso {
     @Column
     private int creditosLimite;
 
-
-    public Curso() {
-        this.nome = new String();
-        this.codigo = 0;
-        this.creditosLimite = 0;
-    }
-
     public int getId() {
         return id;
     }

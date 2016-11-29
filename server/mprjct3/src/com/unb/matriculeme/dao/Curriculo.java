@@ -17,12 +17,6 @@ public class Curriculo {
     @Column(nullable = false)
     private int semestreDisciplina;
 
-    public Curriculo() {
-        this.disciplina = new Disciplina();
-        this.curso = new Curso();
-        this.semestreDisciplina = 0;
-    }
-
     public int getId() {
         return id;
     }
