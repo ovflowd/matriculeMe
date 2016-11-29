@@ -10,8 +10,6 @@ public class Departamento {
     private int id;
     @Column(nullable = false, length = 65)
     private String nome;
-    @Column(length = 255)
-    private String descricao;
     @Column(nullable = false)
     private int codigo;
     @Column
@@ -27,14 +25,6 @@ public class Departamento {
 
     public void setNome(String nome) {
         this.nome = nome;
-    }
-
-    public String getDescricao() {
-        return descricao;
-    }
-
-    public void setDescricao(String descricao) {
-        this.descricao = descricao;
     }
 
     public int getCodigo() {

@@ -13,7 +13,10 @@ import com.unb.matriculeme.messages.NotFoundMessage;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Path("/turmas/")
 public class TurmaController {
@@ -31,8 +34,20 @@ public class TurmaController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTurmas(@PathParam("dia") String dia, @PathParam("horarioInicio") String horarioInicio) throws Exception {
         List Turmas = Persistence.selectJoin(Turma.class, dia, horarioInicio);
-        return Turmas.size() > 0 ? ClientUtils.sendResponse(Turmas) :
-                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+
+        List<Disciplina> disciplinas = new ArrayList<>();
+
+        for (Object Turma : Turmas) {
+            Object[] obj = (Object[]) Turma;
+
+            Turma t1 = (Turma) obj[0];
+
+            disciplinas.add(t1.getOferta().getDisciplina());
+        }
+
+        Set<Disciplina> disciplinasUnique = new HashSet<>(disciplinas);
+
+        return Turmas.size() > 0 ? ClientUtils.sendResponse(disciplinasUnique) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
     @Path("/setTurmas/")
