@@ -2,8 +2,8 @@
 
 var escolhas = [];
 var aluno = {};
-var Url = 'http://172.16.5.28:8080/mprjct3';
-//var Url = 'http://homol.redes.unb.br/ptr022016-b/mprjct3';
+//var Url = 'http://172.16.5.28:8080/mprjct3';
+var Url = 'http://homol.redes.unb.br/ptr022016-b/mprjct3';
 //Variável global que registra as escolhas do usuário para tela3 ("suas escolhas")
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
