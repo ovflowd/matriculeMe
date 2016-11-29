@@ -30,10 +30,11 @@ public final class Persistence {
         T mergedClass = c.getManager().merge(oldClass);
 
         for (Field field : updateClass.getClass().getDeclaredFields()) {
+            field.setAccessible(true);
+
             if (field.get(updateClass) == null)
                 continue;
-
-            field.setAccessible(true);
+            
             field.set(mergedClass, field.get(updateClass));
         }
 
