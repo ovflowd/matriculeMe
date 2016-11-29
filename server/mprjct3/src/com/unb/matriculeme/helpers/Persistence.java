@@ -8,6 +8,7 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.lang.reflect.Field;
 import java.util.Arrays;
+import java.util.Hashtable;
 import java.util.List;
 
 public final class Persistence {
@@ -22,20 +23,46 @@ public final class Persistence {
         c.closeManager();
     }
 
-    public static <T> void update(T oldClass, T updateClass) throws IllegalAccessException {
+    private static Hashtable<String, Object> fieldsToHT(Field[] fields, Object obj) throws IllegalAccessException {
+        Hashtable<String, Object> hashtable = new Hashtable<>();
+
+        for (Field field : fields) {
+            field.setAccessible(true);
+
+            Object retrievedObject = field.get(obj);
+
+            if (retrievedObject != null) {
+                hashtable.put(field.getName(), field.get(obj));
+            }
+        }
+
+        return hashtable;
+    }
+
+    public static <T> void update(T oldClass, T updateClass) throws IllegalAccessException, NoSuchFieldException {
         Connection c = new Connection();
 
         c.getManager().getTransaction().begin();
 
         T mergedClass = c.getManager().merge(oldClass);
 
-        for (Field field : updateClass.getClass().getDeclaredFields()) {
+        Field[] newEntityFields = updateClass.getClass().getDeclaredFields();
+        Hashtable newHT = fieldsToHT(newEntityFields, updateClass);
+
+        Class oldEntityClass = mergedClass.getClass();
+        Field[] oldEntityFields = oldEntityClass.getDeclaredFields();
+
+        for (Field field : oldEntityFields) {
+
             field.setAccessible(true);
 
-            if (field.get(updateClass) == null)
-                continue;
-            
-            field.set(mergedClass, field.get(updateClass));
+            Object classField = newHT.get(field.getName());
+
+            if (classField != null) {
+                Field newField = oldEntityClass.getDeclaredField(field.getName());
+                newField.setAccessible(true);
+                newField.set(mergedClass, classField);
+            }
         }
 
         c.getManager().getTransaction().commit();

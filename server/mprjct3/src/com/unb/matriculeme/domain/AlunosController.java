@@ -19,7 +19,7 @@ public class AlunosController {
     @Path("/updateAluno/disciplinasCursadas")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAlunoFull(Aluno aluno) throws IllegalAccessException {
+    public Response updateAlunoFull(Aluno aluno) throws IllegalAccessException, NoSuchFieldException {
         List<Aluno> alunos = Persistence.select(Aluno.class, Persistence.createExpression(new Pair<>("matricula", aluno.getMatricula())), true);
         List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", aluno.getCurso().getCodigo())), true);
 
@@ -35,8 +35,9 @@ public class AlunosController {
 
         aluno.setCurso(cursos.get(0));
 
-        Persistence.update(alunos.get(0), aluno);
+        aluno.setId(alunos.get(0).getId());
 
+        Persistence.update(alunos.get(0), aluno);
 
         return ClientUtils.sendMessage(new AllRightMessage("The user was updated successfully with the coursed disciplines!"));
     }

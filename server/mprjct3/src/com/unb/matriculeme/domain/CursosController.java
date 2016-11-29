@@ -20,6 +20,8 @@ public class CursosController {
     public Response alterCurso(@PathParam("nome") String nome, Curso curso) throws Exception {
         List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
 
+        curso.setId(cursos.get(0).getId());
+
         if (cursos.size() > 0) {
             Persistence.update(cursos.get(0), curso);
         }

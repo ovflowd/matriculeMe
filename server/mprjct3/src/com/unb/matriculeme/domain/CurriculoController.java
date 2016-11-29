@@ -30,32 +30,34 @@ public class CurriculoController {
     @Path("/setAllCurr")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response addManyResumes(List<Curriculo> curriculos) throws Exception {
+    public Response setAllResumes(List<Curriculo> curriculos) throws Exception {
         for (Curriculo curriculo : curriculos) {
-            curriculo.setSemestreDisciplina(curriculo.getSemestreDisciplina());
+            Curriculo curr = new Curriculo();
+
+            curr.setSemestreDisciplina(curriculo.getSemestreDisciplina());
 
             List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getCurso().getCodigo())), true);
 
-            curriculo.setCurso(cursos.get(0));
+            if (cursos.size() > 0) {
+                curr.setCurso(cursos.get(0));
+            }
 
             List<Disciplina> disciplinas = Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getDisciplina().getCodigo())), true);
 
             if (disciplinas.size() > 0) {
-                curriculo.setDisciplina(disciplinas.get(0));
+                curr.setDisciplina(disciplinas.get(0));
             } else {
-                List<Departamento> deps = Persistence.select(Departamento.class, Persistence.createExpression(new Pair<>("sigla", curriculo.getDisciplina().getDepartamento().getSigla())), true);
-
-                curriculo.getDisciplina().setDepartamento(deps.get(0));
+                curriculo.getDisciplina().setDepartamento((Departamento) Persistence.select(Departamento.class, Persistence.createExpression(new Pair<>("sigla", curriculo.getDisciplina().getDepartamento().getSigla())), true).get(0));
 
                 Persistence.insert(curriculo.getDisciplina());
 
-                curriculo.setDisciplina(disciplinas.get(0));
+                curr.setDisciplina((Disciplina) (Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getDisciplina().getCodigo())), true).get(0)));
             }
 
-            Persistence.insert(curriculo);
+            Persistence.insert(curr);
         }
 
-        return ClientUtils.sendMessage(new AllRightMessage("All resumes were added correctly in the system."));
+        return ClientUtils.sendMessage(new AllRightMessage("Inserted all Resumes successfully on the system."));
     }
 
     @Path("/getCurriculos/nomeCurso={nome}")

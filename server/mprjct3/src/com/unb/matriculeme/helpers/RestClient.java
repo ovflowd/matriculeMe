@@ -12,8 +12,7 @@ public class RestClient {
     public void sendData(String data) {
         try {
             //@TODO Remove this thing
-            WebTarget target = ClientBuilder.newClient(new ClientConfig()).
-                    target("http://172.16.5.28:8081/DataMining/rest/datamining/historico");
+            WebTarget target = ClientBuilder.newClient(new ClientConfig()).target("http://127.0.0.1:8090/mining/rest/datamining/historico");
 
             Response response = target.request("application/textplain").post(Entity.entity(data, "application/textplain"), Response.class); // What to do here
 

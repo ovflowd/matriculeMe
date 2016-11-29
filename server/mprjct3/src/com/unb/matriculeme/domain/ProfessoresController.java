@@ -38,6 +38,8 @@ public class ProfessoresController {
     public Response updateProfessor(@PathParam("nome") String nome, Professor professor) throws Exception {
         List<Professor> professors = Persistence.select(Professor.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
 
+        professor.setId(professors.get(0).getId());
+
         if (professors.size() > 0) {
             Persistence.update(professors.get(0), professor);
         }

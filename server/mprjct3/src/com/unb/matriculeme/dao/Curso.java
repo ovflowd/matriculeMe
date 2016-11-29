@@ -15,6 +15,10 @@ public class Curso {
     @Column
     private int creditosLimite;
 
+    public void setId(int id) {
+        this.id = id;
+    }
+
     public int getId() {
         return id;
     }
