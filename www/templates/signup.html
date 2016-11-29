@@ -4,24 +4,24 @@
       <div class="list">
           <p align="center"><br>Seu nome completo:</p>
         <label class="item item-input largura">
-          <input type="text" ng-model="data.first_name" placeholder="Nome">
+          <input type="text" ng-model="data.first_name" placeholder="Nome" required>
         </label>
           <p align="center"><br>Sua matrícula (somente números, por favor):</p>
         <label class="item item-input largura">
-          <input type="text" ng-model="" placeholder="Exemplo: 160100000">
+          <input type="text" ng-model="data.matricula" placeholder="Exemplo: 160100000" required>
         </label>
           <p align="center"><br>Nome de usuario para login no aplicativo:</p>
         <label class="item item-input largura">
-          <input type="text" ng-model="data.login" placeholder="Usuário">
+          <input type="text" ng-model="data.login" placeholder="Usuário" required>
         </label>
           <p align="center"><br>Senha para login no aplicativo:</p>
         <label class="item item-input largura">
-          <input type="password" ng-model="data.password" placeholder="Senha">
+          <input type="password" ng-model="data.password" placeholder="Senha" required>
         </label>
 
          <p align="center"><br>Confirme sua senha:</p>
         <label class="item item-input largura">
-          <input type="password" ng-model="data.password2" placeholder="Senha">
+          <input type="password" ng-model="data.password2" placeholder="Senha" required>
         </label>
           
           
