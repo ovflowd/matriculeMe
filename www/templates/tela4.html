@@ -3,7 +3,7 @@
   	<p align="center">Estas são nossas sugestões para você. Clique em uma disciplina para obter mais informações.</p>
         <div class="row" ng-repeat="sugestao in sugestoes | orderBy : 'prioridade' : reverse=true ">
           <div class="margin1" style="padding: 10px;">
-            <button style="height:40px;width:300px;text-align:left;" class="button button-royal ion-information-circled" ng-click="mostraMotivo(sugestao,$index)">
+            <button style="width:300px;text-align:left;" class="button button-royal ion-information-circled" ng-click="mostraMotivo(sugestao,$index)">
               {{sugestao.nomeDisc}}
             </button>
             <button id='polegar{{$index}}' class="button button-icon ion-arrow-down-a" ng-click="desgostar(sugestao,$index)"> Rejeitar </button>
