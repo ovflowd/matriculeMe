@@ -1,3 +1,4 @@
+
 import javax.websocket.server.PathParam;
 import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.Path;
@@ -11,4 +12,3 @@ public class JerseyConfig extends ResourceConfig
 	{
 		packages("projeto.matriculeme.REST");
 	}
-}

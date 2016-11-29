@@ -1,0 +1,2 @@
+INFO	?	main	2016-11-11T23:33:12.295Z	org.javacs.Main#connectToNode	Connected to parent using socket on port 55282
+INFO	?	main	2016-11-11T23:33:12.526Z	org.javacs.JavaLanguageServer#doLint	Lint [c:\Users\User\workspace\MatriculeMe\src\ML.java]

@@ -1,8 +1,7 @@
-
-//import org.apache.spark.SparkContext //Necessario pra rodar Spark stuffz
-//import org.apache.spark.SparkConf
 import java.util.*;
-import java.math.*;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 //FK viram classes mudar isso
 
@@ -12,75 +11,76 @@ public class ML {
 		return Math.max(sAluno - sDepartamento, 0);
 	}
 
-	public static int PesoTipo(int tipo) {
+	public static int PesoTipo(int tipo)
+	{
 		if (tipo == 0) {
 			return 0;
 		}
 		return (10 - tipo) * 10;
 	}
 
+	
+	
+	
+	
 	public Grades GetGrid(Grades grade) //// Funcao geradora da grade final
 	{
 		// se nao alcancou a folha da arvore
 		if (grade.listaOrdenada.isEmpty()) {
 			Grades selecionado = grade;
-			Disciplina first = grade.listaOrdenada.removeFirst();
+			Disciplina first = grade.listaOrdenada.removeFirst().getDisciplina();
 			// existe creditos disponiveis
 			if (first.metrica < 30 - grade.totalCreditos) {
 				Grades auxInclude = new Grades(grade.horario);
 				Grades auxExclude = new Grades(grade.horario);
 				Grades auxSelecionado = new Grades(grade.horario);
-				int turmaId = 0;
-				for (Turma oferta : first.ofertas.turmas) //// Paralelismo das
+				for (Turma oferta : first.getTurmas()) //// Paralelismo das
 															//// arvores para
 															//// cada turma da
 															//// disciplina em
-															//// questão
+															//// questï¿½o
 				{
 
 					boolean valid = true;
 					Grades auxIncludeInter = new Grades(grade.horario);
-					for (int aloc = 0; aloc < oferta.horariosNonDB.length; aloc++) {
-						for (int slot = (int) Math.pow(9, oferta.horariosNonDB[aloc].diaInt)
-								+ oferta.horariosNonDB[aloc].horario_inicioInt; slot < (int) Math.pow(9,
-										oferta.horariosNonDB[aloc].diaInt)
-										+ oferta.horariosNonDB[aloc].horario_finalInt; slot++) {
+					for (int aloc = 0; aloc < oferta.getHorario().size(); aloc++) {
+						Horario[] hour = (Horario[]) oferta.getHorario().toArray();
+						for (int slot = (int) Math.pow(9, Integer.parseInt(hour[aloc].getDia()))
+								+Integer.parseInt(hour[aloc].getHorarioInicio()); slot < (int) Math.pow(9,
+										Integer.parseInt(hour[aloc].getDia()))
+										+ Integer.parseInt(hour[aloc].getHorarioFim()); slot++) {
 							if (grade.horario[slot].equals(null)) {
 								valid = false;
 							}
 						}
 					}
-					if (valid) // existe vaga, caso não exista pula ramo de
-								// solução
+					if (valid) // existe vaga, caso nï¿½o exista pula ramo de
+								// soluï¿½ï¿½o
 					{
-						for (int aloc = 0; aloc < oferta.horariosNonDB.length; aloc++)// se
-																						// valido
-																						// altera
-																						// horario
-						{
-							for (int slot = (int) Math.pow(9, oferta.horariosNonDB[aloc].diaInt)
-									+ oferta.horariosNonDB[aloc].horario_inicioInt; slot < (int) Math.pow(9,
-											oferta.horariosNonDB[aloc].diaInt)
-											+ oferta.horariosNonDB[aloc].horario_finalInt; slot++)
-
+						for (int aloc = 0; aloc < oferta.getHorario().size(); aloc++) {
+							Horario[] hour = (Horario[]) oferta.getHorario().toArray();
+							for (int slot = (int) Math.pow(9, Integer.parseInt(hour[aloc].getDia()))
+									+Integer.parseInt(hour[aloc].getHorarioInicio()); slot < (int) Math.pow(9,
+											Integer.parseInt(hour[aloc].getDia()))
+											+ Integer.parseInt(hour[aloc].getHorarioFim()); slot++) 
 							{
 								auxSelecionado.horario[slot] = String
-										.valueOf(first.codigo + "-" + String.valueOf(oferta.codigo));
+										.valueOf(first.getCodigo() + "-" + String.valueOf(oferta.getCodigo()));
 							}
 						}
 						// Ramo que inclui essa disciplina
 						auxIncludeInter = GetGrid(new Grades(grade.listaOrdenada,
 								grade.pertencentes.concat(
-										String.valueOf(first.codigo) + "-" + String.valueOf(oferta.codigo) + "|"),
+										String.valueOf(first.getCodigo()) + "-" + String.valueOf(oferta.getCodigo()) + "|"),
 								auxSelecionado.horario, grade.metricaTotal + first.metrica,
-								grade.totalCreditos + first.creditos));
+								grade.totalCreditos + first.getCredito()));
 						if (auxIncludeInter.metricaTotal > auxInclude.metricaTotal) // Pega
 																					// o
 																					// maior
 																					// entre
 																					// as
-																					// possíves
-																					// solucões
+																					// possï¿½ves
+																					// solucï¿½es
 																					// incluindo
 						{
 							auxInclude = auxIncludeInter;
@@ -89,9 +89,9 @@ public class ML {
 					}
 
 				}
-				// ramo que não inclui esta disciplina
+				// ramo que nï¿½o inclui esta disciplina
 				if (grade.metricaTotal > 10 | first.metrica < 100) //// Poda
-																	//// soluções
+																	//// soluï¿½ï¿½es
 																	//// das
 																	//// arvores,
 																	//// excluem
@@ -99,7 +99,7 @@ public class ML {
 																	//// disciplinas
 																	//// iniciais
 																	//// ate o
-																	//// nível
+																	//// nï¿½vel
 																	//// de 10
 																	//// creditos
 																	//// totais
@@ -109,7 +109,7 @@ public class ML {
 																	//// muito
 																	//// grande
 																	//// / que
-																	//// não
+																	//// nï¿½o
 																	//// incluem
 																	//// disciplinas
 																	//// mandatorias
@@ -122,7 +122,7 @@ public class ML {
 																		// maior
 																		// entre
 																		// as 2
-																		// solucões
+																		// solucï¿½es
 																		// (incluir
 																		// ou
 																		// nao)
@@ -133,7 +133,7 @@ public class ML {
 				}
 				if (auxSelecionado.metricaTotal > selecionado.metricaTotal) // Das
 																			// multiplas
-																			// interações
+																			// interaï¿½ï¿½es
 																			// retorna
 																			// a
 																			// melhor
@@ -143,8 +143,8 @@ public class ML {
 				return selecionado;
 			}
 
-			else /// Se a solução não pode incluir essa disciplinas pois estoura
-					/// o número de creditos
+			else /// Se a soluï¿½ï¿½o nï¿½o pode incluir essa disciplinas pois estoura
+					/// o nï¿½mero de creditos
 			{
 				selecionado = GetGrid(new Grades(grade.listaOrdenada, grade.pertencentes, grade.horario,
 						grade.metricaTotal, grade.totalCreditos));
@@ -157,30 +157,41 @@ public class ML {
 
 	}
 
-	public int MachineLearn(Aluno cliente) {
-		// Aluno cliente = LoadAluno(AlunoId);
-		int curso = cliente.curso;
-
-		LinkedList<Disciplina> bloco = cliente.LoadDisciplinasACursar("/Curriculo/" + curso); // funcao
-																								// de
-																								// carga
-																								// do
-																								// conteudo
-																								// do
-																								// aluno
-																								// e
-																								// historico
-																								// a
-																								// definir
-
-		cliente.perfil = GeraPerfil(cliente.historicoAprovado);
-		LinkedList<Disciplina> disciplineList = new LinkedList<Disciplina>();
+	public int MachineLearn(Aluno aluno) {
+		
+		ClientRest cliente = new ClientRest();
+		Gson transformar = new Gson();
+		ArrayList<Curriculo> curriculoAluno = transformar.fromJson(cliente.receberDados("//Curriculo/GetCurriculo/CodigoCurso="+aluno.getCurso().getCodigo()), new TypeToken<ArrayList<Curriculo>>(){}.getType());
+		
+		ArrayList<Curriculo> arrayDiscACursar = curriculoAluno;
+		for(int i = 0; i < curriculoAluno.size(); i++)
+		{ 
+			for(int j = 0; j < aluno.getDisciplinasCursadas().size(); j++){
+				if(curriculoAluno.get(i).getDisciplina().getCodigo() == aluno.getDisciplinasCursadas().get(j).getOferta().getDisciplina().getCodigo()){
+					if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("MM")){
+						arrayDiscACursar.remove(i);
+						break;
+					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("MS")){
+						arrayDiscACursar.remove(i);
+						break;
+					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("SS")){
+						arrayDiscACursar.remove(i);
+						break;
+					}					
+				}
+			}
+		}		
+	
+		
+		
+		aluno.GeraPerfil(aluno.getDisciplinasCursadas());
+		LinkedList<Curriculo> disciplineList = new LinkedList<Curriculo>();
 		// varre entradas, atribui pesos e filtra apenas elementos que podem ser
 		// cursados para lista ponderada
-		for (Disciplina disc : bloco) {
-
-			disc.GeraMetrica(cliente);
-			if (disc.metrica > 0) {
+		for (Curriculo disc : arrayDiscACursar) {
+			
+			disc.GeraMetrica(aluno,curriculoAluno);
+			if (disc.getDisciplina().metrica > 0) {
 				disciplineList.addLast(disc);
 			}
 		}
@@ -188,55 +199,27 @@ public class ML {
 		Collections.sort(disciplineList);
 		// instancia inicio de operacoes
 		Grades result = GetGrid(new Grades(disciplineList));
-		result.horarios = String.join("/", result.horario);
-		result.horarios = result.horarios.replaceAll("//", "/0/");
-		SENDRESULT(result);
+		ArrayList<Sugestao> finalForm = new ArrayList<Sugestao>();
+		int prio = 0;
+		for(Curriculo resultado: result.listaOrdenada)
+		{
+			Sugestao sugestion = new Sugestao();
+			sugestion.setCreditos(resultado.getDisciplina().getCredito());
+			sugestion.setPrioridade(prio);
+			prio++;
+			sugestion.setVagas(true);
+			sugestion.setCurriculo(resultado);
+			finalForm.add(sugestion);
+		}
+		
+		
+		cliente.enviarDados(transformar.toJson(finalForm), "//Aluno/sugestao?");
 		// PROFIT
 		return 0;
 	}
 
-	public int[] GeraPerfil(HistoricoDB[] histDisciplinas) {
-		HashMap<String, String> perfil = new HashMap<String, String>();
-		int[] auxPerfil = new int[76];
-		int[] auxValue = new int[76];
-		int aux = 0;
-		for (HistoricoDB disciplina : histDisciplinas) {
+	
 
-			if (!perfil.containsKey(disciplina.departamento)) {
-				// disciplina ainda nao mapeada
-				perfil.put(String.valueOf(disciplina.departamento), String.valueOf(aux));
-				aux++;
-			}
-			if (NotaEq(disciplina.mencao) > 0) {
-				auxPerfil[Integer.valueOf(perfil.get(String.valueOf(disciplina.departamento)))] += NotaEq(
-						disciplina.mencao);
-				auxValue[disciplina.departamento]++;
-			}
-		}
-		for (int i = 0; i < 76; i++) {
-			auxPerfil[i] = auxPerfil[i] / Math.max(1, auxValue[i]);
-		}
-		return auxPerfil;
-	}
-
-	public int NotaEq(String n) {
-		n.toLowerCase();
-		switch (n) {
-		case "ss":
-			return 5;
-
-		case "ms":
-			return 4;
-		case "mm":
-			return 3;
-		case "mi":
-			return 2;
-		case "ii":
-			return 1;
-		case "sr":
-			return 0;
-		}
-		return -1;
-	}
+	
 
 }
