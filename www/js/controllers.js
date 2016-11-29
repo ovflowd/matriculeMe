@@ -338,7 +338,15 @@ angular.module('starter.controllers', [])
         'Content-Type' : 'text/plain'
       }
     }
-    $http.post(Url+'/alunos/setAluno/',$scope.data,config
+    var send = {
+        nome:      $scope.data.first_name,
+        matricula: $scope.data.matricula,
+        login: {
+          accessKey: $scope.data.login,
+          password:  $scope.data.senha
+        }
+      }
+    $http.post(Url+'/alunos/setAluno/',send,config
     ).success(function(response) {
       popUp.close();
       var notice = $ionicPopup.alert({
