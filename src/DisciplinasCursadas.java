@@ -34,6 +34,8 @@ public class DisciplinasCursadas {
 		switch (this.mencao.getCodigo().toLowerCase()) {
 		case "ss":
 			return 5;
+		case "CC":
+			return 3;
 
 		case "ms":
 			return 4;
