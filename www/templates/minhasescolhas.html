@@ -2,32 +2,32 @@
   <ion-content class = "pag" >
     <p align="center">Estas foram as disciplinas que você escolheu. Transfira-as para o MatriculaWeb para se matricular.</p>
     <div class="row header">
-      <div class="col dia">
+      <div class="col dia wrapper1">
         Código da Disciplina
       </div>
-      <div class="col dia">
+      <div class="col dia wrapper1">
         Nome da disciplina
       </div>
-      <div class="col dia">
+      <div class="col dia wrapper1">
         Turma escolhida
       </div>
-      <div class="col dia">
+      <div class="col dia wrapper1">
         <p> 
           <i class="ion-trash-a"></i> Descartar
         </p>
       </div>
     </div>
     <div class="row" ng-repeat="escolha in escolhas">
-      <div class="col tamanholetra">
+      <div class="col tamanholetra wrapper1">
         {{escolha.codDisc}}
       </div>
-      <div class="col tamanholetra">
+      <div class="col tamanholetra wrapper1">
         {{escolha.nomeDisc}} 
       </div>
-      <div class="col tamanholetra">
+      <div class="col tamanholetra wrapper1">
         {{escolha.turma.codTurma}}
       </div>
-      <div class="col tamanholetra">
+      <div class="col tamanholetra wrapper1">
         <button class="button button-calm button-dark ion-trash-a" ng-click="retirar(escolha)"> Descartar</button>
       </div>
     </div>
