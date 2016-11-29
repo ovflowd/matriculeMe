@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class Oferta {
 	private int id;
 	private Disciplina disciplina;

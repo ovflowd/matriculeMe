@@ -1,6 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
+package projeto.matriculeme.REST;
 public class Aluno{
 	private int matricula;
 	private String nome;
@@ -8,7 +10,6 @@ public class Aluno{
 	private int semestreAtual;
 	private Curso curso;
 	private String interesse;
-	private Perfil perfil;
 	private List<DisciplinasCursadas> disciplinasCursadas;
 	private Login login;
 	private List<Sugestao> sugestoes;
@@ -22,27 +23,8 @@ public class Aluno{
     }
     
     
-    public int PerfilporDepartamento(int dDep){return perfil.getMetrica(dDep);}
     
-    public Perfil GeraPerfil(List<DisciplinasCursadas> histDisciplinas)
-	{
-    	this.perfil = new Perfil();
-		
-		for(DisciplinasCursadas disciplina : histDisciplinas)
-		{
-			
-			if(perfil.getDepartamento(disciplina.getId())==null)
-			{
-			//disciplina ainda nao mapeada
-				perfil.departamentos.add(disciplina.getOferta().getDisciplina().getDepartamento());
-			}
-			if(disciplina.Nota()>0)
-			{//
-				perfil.setMetricaDep(disciplina.Nota(),disciplina.getOferta().getDisciplina().getDepartamento().getCodigo());
-			}
-		}
-		return perfil;
-	}
+    
     
     
 	public Aluno(){
@@ -52,7 +34,7 @@ public class Aluno{
 		this.semestreAtual = 0;
 		this.curso = new Curso();
 		this.interesse = new String();
-		this.perfil = new Perfil();
+		
 		this.login = new Login();
 		this.disciplinasCursadas = new ArrayList<DisciplinasCursadas>();
 		this.sugestoes = new ArrayList<Sugestao>();
@@ -105,14 +87,8 @@ public class Aluno{
 	{
 		this.interesse = interesse;
 	}
-	public Perfil getPerfil()
-	{
-		return perfil;
-	}
-	public void setPerfil(Perfil perfil)
-	{
-		this.perfil = perfil;
-	}
+	
+
 	public Login getLogin()
 	{
 		return login;

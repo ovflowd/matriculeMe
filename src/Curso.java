@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class Curso{
 	private String nome;
 	private int codigo;

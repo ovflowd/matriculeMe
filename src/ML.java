@@ -4,7 +4,7 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 //FK viram classes mudar isso
-
+package projeto.matriculeme.REST;
 public class ML {
 
 	public static int PesoSemestre(int sDepartamento, int sAluno) {
@@ -28,7 +28,8 @@ public class ML {
 		// se nao alcancou a folha da arvore
 		if (grade.listaOrdenada.isEmpty()) {
 			Grades selecionado = grade;
-			Disciplina first = grade.listaOrdenada.removeFirst().getDisciplina();
+			Curriculo curr = grade.listaOrdenada.removeFirst();
+			Disciplina first = curr.getDisciplina();
 			// existe creditos disponiveis
 			if (first.metrica < 30 - grade.totalCreditos) {
 				Grades auxInclude = new Grades(grade.horario);
@@ -68,12 +69,16 @@ public class ML {
 										.valueOf(first.getCodigo() + "-" + String.valueOf(oferta.getCodigo()));
 							}
 						}
+						LinkedList<Curriculo> clone = grade.listaPertence;
+						curr.getDisciplina().setTurmas(new ArrayList<Turma>(){oferta}); //define apenas 1 turma para aquela disciplina
+						clone.add(curr);
 						// Ramo que inclui essa disciplina
 						auxIncludeInter = GetGrid(new Grades(grade.listaOrdenada,
 								grade.pertencentes.concat(
 										String.valueOf(first.getCodigo()) + "-" + String.valueOf(oferta.getCodigo()) + "|"),
 								auxSelecionado.horario, grade.metricaTotal + first.metrica,
-								grade.totalCreditos + first.getCredito()));
+								grade.totalCreditos + first.getCredito(),
+								clone));
 						if (auxIncludeInter.metricaTotal > auxInclude.metricaTotal) // Pega
 																					// o
 																					// maior
@@ -115,7 +120,7 @@ public class ML {
 																	//// mandatorias
 				{
 					auxExclude = GetGrid(new Grades(grade.listaOrdenada, grade.pertencentes, auxSelecionado.horario,
-							grade.metricaTotal, grade.totalCreditos));
+							grade.metricaTotal, grade.totalCreditos,grade.listaPertence));
 				}
 
 				if (auxExclude.metricaTotal > auxInclude.metricaTotal) // Pega o
@@ -147,7 +152,7 @@ public class ML {
 					/// o n�mero de creditos
 			{
 				selecionado = GetGrid(new Grades(grade.listaOrdenada, grade.pertencentes, grade.horario,
-						grade.metricaTotal, grade.totalCreditos));
+						grade.metricaTotal, grade.totalCreditos,grade.listaPertence));
 			}
 			return selecionado;
 		} else /// No folha, lista vazia
@@ -186,8 +191,19 @@ public class ML {
 		}		
 	
 		
+		Perfil perf = new Perfil();
+		perf.aluno = aluno;
+		perf.GeraPerfil(aluno.getDisciplinasCursadas());
 		
-		aluno.GeraPerfil(aluno.getDisciplinasCursadas());
+		
+		for(int p : perf.metrica)
+		{
+			if(p>0)
+			{
+				perf.metricaString += String.valueOf(p);
+			}
+		}		
+				
 		LinkedList<Curriculo> disciplineList = new LinkedList<Curriculo>();
 		// varre entradas, atribui pesos e filtra apenas elementos que podem ser
 		// cursados para lista ponderada
@@ -204,7 +220,7 @@ public class ML {
 		Grades result = GetGrid(new Grades(disciplineList));
 		ArrayList<Sugestao> finalForm = new ArrayList<Sugestao>();
 		int prio = 0;
-		for(Curriculo resultado: result.listaOrdenada)
+		for(Curriculo resultado: result.listaPertence)
 		{
 			Sugestao sugestion = new Sugestao();
 			sugestion.setCreditos(resultado.getDisciplina().getCredito());
@@ -215,8 +231,10 @@ public class ML {
 			finalForm.add(sugestion);
 		}
 		
+		perf.aluno.setSugestoes(finalForm);
 		
-		cliente.enviarDados(transformar.toJson(finalForm), "//Aluno/sugestao?");
+		System.out.println(transformar.toJson(perf));
+		cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/SetPerfil");
 		// PROFIT
 		return 0;
 	}

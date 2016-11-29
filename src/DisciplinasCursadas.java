@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class DisciplinasCursadas {
 	private Mencao mencao;
 	private Oferta oferta;

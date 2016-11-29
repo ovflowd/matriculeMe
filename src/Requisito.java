@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class Requisito {
 	private int id;
 	private String discicplinaRequisito; 

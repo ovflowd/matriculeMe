@@ -1,5 +1,5 @@
 import java.util.ArrayList;
-
+package projeto.matriculeme.REST;
 public class Curriculo  implements Comparable<Curriculo>{
 	private Disciplina disciplina;
 	private Curso curso;

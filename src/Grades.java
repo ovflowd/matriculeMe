@@ -1,21 +1,23 @@
 import java.util.LinkedList;
-
-public class Grades /////Classe Manipula as informações do algoritmo
+package projeto.matriculeme.REST;
+public class Grades /////Classe Manipula as informaï¿½ï¿½es do algoritmo
 	{
 		LinkedList<Curriculo> listaOrdenada = null;
 		String pertencentes = "";
+		LinkedList<Curriculo> listaPertence = new LinkedList<Curriculo>();
 		String[] horario = new String[108];
 		String horarios;
 		int metricaTotal = 0;
 		int totalCreditos = 0;
 
-		public Grades(LinkedList<Curriculo> l,String p,String[] h, int m, int t)
+		public Grades(LinkedList<Curriculo> l,String p,String[] h, int m, int t,LinkedList<Curriculo> lp)
 		{
 		listaOrdenada = l;
-		pertencentes = p; //disciplinas "com" da árvore
+		pertencentes = p; //disciplinas "com" da ï¿½rvore
 		horario = h;
-		metricaTotal = m; //métrica resultante das pertencentes
-		totalCreditos = t; //total de créditos
+		metricaTotal = m; //mï¿½trica resultante das pertencentes
+		totalCreditos = t; //total de crï¿½ditos
+		listaPertence = lp;
 		}
 		
 		public Grades(LinkedList<Curriculo> l)

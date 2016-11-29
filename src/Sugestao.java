@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class Sugestao {
 	private int id;
 	private Curriculo curriculo;

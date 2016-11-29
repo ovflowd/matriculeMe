@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class Departamento{
 	private String nome;
 	private String descricao;
