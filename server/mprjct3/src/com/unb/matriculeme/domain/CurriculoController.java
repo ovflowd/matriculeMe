@@ -3,6 +3,7 @@ package com.unb.matriculeme.domain;
 import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.Curriculo;
 import com.unb.matriculeme.dao.Curso;
+import com.unb.matriculeme.dao.Departamento;
 import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.Persistence;
@@ -39,16 +40,16 @@ public class CurriculoController {
 
             List<Disciplina> disciplinas = Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getDisciplina().getCodigo())), true);
 
-            if (disciplinas.size() > 0 )
-            {
+            if (disciplinas.size() > 0) {
                 curriculo.setDisciplina(disciplinas.get(0));
-            }
-            else
-            { 
+            } else {
                 List<Departamento> deps = Persistence.select(Departamento.class, Persistence.createExpression(new Pair<>("sigla", curriculo.getDisciplina().getDepartamento().getSigla())), true);
+
                 curriculo.getDisciplina().setDepartamento(deps.get(0));
+
                 Persistence.insert(curriculo.getDisciplina());
-                curr.setDisciplina(Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getDisciplina().getCodigo())), false).get(0)));
+
+                curriculo.setDisciplina(disciplinas.get(0));
             }
 
             Persistence.insert(curriculo);
@@ -64,18 +65,16 @@ public class CurriculoController {
         List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
         List<Curriculo> curriculo = Persistence.select(Curriculo.class, Persistence.createExpression(new Pair<>("curso", (cursos.get(0)).getId())), true);
 
-        return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo.get(0)) :
-                ClientUtils.sendMessage(new NotFoundMessage("This curriculum wasn't found on our system."));
+        return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This curriculum wasn't found on our system."));
     }
 
     @Path("/getCurriculos/codigoCurso={codigo}")
     @GET
-    @Produces(MediaType.APPLICATION_JSON) 
+    @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculosByCodigo(@PathParam("codigo") int codigo) throws Exception {
-        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", codigo)), false);
+        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", codigo)), true);
         List<Curriculo> curriculo = Persistence.select(Curriculo.class, Persistence.createExpression(new Pair<>("curso", (cursos.get(0)).getId())), true);
 
-         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : 
-                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
-    }  
+        return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+    }
 }

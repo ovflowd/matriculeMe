@@ -50,12 +50,12 @@ public class Departamento {
     public void setCodigo(int codigo) {
         this.codigo = codigo;
     }
-    
-    public void setSigla(String sigla){
-    	this.sigla = sigla;
+
+    public String getSigla() {
+        return sigla;
     }
-    
-    public String getSigla(){
-    	return sigla;
+
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
     }
 }

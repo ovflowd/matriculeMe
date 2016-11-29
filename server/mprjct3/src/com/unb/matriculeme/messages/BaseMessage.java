@@ -1,6 +1,5 @@
 package com.unb.matriculeme.messages;
 
-import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import sun.reflect.generics.reflectiveObjects.NotImplementedException;
 

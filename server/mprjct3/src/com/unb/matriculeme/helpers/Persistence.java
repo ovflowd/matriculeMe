@@ -85,8 +85,7 @@ public final class Persistence {
         return result;
     }
 
-    public static  <T> List<T> selectJoin(Class from, String argumentOne, String argumentTwo)
-    {
+    public static <T> List<T> selectJoin(Class from, String argumentOne, String argumentTwo) {
         Connection c = new Connection();
 
         c.getManager().getTransaction().begin();

@@ -8,10 +8,12 @@ import javax.persistence.criteria.CriteriaBuilder;
 public class Connection {
 
     private static EntityManagerFactory factory;
-
+    private static CriteriaBuilder builder;
     private EntityManager manager;
 
-    private static CriteriaBuilder builder;
+    public Connection() {
+        manager = getFactory().createEntityManager();
+    }
 
     public static CriteriaBuilder getBuilder() {
         return builder == null ? builder = getFactory().getCriteriaBuilder() : builder;
@@ -21,8 +23,8 @@ public class Connection {
         return factory == null ? factory = Persistence.createEntityManagerFactory("myDB") : factory;
     }
 
-    public Connection() {
-        manager = getFactory().createEntityManager();
+    public static void closeFactory() {
+        factory.close();
     }
 
     public EntityManager getManager() {
@@ -31,9 +33,5 @@ public class Connection {
 
     public void closeManager() {
         manager.close();
-    }
-
-    public static void closeFactory() {
-        factory.close();
     }
 }

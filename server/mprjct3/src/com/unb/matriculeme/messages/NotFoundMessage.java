@@ -1,6 +1,6 @@
 package com.unb.matriculeme.messages;
 
-public class NotFoundMessage extends BaseMessage{
+public class NotFoundMessage extends BaseMessage {
 
     public NotFoundMessage() {
         this.SetCode(404);

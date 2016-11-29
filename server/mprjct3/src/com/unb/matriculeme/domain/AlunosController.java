@@ -1,9 +1,7 @@
 package com.unb.matriculeme.domain;
 
 import com.mysema.commons.lang.Pair;
-import com.unb.matriculeme.dao.Aluno;
-import com.unb.matriculeme.dao.Curso;
-import com.unb.matriculeme.dao.Login;
+import com.unb.matriculeme.dao.*;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.Persistence;
 import com.unb.matriculeme.messages.AllRightMessage;
@@ -18,42 +16,30 @@ import java.util.List;
 @Path("/alunos")
 public class AlunosController {
 
-    /******************************ABAIXO SEGUE O TRIGGER DO MACHINE LEARNING***************
-     *                                                                                     *    
-     *                                      ¯\_('')_/¯                                     *    
-     *                                                                                     *
-     ***************************************************************************************/
-    /*
     @Path("/updateAluno/disciplinasCursadas")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateAlunoFull(Aluno aluno){
-        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(aluno.getMatricula()), false);
-        List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(aluno.getCurso().getCodigo()), false);
-        for(int i = 0; i < aluno.getDisciplinasCursadas().size(); i++)
-        {
-            List mencoes     = PersistenceHelper.queryCustom("Mencao", "codigo",aluno.getDisciplinasCursadas().get(i).getMencao().getCodigo(), true);
-            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().getCodigo()), false);
-            List semestres   = PersistenceHelper.queryCustom("Semestre", "codigo", aluno.getDisciplinasCursadas().get(i).getOferta().getSemestre().getCodigo(), true);
-            List ofertas = PersistenceHelper.queryCustomTurma("Oferta", "disciplina_id", ((Disciplina)disciplinas.get(0)).getId(), "semestre_id", ((Semestre)semestres.get(0)).getId());
-            aluno.getDisciplinasCursadas().get(i).setMencao((Mencao)mencoes.get(0));
-            aluno.getDisciplinasCursadas().get(i).setOferta((Oferta)ofertas.get(0));
-        }   
-        
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
-        EntityManager em = emf.createEntityManager();
-        em.getTransaction().begin();
-        Aluno a1 = (Aluno)em.merge(alunos.get(0));  
-        a1.setDisciplinasCursadas(aluno.getDisciplinasCursadas());
-        a1.setIra(aluno.getIra());
-        a1.setSemestreAtual(aluno.getSemestreAtual());
-        a1.setCurso((Curso)cursos.get(0));
-        em.getTransaction().commit();
-        em.close();
-        emf.close();
-        //TRIGGER
-        return Response.status(200).build();  
-    }*/
+    public Response updateAlunoFull(Aluno aluno) throws IllegalAccessException {
+        List<Aluno> alunos = Persistence.select(Aluno.class, Persistence.createExpression(new Pair<>("matricula", aluno.getMatricula())), true);
+        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", aluno.getCurso().getCodigo())), true);
+
+        for (int i = 0; i < aluno.getDisciplinasCursadas().size(); i++) {
+            List<Mencao> mencoes = Persistence.select(Mencao.class, Persistence.createExpression(new Pair<>("codigo", aluno.getDisciplinasCursadas().get(i).getMencao().getCodigo())), true);
+            List<Disciplina> disciplinas = Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().getCodigo())), true);
+            List<Semestre> semestres = Persistence.select(Semestre.class, Persistence.createExpression(new Pair<>("codigo", aluno.getDisciplinasCursadas().get(i).getOferta().getSemestre().getCodigo())), true);
+            List<Oferta> ofertas = Persistence.select(Oferta.class, Persistence.createExpression(new Pair<>("disciplina", disciplinas.get(0).getId()), new Pair<>("semestre", semestres.get(0).getId())), true);
+
+            aluno.getDisciplinasCursadas().get(i).setMencao(mencoes.get(0));
+            aluno.getDisciplinasCursadas().get(i).setOferta(ofertas.get(0));
+        }
+
+        aluno.setCurso(cursos.get(0));
+
+        Persistence.update(alunos.get(0), aluno);
+
+
+        return ClientUtils.sendMessage(new AllRightMessage("The user was updated successfully with the coursed disciplines!"));
+    }
 
     @Path("/getAluno/nome={nome}")
     @GET
