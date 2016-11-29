@@ -64,9 +64,9 @@ public class TurmaController {
         List<Disciplina> disciplinas = Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
 
         if (disciplinas.size() > 0) {
-            List<Oferta> ofertas = Persistence.select(Oferta.class, Persistence.createExpression(new Pair<>("disciplina_id", disciplinas.get(0).getId())), true);
+            List<Oferta> ofertas = Persistence.select(Oferta.class, Persistence.createExpression(new Pair<>("disciplina", disciplinas.get(0).getId())), true);
             if (ofertas.size() > 0) {
-                List turmas = Persistence.select(Turma.class, Persistence.createExpression(new Pair<>("oferta_id", ofertas.get(0).getId())), true);
+                List turmas = Persistence.select(Turma.class, Persistence.createExpression(new Pair<>("oferta", ofertas.get(0).getId())), true);
                 return turmas.size() > 0 ? ClientUtils.sendResponse(turmas) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
             }
 
