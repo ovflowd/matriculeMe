@@ -1,10 +1,10 @@
-import java.util.*;
+package projeto.matriculeme.REST;
 
+import java.util.*;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
 //FK viram classes mudar isso
-package projeto.matriculeme.REST;
 public class ML {
 
 	public static int PesoSemestre(int sDepartamento, int sAluno) {
@@ -70,7 +70,7 @@ public class ML {
 							}
 						}
 						LinkedList<Curriculo> clone = grade.listaPertence;
-						curr.getDisciplina().setTurmas(new ArrayList<Turma>(){oferta}); //define apenas 1 turma para aquela disciplina
+						curr.getDisciplina().setTurmas(new ArrayList<Turma>()); //define apenas 1 turma para aquela disciplina
 						clone.add(curr);
 						// Ramo que inclui essa disciplina
 						auxIncludeInter = GetGrid(new Grades(grade.listaOrdenada,
@@ -209,7 +209,7 @@ public class ML {
 		// cursados para lista ponderada
 		for (Curriculo disc : arrayDiscACursar) {
 			
-			disc.GeraMetrica(aluno,curriculoAluno);
+			disc.GeraMetrica(aluno,perf,curriculoAluno);
 			if (disc.getDisciplina().metrica > 0) {
 				disciplineList.addLast(disc);
 			}

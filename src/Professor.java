@@ -1,3 +1,5 @@
+package projeto.matriculeme.REST;
+
 public class Professor {
     private int id;//Chave prim�ria da tabela Professores
     private String nome;//Nome do professor

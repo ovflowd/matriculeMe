@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class Horario {
 	private Turma turma;
 	private String dia;

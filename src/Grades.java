@@ -1,5 +1,6 @@
-import java.util.LinkedList;
 package projeto.matriculeme.REST;
+import java.util.LinkedList;
+
 public class Grades /////Classe Manipula as informa��es do algoritmo
 	{
 		LinkedList<Curriculo> listaOrdenada = null;

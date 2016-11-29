@@ -1,6 +1,8 @@
+package projeto.matriculeme.REST;
+
 import java.util.ArrayList;
 import java.util.List;
-package projeto.matriculeme.REST;
+
 public class Disciplina{
 	private String nome;
 	private Departamento departamento;

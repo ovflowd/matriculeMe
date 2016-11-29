@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class Motivo {
 	private int id;
 	private String descricao;

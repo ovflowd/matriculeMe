@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class Login {
     private String password;
     private String accessKey;

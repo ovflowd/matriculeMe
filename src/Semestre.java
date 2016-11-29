@@ -1,3 +1,4 @@
+package projeto.matriculeme.REST;
 public class Semestre 
 {
 	private int id;

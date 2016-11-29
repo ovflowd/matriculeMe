@@ -1,5 +1,6 @@
-import java.util.List;
+package projeto.matriculeme.REST;
 
+import java.util.List;
 public class Turma 
 {
 	private int id;   

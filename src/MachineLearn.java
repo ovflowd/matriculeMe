@@ -1,37 +1,27 @@
-
-import com.google.gson.Gson;
-import com.sun.jersey.api.client.Client;
-import com.sun.jersey.api.client.ClientResponse;
-import com.sun.jersey.api.client.WebResource;
-import java.io.IOException;
-
-
+package projeto.matriculeme.REST;
 import javax.ws.rs.Consumes;
-import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
-import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
+import com.google.gson.Gson;
 
-package projeto.matriculeme.REST;
+
 @Path("/MachineLearn")
 public class MachineLearn {
 	
 	@POST
 	@Path("/loadAluno")
-	@Consumes("application/textplain")
-	public String postAluno(String htmlHist){
+	@Consumes(MediaType.TEXT_PLAIN)
+	public void postAluno(String json){
+		Gson gson = new Gson();
+		Aluno aluno = new Aluno();
+		aluno = gson.fromJson(json,Aluno.class);
 		ML criador = new ML();
-		Gson json = new Gson();
-		criador.MachineLearn(json.fromJson(htmlHist, Aluno));
-		
-		ClientRest cliente = new ClientRest();
-		cliente.enviarDados(jsonEnviar);
-		System.out.println(jsonEnviar);
-		return jsonEnviar;
+		criador.MachineLearn(aluno);
 	}
 	public void main()
 	{
-		receberDados("http://homol.redes.unb.br/ptr022016-b/mprjct3/alunos/getAluno/nome='batata'");
+		ClientRest criador = new ClientRest();
+		criador.receberDados("http://homol.redes.unb.br/ptr022016-b/mprjct3/alunos/getAluno/nome='batata'");
 	}
 }

@@ -1,11 +1,14 @@
-import java.util.ArrayList;
+package projeto.matriculeme.REST;
 
+import java.util.ArrayList;
+import java.util.List;
 public class Perfil 
 {
 	private int id;
 	public ArrayList<Departamento> departamentos;
-	public int[] metrica;
-	
+	transient public int[] metrica;
+	public String metricaString;
+	public Aluno aluno;
 	
 	
 	public int PerfilporDepartamento(int dDep){return this.getMetrica(dDep);}
@@ -14,8 +17,33 @@ public class Perfil
 	public Perfil() 
 	{
 		this.departamentos = new ArrayList<Departamento>();
+		this.metrica = new int[90];
+		this.aluno = new Aluno();
+		this.metricaString ="";
+	}
+	
+	public void GeraPerfil(List<DisciplinasCursadas> histDisciplinas)
+	{
+    	
+		
+		for(DisciplinasCursadas disciplina : histDisciplinas)
+		{
+			
+			if(this.getDepartamento(disciplina.getId())==null)
+			{
+			//disciplina ainda nao mapeada
+				this.departamentos.add(disciplina.getOferta().getDisciplina().getDepartamento());
+			}
+			if(disciplina.Nota()>0)
+			{//
+				this.setMetricaDep(disciplina.Nota(),disciplina.getOferta().getDisciplina().getDepartamento().getCodigo());
+			}
+		}
 		
 	}
+    
+	
+	
 	public int getId()
 	{
 		return id;

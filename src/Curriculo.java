@@ -1,5 +1,6 @@
-import java.util.ArrayList;
 package projeto.matriculeme.REST;
+import java.util.ArrayList;
+
 public class Curriculo  implements Comparable<Curriculo>{
 	private Disciplina disciplina;
 	private Curso curso;
@@ -58,7 +59,7 @@ public class Curriculo  implements Comparable<Curriculo>{
 	}
 	
 	
-	void GeraMetrica(Aluno aluno, ArrayList<Curriculo> historico) 
+	void GeraMetrica(Aluno aluno,Perfil perf, ArrayList<Curriculo> historico) 
 	{
 		boolean valida = false;
 		for(Requisito C : disciplina.getRequisitoDisciplina())	
@@ -97,7 +98,8 @@ public class Curriculo  implements Comparable<Curriculo>{
 		
 		if(valida & vagasExistentes==true) //ja tem pre requisitos e existem vagas
 			{
-			this.disciplina.metrica = aluno.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),disciplina.getCodigo());
+			
+			this.disciplina.metrica = perf.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),disciplina.getCodigo());
 			
 			}
 		else

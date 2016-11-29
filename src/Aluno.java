@@ -1,8 +1,8 @@
+package projeto.matriculeme.REST;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
-package projeto.matriculeme.REST;
 public class Aluno{
 	private int matricula;
 	private String nome;

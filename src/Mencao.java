@@ -1,4 +1,4 @@
-
+package projeto.matriculeme.REST;
 public class Mencao{
 	private int id; 
 	private String codigo;
