@@ -504,28 +504,36 @@ angular.module('starter.controllers', [])
         count=0;
       }else{
         //Se não for a página de login, verifica se o histórico está aberto
-        if (y.getElementById("alumatricula") != null){
+        if(y.getElementById("alumatricula") != null){
+          enviar.htmlHist=y.body.innerHTML;
+          alert(enviar.htmlHist);
+        }
+        if(y.getElementById("lblAlumatricula") != null){
+          enviar.htmlHist=y.body.innerHTML;
+          alert(enviar.htmlHist);
+        }
+        if (enviar.htmlHist && enviar.htmlQR){
           //Se for o histórico, captura e envia, muda de estado
           //Verificar se o envio do HTML via $http funciona
           var config = { headers:{
               'Content-Type' : 'text/plain'
             }
           }
-	 clearInterval(timer);
-          $http.post(Url+'/disciplinasCursadas/setHist',y.body.innerHTML,config)
-			.success(function(response){
-				var notice = $ionicPopup.alert({
-        			title: 'FUNCIONOU!!',
-        			template: 'seu historico foi atualizado'});
-				$state.go('app.grade');
-			}).error(function(response){
-				var popUp= $ionicPopup.confirm({
+	        clearInterval(timer);
+          $http.post(Url+'/disciplinasCursadas/setHist',enviar,config)
+			      .success(function(response){
+				      var notice = $ionicPopup.alert({
+        			  title: 'FUNCIONOU!!',
+        			  template: 'seu historico foi atualizado'});
+				      $state.go('app.grade');
+			      }).error(function(response){
+				      var popUp= $ionicPopup.confirm({
             		title: 'Fora do ar!?',
 		            subTitle: 'Não foi possivel conectar com nosso servidor',	
 		            template: 'O que deseja fazer?',
     		        cancelText: 'Tentar novamente',
     		        okText: 'Tentar mais tarde'
-	        	}).then(function(res){	
+	        	  }).then(function(res){	
 	            	if(res){
     	        	    clearInterval(timer);
     	        	    $state.go('app.grade');
@@ -533,21 +541,20 @@ angular.module('starter.controllers', [])
     	        	    count=0;
     	        	    timer=setInterval(verifica,3000);
 	            	}
-		        });
-			});
-          //por alguma razão o echo não acontece imediatamente
-          //$scope.saida=y.body.innerHTML;//echo
-          //O alert abaixo funciona, logo esta parte da função é executada em algum momento
+		          });
+			      });
           clearInterval(timer);
-          //alert(y.body.innerHTML);
-          //$state.go('app.grade');
         }else{
           //Se não for a página do histórico, verifica se o aluno está logado
           qtd=y.getElementsByClassName("PadraoMenu").length;
           if (qtd>1){
             //Se estiver logado, abre a página do histórico
             $scope.saida="Obtendo teu histórico, aguarde"
-            frame.location="https://wwwsec.serverweb.unb.br/graduacao/sec/he.aspx";
+            if(!enviar.htmlHist){
+              frame.location="https://wwwsec.serverweb.unb.br/graduacao/sec/he.aspx";
+            }else{
+              frame.location="https://wwwsec.serverweb.unb.br/graduacao/sec/qr.aspx";
+            }
           }else{
             //Se não estiver logado, direciona para a página de login
             frame.location="http://wwwsec.serverweb.unb.br/graduacao/sec/login.aspx";
@@ -555,7 +562,6 @@ angular.module('starter.controllers', [])
         }
       }
     };
-
     //Faz verificações a cada ~3 segundos. O ideal seria usar "onload" ou "document.ready" mas não estavam se comportando como esperado
     timer=setInterval(verifica,3000);
 });
