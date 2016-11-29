@@ -9,10 +9,10 @@ import javax.ws.rs.core.Response;
 
 public class RestClient {
 
-    public void sendData(String data) {
+    public static void sendData(String data, String url) {
         try {
             //@TODO Remove this thing
-            WebTarget target = ClientBuilder.newClient(new ClientConfig()).target("http://127.0.0.1:8090/mining/rest/datamining/historico");
+            WebTarget target = ClientBuilder.newClient(new ClientConfig()).target(url);
 
             Response response = target.request("application/textplain").post(Entity.entity(data, "application/textplain"), Response.class); // What to do here
 

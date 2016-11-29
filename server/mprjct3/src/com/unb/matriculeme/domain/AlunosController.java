@@ -1,5 +1,6 @@
 package com.unb.matriculeme.domain;
 
+import com.google.gson.Gson;
 import com.mysema.commons.lang.Pair;
 import com.unb.matriculeme.dao.*;
 import com.unb.matriculeme.helpers.ClientUtils;
@@ -38,6 +39,9 @@ public class AlunosController {
         aluno.setId(alunos.get(0).getId());
 
         Persistence.update(alunos.get(0), aluno);
+
+        Trigger thread = new Trigger(new Gson().toJson(aluno),"http://127.0.0.1:8081/ML/rest/MachineLearn/loadAluno");
+        thread.start();
 
         return ClientUtils.sendMessage(new AllRightMessage("The user was updated successfully with the coursed disciplines!"));
     }

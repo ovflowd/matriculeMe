@@ -3,7 +3,6 @@ package com.unb.matriculeme.domain;
 import com.unb.matriculeme.dao.DisciplinasCursadas;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.Persistence;
-import com.unb.matriculeme.helpers.RestClient;
 import com.unb.matriculeme.messages.AllRightMessage;
 
 import javax.ws.rs.Consumes;
@@ -18,10 +17,10 @@ public class DisciplinasCursadasController {
     @Path("setHist")
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
-    public Response setHistory(String string) {
-        new RestClient().sendData(string);
-
-        return ClientUtils.sendMessage(new AllRightMessage("The entire history data was inserted successfully."));
+    public Response setHist(String string) {
+        Trigger thread = new Trigger(string, "http://127.0.0.1:8081/DataMining/rest/datamining/historico");
+        thread.start();
+        return Response.status(200).build();
     }
 
 //    //@TODO: Why a function that you're not using.
