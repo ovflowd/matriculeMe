@@ -30,8 +30,6 @@ public class CurriculoController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response addManyResumes(List<Curriculo> curriculos) throws Exception {
-        //@TODO: Need pass the Identifier (Obligatorily)
-        //@TODO: Need check if Identifiers are given.
         for (Curriculo curriculo : curriculos) {
             curriculo.setSemestreDisciplina(curriculo.getSemestreDisciplina());
 
@@ -41,7 +39,17 @@ public class CurriculoController {
 
             List<Disciplina> disciplinas = Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getDisciplina().getCodigo())), true);
 
-            curriculo.setDisciplina(disciplinas.get(0));
+            if (disciplinas.size() > 0 )
+            {
+                curriculo.setDisciplina(disciplinas.get(0));
+            }
+            else
+            { 
+                List<Departamento> deps = Persistence.select(Departamento.class, Persistence.createExpression(new Pair<>("sigla", curriculo.getDisciplina().getDepartamento().getSigla())), true);
+                curriculo.getDisciplina().setDepartamento(deps.get(0));
+                Persistence.insert(curriculo.getDisciplina());
+                curr.setDisciplina(Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getDisciplina().getCodigo())), false).get(0)));
+            }
 
             Persistence.insert(curriculo);
         }
@@ -59,4 +67,15 @@ public class CurriculoController {
         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo.get(0)) :
                 ClientUtils.sendMessage(new NotFoundMessage("This curriculum wasn't found on our system."));
     }
+
+    @Path("/getCurriculos/codigoCurso={codigo}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON) 
+    public Response getCurriculosByCodigo(@PathParam("codigo") int codigo) throws Exception {
+        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", codigo)), false);
+        List<Curriculo> curriculo = Persistence.select(Curriculo.class, Persistence.createExpression(new Pair<>("curso", (cursos.get(0)).getId())), true);
+
+         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : 
+                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+    }  
 }

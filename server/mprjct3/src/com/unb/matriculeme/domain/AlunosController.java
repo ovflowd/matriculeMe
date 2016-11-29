@@ -17,6 +17,44 @@ import java.util.List;
 
 @Path("/alunos")
 public class AlunosController {
+
+    /******************************ABAIXO SEGUE O TRIGGER DO MACHINE LEARNING***************
+     *                                                                                     *    
+     *                                      ¯\_('')_/¯                                     *    
+     *                                                                                     *
+     ***************************************************************************************/
+    /*
+    @Path("/updateAluno/disciplinasCursadas")
+    @PUT
+    @Consumes(MediaType.APPLICATION_JSON)
+    public Response updateAlunoFull(Aluno aluno){
+        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(aluno.getMatricula()), false);
+        List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(aluno.getCurso().getCodigo()), false);
+        for(int i = 0; i < aluno.getDisciplinasCursadas().size(); i++)
+        {
+            List mencoes     = PersistenceHelper.queryCustom("Mencao", "codigo",aluno.getDisciplinasCursadas().get(i).getMencao().getCodigo(), true);
+            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().getCodigo()), false);
+            List semestres   = PersistenceHelper.queryCustom("Semestre", "codigo", aluno.getDisciplinasCursadas().get(i).getOferta().getSemestre().getCodigo(), true);
+            List ofertas = PersistenceHelper.queryCustomTurma("Oferta", "disciplina_id", ((Disciplina)disciplinas.get(0)).getId(), "semestre_id", ((Semestre)semestres.get(0)).getId());
+            aluno.getDisciplinasCursadas().get(i).setMencao((Mencao)mencoes.get(0));
+            aluno.getDisciplinasCursadas().get(i).setOferta((Oferta)ofertas.get(0));
+        }   
+        
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+        EntityManager em = emf.createEntityManager();
+        em.getTransaction().begin();
+        Aluno a1 = (Aluno)em.merge(alunos.get(0));  
+        a1.setDisciplinasCursadas(aluno.getDisciplinasCursadas());
+        a1.setIra(aluno.getIra());
+        a1.setSemestreAtual(aluno.getSemestreAtual());
+        a1.setCurso((Curso)cursos.get(0));
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+        //TRIGGER
+        return Response.status(200).build();  
+    }*/
+
     @Path("/getAluno/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
