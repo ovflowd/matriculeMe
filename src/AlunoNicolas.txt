@@ -1,0 +1,51 @@
+{
+	"id": 4,
+	"matricula": 150043759,
+	"nome": "nicolas",
+	"ira": 4,
+	"semestreAtual": 6,
+	"curso": {
+		"id": 104,
+		"nome": "ENGENHARIA DE REDES DE COMUNICAÇÃO ",
+		"codigo": 6351,
+		"creditosLimite": 30
+	},
+	"interesse": "",
+	"disciplinasCursadas": [{
+		"id": 1558,
+		"mencao": {
+			"id": 1495,
+			"codigo": "SS"
+		},
+		"oferta": {
+			"id": 1427,
+			"disciplina": {
+				"id": 1423,
+				"nome": "PROJETO DE ESTRADAS 2 ",
+				"departamento": {
+					"id": 235,
+					"nome": "Departamento de Engenharia Civil e Ambiental ",
+					"sigla": "ENC",
+					"codigo": 162
+				},
+				"credito": 4,
+				"codigo": 166731,
+				"requisitoDisciplina": [{
+					"id": 1289,
+					"codigo": "166723",
+					"tipo": "0"
+				}]
+			},
+			"semestre": {
+				"id": 1428,
+				"codigo": "200"
+			}
+		}
+	}],
+	"login": {
+		"id": 3,
+		"password": "senha",
+		"accessKey": "login"
+	},
+	"sugestoes": []
+}
