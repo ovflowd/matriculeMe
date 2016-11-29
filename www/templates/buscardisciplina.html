@@ -16,7 +16,7 @@
             <div class="row" ng-repeat="disciplina in disciplinas | orderBy : 'nomeDisc' ">
                 <!-- esta div deve ocupar o restante da tela -->
                 <div class="margin1" style="padding: 10px">
-                    <button style="height:40px;width:300px;text-align:left;" class="button button-royal ion-information-circled" ng-click="mostrarInfo(disciplina,$index)">
+                    <button style="width:300px;text-align:left;" class="button button-royal ion-information-circled" ng-click="mostrarInfo(disciplina,$index)">
                         {{disciplina.dept}} - {{disciplina.nomeDisc}}
                     </button>
                 </div>
