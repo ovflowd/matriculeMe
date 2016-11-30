@@ -1,10 +1,9 @@
 package projeto.matriculeme.REST;
-
 import com.sun.jersey.api.client.Client;
 import com.sun.jersey.api.client.ClientResponse;
 import com.sun.jersey.api.client.WebResource;
+
 public class ClientRest {
-	
 	public String receberDados(String url){
 		try {
 			Client client = Client.create();

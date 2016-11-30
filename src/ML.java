@@ -19,14 +19,11 @@ public class ML {
 		return (10 - tipo) * 10;
 	}
 
-	
-	
-	
-	
+		
 	public Grades GetGrid(Grades grade) //// Funcao geradora da grade final
 	{
 		// se nao alcancou a folha da arvore
-		if (grade.listaOrdenada.isEmpty()) {
+		if (!grade.listaOrdenada.isEmpty()) {
 			Grades selecionado = grade;
 			Curriculo curr = grade.listaOrdenada.removeFirst();
 			Disciplina first = curr.getDisciplina();
@@ -166,9 +163,22 @@ public class ML {
 		
 		ClientRest cliente = new ClientRest();
 		Gson transformar = new Gson();
-		ArrayList<Curriculo> curriculoAluno = transformar.fromJson(cliente.receberDados("//Curriculo/GetCurriculo/CodigoCurso="+aluno.getCurso().getCodigo()), new TypeToken<ArrayList<Curriculo>>(){}.getType());
 		
-		ArrayList<Curriculo> arrayDiscACursar = curriculoAluno;
+		
+		//TRY AND CATCH
+		ArrayList<Curriculo> curriculoAluno = new ArrayList<Curriculo>();
+		try
+		{
+		curriculoAluno = transformar.fromJson(cliente.receberDados("http://homol.redes.unb.br/ptr0220160-b/mprjct3/curriculo/getCurriculo/aluno="+String.valueOf(aluno.getCurso().getCodigo())), new TypeToken<ArrayList<Curriculo>>(){}.getType());
+		}catch (Exception i)
+		{
+			System.out.print("ERRO\n");
+		}
+	    //try and catch  FIM
+		
+		
+		ArrayList<Curriculo> arrayDiscACursar = new ArrayList<Curriculo>();
+		try{
 		for(int i = 0; i < curriculoAluno.size(); i++)
 		{ 
 			for(int j = 0; j < aluno.getDisciplinasCursadas().size(); j++){
@@ -189,9 +199,13 @@ public class ML {
 				}
 			}
 		}		
-	
+		}catch (Exception i)
+		{
+			System.out.print("ERRO 2\n");
+		}
 		
 		Perfil perf = new Perfil();
+		try{
 		perf.aluno = aluno;
 		perf.GeraPerfil(aluno.getDisciplinasCursadas());
 		
@@ -201,12 +215,17 @@ public class ML {
 			if(p>0)
 			{
 				perf.metricaString += String.valueOf(p);
-			}
+		}
 		}		
-				
+		}catch(Exception i)
+		{
+			System.out.print("ERRO 3\n");
+		}
+		
 		LinkedList<Curriculo> disciplineList = new LinkedList<Curriculo>();
 		// varre entradas, atribui pesos e filtra apenas elementos que podem ser
 		// cursados para lista ponderada
+		try{
 		for (Curriculo disc : arrayDiscACursar) {
 			
 			disc.GeraMetrica(aluno,perf,curriculoAluno);
@@ -214,12 +233,17 @@ public class ML {
 				disciplineList.addLast(disc);
 			}
 		}
+		}catch(Exception i)
+		{
+			System.out.print("ERRO 4\n");
+		}
 		// ordena lista
 		Collections.sort(disciplineList);
 		// instancia inicio de operacoes
 		Grades result = GetGrid(new Grades(disciplineList));
 		ArrayList<Sugestao> finalForm = new ArrayList<Sugestao>();
 		int prio = 0;
+		try{
 		for(Curriculo resultado: result.listaPertence)
 		{
 			Sugestao sugestion = new Sugestao();
@@ -230,7 +254,10 @@ public class ML {
 			sugestion.setCurriculo(resultado);
 			finalForm.add(sugestion);
 		}
-		
+		}catch(Exception i)
+		{
+			System.out.print("ERRO 5");
+		}
 		perf.aluno.setSugestoes(finalForm);
 		
 		System.out.println(transformar.toJson(perf));

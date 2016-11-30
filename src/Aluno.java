@@ -10,7 +10,7 @@ public class Aluno{
 	private int semestreAtual;
 	private Curso curso;
 	private String interesse;
-	private List<DisciplinasCursadas> disciplinasCursadas;
+	public List<DisciplinasCursadas> disciplinasCursadas;
 	private Login login;
 	private List<Sugestao> sugestoes;
     private int id;
