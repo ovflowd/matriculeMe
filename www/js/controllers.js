@@ -155,7 +155,7 @@ angular.module('starter.controllers', [])
         });
         $http.get(Url + '/disciplinas/getDisciplina/innome=' + busca.title)
             .success(function (data) {
-		$scope.disciplinas = [];
+        $scope.disciplinas = [];
                 popUp.close();
                 for(i = 0;i < data.length;i++){
                   var fuck = {
@@ -167,12 +167,18 @@ angular.module('starter.controllers', [])
                   $scope.disciplinas.push(fuck);
                 }
             })
-            .error(function(data) {
+            .error(function(data,status) {
                 popUp.close();
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Erro!',
-                    template: 'Ocorreu um erro ao processar a requisição, tente mais tarde'
-                });
+                if(status == '404'){
+                  var notice = $ionicPopup.alert({
+                    title: 'Não encontrado',
+                    template: 'Nenhuma disciplina com este nome, tente novamente'});}
+                else {
+                    var alertPopup = $ionicPopup.alert({
+                        title: 'Erro!',
+                        template: 'Ocorreu um erro ao processar a requisição, tente mais tarde'
+                    });
+                }
             });
     }
     
