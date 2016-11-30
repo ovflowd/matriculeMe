@@ -419,10 +419,17 @@ angular.module('starter.controllers', [])
         })
         .error(function(data) {
             popUp.close();
-            var alertPopup = $ionicPopup.alert({
-                title: 'Erro!',
-                template: 'Ocorreu um erro ao processar a requisição, tente mais tarde'
-            });
+            if(status == '404'){
+                  var notice = $ionicPopup.alert({
+                    title: 'Não encontrado',
+                    template: 'Nenhuma turma para esta disciplina'
+                });
+            }else{
+                var alertPopup = $ionicPopup.alert({
+                    title: 'Erro!',
+                    template: 'Ocorreu um erro ao processar a requisição, tente mais tarde'
+                });
+            }
         });
     
     $scope.addGrade=function(turma){
