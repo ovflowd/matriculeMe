@@ -470,6 +470,7 @@ angular.module('starter.controllers', [])
 .controller('WebCtrl', function($scope, $state, $timeout,$ionicPopup, $http) {
     $scope.saida="Contactando MatriculaWeb";
     var timer=null;
+    var enviar={};
     var count=0;
     var x = document.getElementById("oi");
     //x.style.display='none';
@@ -477,6 +478,7 @@ angular.module('starter.controllers', [])
     var frame=window.frames[0];
     $scope.$on('$ionicView.enter', function(e) {
         frame.location="https://wwwsec.serverweb.unb.br/graduacao/sec/login.aspx?sair=1";
+        enviar={htmlHist:'',htmlQR:''};
     });
 
     //Função que automatiza a captura e navegação
@@ -492,7 +494,6 @@ angular.module('starter.controllers', [])
             okText: 'Tentar mais tarde'
         }).then(function(res){
             if(res){
-                clearInterval(timer);
                 $state.go('app.grade');
             }else{
                 count=0;
@@ -515,44 +516,41 @@ angular.module('starter.controllers', [])
         //Se não for a página de login, verifica se o histórico está aberto
         if(y.getElementById("alumatricula") != null){
           enviar.htmlHist=y.body.innerHTML;
-          alert(enviar.htmlHist);
+          //alert(enviar.htmlHist);
         }
         if(y.getElementById("lblAlumatricula") != null){
-          enviar.htmlHist=y.body.innerHTML;
-          alert(enviar.htmlHist);
+          enviar.htmlQR=y.body.innerHTML;
+          //alert(enviar.htmlQR);
         }
         if (enviar.htmlHist && enviar.htmlQR){
           //Se for o histórico, captura e envia, muda de estado
-          //Verificar se o envio do HTML via $http funciona
           var config = { headers:{
               'Content-Type' : 'text/plain'
             }
           }
-	        clearInterval(timer);
-          $http.post(Url+'/disciplinasCursadas/setHist',enviar,config)
-			      .success(function(response){
-				      var notice = $ionicPopup.alert({
-        			  title: 'FUNCIONOU!!',
-        			  template: 'seu historico foi atualizado'});
-				      $state.go('app.grade');
-			      }).error(function(response){
-				      var popUp= $ionicPopup.confirm({
-            		title: 'Fora do ar!?',
-		            subTitle: 'Não foi possivel conectar com nosso servidor',	
-		            template: 'O que deseja fazer?',
-    		        cancelText: 'Tentar novamente',
-    		        okText: 'Tentar mais tarde'
-	        	  }).then(function(res){	
-	            	if(res){
-    	        	    clearInterval(timer);
-    	        	    $state.go('app.grade');
-    	        	}else{
-    	        	    count=0;
-    	        	    timer=setInterval(verifica,3000);
-	            	}
-		          });
-			      });
           clearInterval(timer);
+          $http.post(Url+'/disciplinasCursadas/setHist',enviar,config)
+                  .success(function(response){
+                      var notice = $ionicPopup.alert({
+                      title: 'Obrigado',
+                      template: 'Agora podemos gerar sugestões para você.'});
+                      $state.go('app.grade');
+                  }).error(function(response){
+                    var popUp= $ionicPopup.confirm({
+                        title: 'Fora do ar!?',
+                        subTitle: 'Não foi possivel conectar com nosso servidor',    
+                        template: 'O que deseja fazer?',
+                        cancelText: 'Tentar novamente',
+                        okText: 'Tentar mais tarde'
+                      }).then(function(res){    
+                        if(res){
+                            $state.go('app.grade');
+                        }else{
+                            count=0;
+                            timer=setInterval(verifica,3000);
+                        }
+                    });
+                  });
         }else{
           //Se não for a página do histórico, verifica se o aluno está logado
           qtd=y.getElementsByClassName("PadraoMenu").length;
