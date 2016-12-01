@@ -12,7 +12,7 @@ public class Aluno{
 	private String interesse;
 	public List<DisciplinasCursadas> disciplinasCursadas;
 	private Login login;
-	private List<Sugestao> sugestoes;
+	public List<Sugestao> sugestoes;
     private int id;
     
     public int getId() {

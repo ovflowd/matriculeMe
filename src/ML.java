@@ -26,7 +26,7 @@ public class ML {
 		// se nao alcancou a folha da arvore
 		if (!grade.listaOrdenada.isEmpty()) {
 			Grades selecionado = grade;
-			Curriculo curr = grade.listaOrdenada.removeFirst();
+			Curriculo curr = grade.listaOrdenada.remove(0);
 			Disciplina first = curr.getDisciplina();
 			System.out.println("Disciplina em analise "+first.getNome());
 			// existe creditos disponiveis
@@ -49,7 +49,7 @@ public class ML {
 						{
 							for( int i = Integer.parseInt(h.getHorarioInicio()); i <= Integer.parseInt(h.getHorarioFim());i++)
 							{
-								if(!grade.SLOT[Integer.parseInt(h.getDia())][i].equals(null))
+								if(!((grade.SLOT[Integer.parseInt(h.getDia())][i])==0))
 								{
 									System.out.print("Ocupado");
 									valid = false;
@@ -65,7 +65,7 @@ public class ML {
 						{
 							for( int i = Integer.parseInt(h.getHorarioInicio()); i <= Integer.parseInt(h.getHorarioFim());i++)
 							{
-								auxInclude.SLOT[Integer.parseInt(h.getDia())][i] = String.valueOf(first.getCodigo() + "-" + String.valueOf(oferta.getCodigo()));
+								auxInclude.SLOT[Integer.parseInt(h.getDia())][i] = first.getCodigo();// + "-" + String.valueOf(oferta.getCodigo()));
 								System.out.println("Valido");
 									
 							}
@@ -210,7 +210,7 @@ public class ML {
 			System.out.print("ERRO 3\n");
 		}
 		
-		LinkedList<Curriculo> disciplineList = new LinkedList<Curriculo>();
+		List<Curriculo> disciplineList = new ArrayList<Curriculo>();
 		// varre entradas, atribui pesos e filtra apenas elementos que podem ser
 		// cursados para lista ponderada
 		
@@ -220,7 +220,7 @@ public class ML {
 			System.out.print(disc.getDisciplina().metrica+" metrica | ");
 			if (disc.getDisciplina().metrica > 0) 
 			{
-				disciplineList.addLast(disc);
+				disciplineList.add(disc);
 			}
 			}
 		try{
@@ -230,23 +230,23 @@ public class ML {
 		}
 		// ordena lista
 		Collections.sort(disciplineList);
-		System.out.println(disciplineList.getFirst().getDisciplina().metrica+" first metrica");
+		System.out.println(disciplineList.get(0).getDisciplina().metrica+" first metrica");
 		// instancia inicio de operacoes
 		Grades result = GetGrid(new Grades(disciplineList));
 		
 		ArrayList<Sugestao> finalForm = new ArrayList<Sugestao>();
 		int prio = 0;
 		
-		for(String[] s :result.SLOT)
+		for(int[] s :result.SLOT)
 		{
-			result.horarios.concat("/"+String.join("/", s));
+			result.horarios.concat("/"+String.join("/", s.toString()));
 		}
 		result.horarios.replaceFirst("/", "");
 		result.horarios = result.horarios.replaceAll("/null/", "/0/");
 		
 		try{
 			
-		for(Curriculo resultado: result.listaPertence)
+		for(Curriculo resultado: disciplineList)// result.listaPertence)
 		{
 			Sugestao sugestion = new Sugestao();
 			sugestion.setCreditos(resultado.getDisciplina().getCredito());
@@ -261,12 +261,12 @@ public class ML {
 		{
 			System.out.print("ERRO 5");
 		}
-		perf.aluno.setSugestoes(finalForm);
+		perf.aluno.sugestoes = finalForm;
 		
 	//	cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/SetPerfil/matricula="+String.valueOf(aluno.getMatricula()));
 		// PROFIT
 		
-		return transformar.toJson(result.horarios);
+		return transformar.toJson(perf);
 	}
 
 	
