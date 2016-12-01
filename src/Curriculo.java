@@ -79,6 +79,7 @@ public class Curriculo  implements Comparable<Curriculo>{
 				//tratar entre ou de listaDePrerequisitos
 				
 				String[] requisitos;
+				System.out.println(C.getDisciplinaRequisito()+" YOLOOOOOO");
 				try{
 				 requisitos = C.getDisciplinaRequisito().split("+");
 				}
@@ -100,10 +101,16 @@ public class Curriculo  implements Comparable<Curriculo>{
 					boolean validaAux = false;
 					for(Curriculo ha : historico)  
 					{ 
-					if(String.valueOf(ha.getDisciplina()).equals(req) & C.getTipo()==0) //prerequisito
+						
+						System.out.println(req+" checks "+String.valueOf(ha.getDisciplina().getCodigo()));
+					//if(String.valueOf(ha.getDisciplina().getCodigo()).equals(req)) //prerequisito
+						if(req.contains(String.valueOf(ha.getDisciplina().getCodigo()))) //prerequisito
 						{
 						validaAux = true;	
 						}
+					else{
+						System.out.println(ha.getDisciplina().getCodigo()+" Sem Requisito");
+					}
 					}
 					
 					//// Coorequisito a Tratar

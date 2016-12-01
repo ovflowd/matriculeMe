@@ -19,8 +19,7 @@ public class MachineLearn {
 		Aluno aluno = new Aluno();
 		aluno = gson.fromJson(json,Aluno.class);
 		ML criador = new ML();
-		String result = criador.MachineLearn(aluno);
-		return result;
+		return criador.MachineLearn(aluno);
 	}
 	public void main()
 	{

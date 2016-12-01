@@ -1,7 +1,7 @@
 package projeto.matriculeme.REST;
 public class Sugestao {
 	private int id;
-	private Curriculo curriculo;
+	private Disciplina curriculo;
 	private int prioridade;
 	private boolean vagas;
 	private String motivo;
@@ -9,7 +9,7 @@ public class Sugestao {
 
 	public Sugestao() 
 	{
-		this.curriculo = new Curriculo();
+		this.curriculo = new Disciplina();
 		this.prioridade = 0;
 		this.vagas = false;
 		this.motivo = new String();
@@ -23,11 +23,11 @@ public class Sugestao {
 	{
 		this.id = id;
 	}
-	public Curriculo getCurriculo()
+	public Disciplina getCurriculo()
 	{
 		return curriculo;
 	}
-	public void setCurriculo(Curriculo curriculo)
+	public void setCurriculo(Disciplina curriculo)
 	{
 		this.curriculo = curriculo;
 	}

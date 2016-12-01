@@ -1,12 +1,12 @@
 package projeto.matriculeme.REST;
 public class Requisito {
 	private int id;
-	private String discicplinaRequisito; 
+	private String codigo; 
 	private int tipo;
 	
 	public Requisito() 
 	{
-		this.discicplinaRequisito = new String();
+		this.codigo = new String();
 		this.tipo = 0;
 	}
 	public int getId() 
@@ -15,7 +15,7 @@ public class Requisito {
 	}
 	public String getDisciplinaRequisito() 
 	{
-		return discicplinaRequisito;
+		return codigo;
 	}
 	public void setTipo(int tipo)
 	{

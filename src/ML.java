@@ -32,6 +32,7 @@ public class ML {
 			// existe creditos disponiveis
 			if (first.metrica < 30 - grade.totalCreditos) {
 				Grades auxInclude = new Grades(grade.SLOT);
+				auxInclude.metricaTotal+=first.metrica;
 				Grades auxExclude = new Grades(grade.SLOT);
 				Grades auxSelecionado = new Grades(grade.SLOT);
 				for (Turma oferta : first.getTurmas()) //// Paralelismo das
@@ -76,7 +77,8 @@ public class ML {
 						auxIncludeInter = GetGrid(new Grades(grade.listaOrdenada,
 								grade.pertencentes.concat(
 										String.valueOf(first.getCodigo()) + "-" + String.valueOf(oferta.getCodigo()) + "|"),
-								 grade.metricaTotal + first.metrica,
+								//ALESSANDRAMUDOUAQUI 
+								grade.metricaTotal += first.metrica,
 								grade.totalCreditos + first.getCredito(),
 								grade.listaPertence, auxInclude.SLOT
 								));
@@ -216,7 +218,7 @@ public class ML {
 		
 		for (Curriculo disc : arrayDiscACursar) {
 			
-			disc.GeraMetrica(aluno,perf,curriculoAluno);
+			disc.GeraMetrica(aluno,perf,arrayDiscACursar);
 			System.out.print(disc.getDisciplina().metrica+" metrica | ");
 			if (disc.getDisciplina().metrica > 0) 
 			{
@@ -230,6 +232,8 @@ public class ML {
 		}
 		// ordena lista
 		Collections.sort(disciplineList);
+		List<Curriculo> clone = disciplineList;
+		
 		System.out.println(disciplineList.get(0).getDisciplina().metrica+" first metrica");
 		// instancia inicio de operacoes
 		Grades result = GetGrid(new Grades(disciplineList));
@@ -243,10 +247,9 @@ public class ML {
 		}
 		result.horarios.replaceFirst("/", "");
 		result.horarios = result.horarios.replaceAll("/null/", "/0/");
-		
 		try{
 			
-		for(Curriculo resultado: disciplineList)// result.listaPertence)
+		for(Curriculo resultado: clone)// result.listaPertence)
 		{
 			Sugestao sugestion = new Sugestao();
 			sugestion.setCreditos(resultado.getDisciplina().getCredito());
@@ -254,7 +257,7 @@ public class ML {
 			prio++;
 			sugestion.setMotivo(result.horarios);
 			sugestion.setVagas(true);
-			sugestion.setCurriculo(resultado);
+			sugestion.setCurriculo(resultado.getDisciplina());
 			finalForm.add(sugestion);
 		}
 		}catch(Exception i)
@@ -268,7 +271,6 @@ public class ML {
 		
 		return transformar.toJson(perf);
 	}
-
 	
 	/// horarios >>> sugestao.motivo
 	

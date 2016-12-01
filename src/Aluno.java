@@ -12,7 +12,7 @@ public class Aluno{
 	private String interesse;
 	public List<DisciplinasCursadas> disciplinasCursadas;
 	private Login login;
-	public List<Sugestao> sugestoes;
+	public ArrayList<Sugestao> sugestoes;
     private int id;
     
     public int getId() {
@@ -105,12 +105,13 @@ public class Aluno{
 	{
 		this.disciplinasCursadas = disciplinasCursadas;
 	}
-	public List<Sugestao> getSugestoes()
+	public ArrayList<Sugestao> getSugestoes()
 	{
 		return sugestoes;
 	}
-	public void setSugestoes(List<Sugestao> sugestoes)
+	public void setSugestoes(ArrayList<Sugestao> sugestoes)
 	{
 		this.sugestoes = sugestoes;
 	}
+	
 }
