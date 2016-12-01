@@ -8,15 +8,15 @@ public class Grades /////Classe Manipula as informa��es do algoritmo
 		LinkedList<Curriculo> listaPertence = new LinkedList<Curriculo>();
 		String[] horario = new String[108];
 		String horarios;
-		int metricaTotal = 0;
+		double metricaTotal = 0;
 		int totalCreditos = 0;
 
-		public Grades(LinkedList<Curriculo> l,String p,String[] h, int m, int t,LinkedList<Curriculo> lp)
+		public Grades(LinkedList<Curriculo> l,String p,String[] h, double d, int t,LinkedList<Curriculo> lp)
 		{
 		listaOrdenada = l;
 		pertencentes = p; //disciplinas "com" da �rvore
 		horario = h;
-		metricaTotal = m; //m�trica resultante das pertencentes
+		metricaTotal = d; //m�trica resultante das pertencentes
 		totalCreditos = t; //total de cr�ditos
 		listaPertence = lp;
 		}

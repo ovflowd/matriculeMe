@@ -6,18 +6,18 @@ public class Perfil
 {
 	private int id;
 	public ArrayList<Departamento> departamentos;
-	transient public int[] metrica;
+	transient public double[] metrica;
 	public String metricaString;
 	public Aluno aluno;
 	
 	
-	public int PerfilporDepartamento(int dDep){return this.getMetrica(dDep);}
+	public double PerfilporDepartamento(int dDep){return this.getMetrica(dDep);}
     
 	
 	public Perfil() 
 	{
 		this.departamentos = new ArrayList<Departamento>();
-		this.metrica = new int[90];
+		this.metrica = new double[90];
 		this.aluno = new Aluno();
 		this.metricaString ="";
 	}
@@ -71,11 +71,11 @@ public class Perfil
 	{
 		this.departamentos = departamentos;
 	}
-	public int[] getMetrica()
+	public double[] getMetrica()
 	{
 		return metrica;
 	}
-	public int getMetrica(int Id)
+	public double getMetrica(int Id)
 	{
 		return metrica[this.departamentos.indexOf(this.getDepartamento(Id))];
 	}
@@ -84,7 +84,7 @@ public class Perfil
 		this.metrica[this.departamentos.indexOf(this.getDepartamento(Dep))] += Value;
 		this.metrica[this.departamentos.indexOf(this.getDepartamento(Dep))] /= 2;
 	}
-	public void setMetrica(int[] metrica)
+	public void setMetrica(double[] metrica)
 	{
 		this.metrica = metrica;
 	}

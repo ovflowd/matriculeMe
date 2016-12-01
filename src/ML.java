@@ -159,7 +159,7 @@ public class ML {
 
 	}
 
-	public int MachineLearn(Aluno aluno) {
+	public String MachineLearn(Aluno aluno) {
 		
 		ClientRest cliente = new ClientRest();
 		Gson transformar = new Gson();
@@ -213,7 +213,7 @@ public class ML {
 		perf.GeraPerfil(aluno.getDisciplinasCursadas());
 		
 		
-		for(int p : perf.metrica)
+		for(double p : perf.metrica)
 		{
 			if(p>0)
 			{
@@ -266,7 +266,7 @@ public class ML {
 		System.out.println(transformar.toJson(perf));
 		cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/SetPerfil/matricula="+String.valueOf(aluno.getMatricula()));
 		// PROFIT
-		return 0;
+		return perf.toString();
 	}
 
 	
