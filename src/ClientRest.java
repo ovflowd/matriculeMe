@@ -19,7 +19,7 @@ public class ClientRest {
 			System.out.println(output);
 			return output;
 		  	} catch (Exception e) {
-		  		e.printStackTrace();
+		  		//e.printStackTrace();
 		  	}
 			return "";
 	}

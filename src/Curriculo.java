@@ -69,7 +69,7 @@ public class Curriculo  implements Comparable<Curriculo>{
 		
 		if(this.disciplina.getRequisitoDisciplina().isEmpty())
 		{valida = true;
-		System.out.println("Vazia");
+		System.out.print("Sem Requisito");
 		}
 		else{
 			for(Requisito C : this.disciplina.getRequisitoDisciplina())	
@@ -131,18 +131,21 @@ public class Curriculo  implements Comparable<Curriculo>{
 				{
 				vagasExistentes = true;
 				}
+				
 			}
 		}
 		catch(Exception e)
 		{
 			System.out.println("Falha de recebimento de turma");
 		}
-		
-		if(valida & vagasExistentes==true) //ja tem pre requisitos e existem vagas
+	
+
+		if(valida & vagasExistentes) //ja tem pre requisitos e existem vagas
 			{
-				this.disciplina.metrica = perf.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),disciplina.getCodigo());
+			System.out.println("Valido " + disciplina.getNome());
+				this.disciplina.metrica =(int) perf.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),disciplina.getCodigo());
 			}
-			else
+		else
 				{disciplina.metrica = 0;}
 			
 	}

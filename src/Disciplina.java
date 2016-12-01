@@ -11,7 +11,7 @@ public class Disciplina{
 	private List<Requisito> requisitoDisciplina;
 	transient public List<Turma> turmas;
     private int id;
-    transient public double metrica;
+    transient public int metrica;
     
     
 	

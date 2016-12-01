@@ -22,7 +22,11 @@ public class Grades /////Classe Manipula as informa��es do algoritmo
 		this.metricaTotal = d; //m�trica resultante das pertencentes
 		this.totalCreditos = t; //total de cr�ditos
 		this.listaPertence = lp;
-		System.out.print("Lista comeco"+this.pertencentes+"\n");
+		try{
+		System.out.print("Lista comeco "+this.listaOrdenada.getFirst().getDisciplina().getNome()+"\n");}
+		catch(Exception e)
+		{}
+		System.out.print("Metrica "+this.metricaTotal+"\n");
 		}
 		
 		

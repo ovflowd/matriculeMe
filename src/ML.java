@@ -28,6 +28,7 @@ public class ML {
 			Grades selecionado = grade;
 			Curriculo curr = grade.listaOrdenada.removeFirst();
 			Disciplina first = curr.getDisciplina();
+			System.out.println("Disciplina em analise "+first.getNome());
 			// existe creditos disponiveis
 			if (first.metrica < 30 - grade.totalCreditos) {
 				Grades auxInclude = new Grades(grade.SLOT);
@@ -95,33 +96,14 @@ public class ML {
 
 				}
 				// ramo que n�o inclui esta disciplina
-				if (grade.metricaTotal > 10 | first.metrica < 100) //// Poda
-																	//// solu��es
-																	//// das
-																	//// arvores,
-																	//// excluem
-																	//// as
-																	//// disciplinas
-																	//// iniciais
-																	//// ate o
-																	//// n�vel
-																	//// de 10
-																	//// creditos
-																	//// totais
-																	//// ou que
-																	//// tem um
-																	//// peso
-																	//// muito
-																	//// grande
-																	//// / que
-																	//// n�o
-																	//// incluem
-																	//// disciplinas
-																	//// mandatorias
-				{
+				
 					auxExclude = GetGrid(new Grades(grade.listaOrdenada, grade.pertencentes,
 							grade.metricaTotal, grade.totalCreditos,grade.listaPertence, auxSelecionado.SLOT));
-				}
+					if (grade.metricaTotal > 10 | first.metrica < 100) 
+					{
+						System.out.println("Branch avoidable");
+						
+					}
 
 				if (auxExclude.metricaTotal > auxInclude.metricaTotal) // Pega o
 																		// maior
@@ -219,7 +201,7 @@ public class ML {
 		{
 			if(p>0)
 			{
-				System.out.println(p + " metric");
+				System.out.println(p + " metric!");
 				perf.metricaString += String.valueOf(p);
 			}
 		}		
@@ -235,8 +217,9 @@ public class ML {
 		for (Curriculo disc : arrayDiscACursar) {
 			
 			disc.GeraMetrica(aluno,perf,curriculoAluno);
-			System.out.print(disc.getDisciplina().metrica+" metrica |");
-			if (disc.getDisciplina().metrica > 0) {
+			System.out.print(disc.getDisciplina().metrica+" metrica | ");
+			if (disc.getDisciplina().metrica > 0) 
+			{
 				disciplineList.addLast(disc);
 			}
 			}
@@ -247,6 +230,7 @@ public class ML {
 		}
 		// ordena lista
 		Collections.sort(disciplineList);
+		System.out.println(disciplineList.getFirst().getDisciplina().metrica+" first metrica");
 		// instancia inicio de operacoes
 		Grades result = GetGrid(new Grades(disciplineList));
 		
