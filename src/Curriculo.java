@@ -67,29 +67,21 @@ public class Curriculo  implements Comparable<Curriculo>{
 	{
 		boolean valida = false;
 		
-		if(this.disciplina.getRequisitoDisciplina().isEmpty())
-		{valida = true;
-		System.out.print("Sem Requisito");
-		}
-		else{
+		
+		{
 			for(Requisito C : this.disciplina.getRequisitoDisciplina())	
-			{   //System.out.println(C.getDisciplinaRequisito()+"\n");
+			{   //ln(C.getDisciplinaRequisito()+"\n");
 				if(C.getTipo()==1)
 				{} //Juntas disciplinas se nao foram cursadas (super disciplina)
 				//tratar entre ou de listaDePrerequisitos
 				
 				String[] requisitos;
-				System.out.println(C.getDisciplinaRequisito()+" YOLOOOOOO");
 				try{
 				 requisitos = C.getDisciplinaRequisito().split("+");
 				}
 				catch(Exception e)
 				{
 					requisitos = new String[] {C.getDisciplinaRequisito()};
-				}
-				if(requisitos == null)
-				{
-					System.out.println("Sem requisitos");
 				}
 				for(String req : requisitos)
 				{
@@ -102,15 +94,14 @@ public class Curriculo  implements Comparable<Curriculo>{
 					for(Curriculo ha : historico)  
 					{ 
 						
-						System.out.println(req+" checks "+String.valueOf(ha.getDisciplina().getCodigo()));
+						
 					//if(String.valueOf(ha.getDisciplina().getCodigo()).equals(req)) //prerequisito
 						if(req.contains(String.valueOf(ha.getDisciplina().getCodigo()))) //prerequisito
 						{
 						validaAux = true;	
 						}
-					else{
-						System.out.println(ha.getDisciplina().getCodigo()+" Sem Requisito");
-					}
+					
+					
 					}
 					
 					//// Coorequisito a Tratar
@@ -143,13 +134,12 @@ public class Curriculo  implements Comparable<Curriculo>{
 		}
 		catch(Exception e)
 		{
-			System.out.println("Falha de recebimento de turma");
+			System.out.print("Erro");
 		}
 	
 
 		if(valida & vagasExistentes) //ja tem pre requisitos e existem vagas
 			{
-			System.out.println("Valido " + disciplina.getNome());
 				this.disciplina.metrica =(int) perf.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),disciplina.getCodigo());
 			}
 		else

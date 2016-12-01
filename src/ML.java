@@ -28,11 +28,9 @@ public class ML {
 			Grades selecionado = grade;
 			Curriculo curr = grade.listaOrdenada.remove(0);
 			Disciplina first = curr.getDisciplina();
-			System.out.println("Disciplina em analise "+first.getNome());
 			// existe creditos disponiveis
 			if (first.metrica < 30 - grade.totalCreditos) {
 				Grades auxInclude = new Grades(grade.SLOT);
-				auxInclude.metricaTotal+=first.metrica;
 				Grades auxExclude = new Grades(grade.SLOT);
 				Grades auxSelecionado = new Grades(grade.SLOT);
 				for (Turma oferta : first.getTurmas()) //// Paralelismo das
@@ -52,7 +50,6 @@ public class ML {
 							{
 								if(!((grade.SLOT[Integer.parseInt(h.getDia())][i])==0))
 								{
-									System.out.print("Ocupado");
 									valid = false;
 								}
 							}
@@ -67,7 +64,7 @@ public class ML {
 							for( int i = Integer.parseInt(h.getHorarioInicio()); i <= Integer.parseInt(h.getHorarioFim());i++)
 							{
 								auxInclude.SLOT[Integer.parseInt(h.getDia())][i] = first.getCodigo();// + "-" + String.valueOf(oferta.getCodigo()));
-								System.out.println("Valido");
+								
 									
 							}
 						}
@@ -101,11 +98,7 @@ public class ML {
 				
 					auxExclude = GetGrid(new Grades(grade.listaOrdenada, grade.pertencentes,
 							grade.metricaTotal, grade.totalCreditos,grade.listaPertence, auxSelecionado.SLOT));
-					if (grade.metricaTotal > 10 | first.metrica < 100) 
-					{
-						System.out.println("Branch avoidable");
-						
-					}
+				
 
 				if (auxExclude.metricaTotal > auxInclude.metricaTotal) // Pega o
 																		// maior
@@ -146,54 +139,58 @@ public class ML {
 
 	}
 
-	public String MachineLearn(Aluno aluno) {
+	public String MachineLearn(Aluno aluno) 
+	{
 		
 		ClientRest cliente = new ClientRest();
 		Gson transformar = new Gson();
-		
-		
-		//TRY AND CATCH
 		ArrayList<Curriculo> curriculoAluno = new ArrayList<Curriculo>();
 		try
 		{
-		curriculoAluno = transformar.fromJson(cliente.receberDados("http://homol.redes.unb.br/ptr022016-b/mprjct3/curriculos/getCurriculos/codigoCurso="+String.valueOf(aluno.getCurso().getCodigo())), new TypeToken<ArrayList<Curriculo>>(){}.getType());
-		}catch (Exception i)
-		{
-			System.out.print("ERRO\n");
+			curriculoAluno = transformar.fromJson(cliente.receberDados("http://homol.redes.unb.br/ptr022016-b/mprjct3/curriculos/getCurriculos/codigoCurso="+String.valueOf(aluno.getCurso().getCodigo())), new TypeToken<ArrayList<Curriculo>>(){}.getType());
 		}
-	    //try and catch  FIM
-		
-		
+		catch(Exception i)
+		{
+			return "null";
+		}
 		ArrayList<Curriculo> arrayDiscACursar = curriculoAluno;
-		try{
-		for(int i = curriculoAluno.size() -1 ; i > 0; i--)
-		{ 
-			for(int j = 0; j < aluno.getDisciplinasCursadas().size(); j++){
-				if(curriculoAluno.get(i).getDisciplina().getCodigo() == aluno.getDisciplinasCursadas().get(j).getOferta().getDisciplina().getCodigo() ){
-					if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("MM")){
-						arrayDiscACursar.remove(i);
-						break;
-					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("MS")){
-						arrayDiscACursar.remove(i);
-						break;
-					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("SS")){
-						arrayDiscACursar.remove(i);
-						break;
-					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("CC")){
-						arrayDiscACursar.remove(i);
-						break;
-					}else if( curriculoAluno.get(i).getDisciplina().getNome()=="" | curriculoAluno.get(i).getDisciplina().getNome()==null){
-						arrayDiscACursar.remove(i);
-						break;
-					}	
+		try
+		{
+			for(int i = curriculoAluno.size() -1 ; i > 0; i--)
+			{ 
+				for(int j = 0; j < aluno.getDisciplinasCursadas().size(); j++)
+				{
+						if(curriculoAluno.get(i).getDisciplina().getCodigo() == aluno.getDisciplinasCursadas().get(j).getOferta().getDisciplina().getCodigo() )
+						{
+							if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("MM"))
+							{
+								arrayDiscACursar.remove(i);
+								break;
+							}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("MS"))
+							{
+								arrayDiscACursar.remove(i);
+								break;
+							}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("SS"))
+							{
+								arrayDiscACursar.remove(i);
+								break;
+							}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("CC"))
+							{
+								arrayDiscACursar.remove(i);
+								break;
+							}else if( curriculoAluno.get(i).getDisciplina().getNome()=="" | curriculoAluno.get(i).getDisciplina().getNome()==null)
+							{
+								arrayDiscACursar.remove(i);
+								break;
+							}	
+						}
 				}
-			}
-		}		
-		}catch (Exception i)
+			}		
+		}
+		catch (Exception i)
 		{
 			System.out.print("ERRO 2\n");
 		}
-		System.out.print(arrayDiscACursar.size()+" a cursar\n");
 		Perfil perf = new Perfil();
 		try{
 		perf.aluno = aluno;
@@ -203,7 +200,6 @@ public class ML {
 		{
 			if(p>0)
 			{
-				System.out.println(p + " metric!");
 				perf.metricaString += String.valueOf(p);
 			}
 		}		
@@ -219,7 +215,6 @@ public class ML {
 		for (Curriculo disc : arrayDiscACursar) {
 			
 			disc.GeraMetrica(aluno,perf,arrayDiscACursar);
-			System.out.print(disc.getDisciplina().metrica+" metrica | ");
 			if (disc.getDisciplina().metrica > 0) 
 			{
 				disciplineList.add(disc);
@@ -232,9 +227,8 @@ public class ML {
 		}
 		// ordena lista
 		Collections.sort(disciplineList);
-		List<Curriculo> clone = disciplineList;
+		List<Curriculo> clone = arrayDiscACursar;
 		
-		System.out.println(disciplineList.get(0).getDisciplina().metrica+" first metrica");
 		// instancia inicio de operacoes
 		Grades result = GetGrid(new Grades(disciplineList));
 		

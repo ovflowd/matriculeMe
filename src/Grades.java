@@ -25,7 +25,6 @@ public class Grades /////Classe Manipula as informa��es do algoritmo
 		this.totalCreditos = t; //total de cr�ditos
 		this.listaPertence = lp;
 		try{
-		System.out.print("Metrica "+this.listaOrdenada.get(0).getDisciplina().metrica+"\n");
 		}catch(Exception e){}}
 		
 		

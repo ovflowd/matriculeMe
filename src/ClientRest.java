@@ -14,9 +14,7 @@ public class ClientRest {
 			if (response.getStatus() != 200) {
 				throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
 			}
-			System.out.println("Output from Server .... \n");
 			String output = response.getEntity(String.class);
-			System.out.println(output);
 			return output;
 		  	} catch (Exception e) {
 		  		//e.printStackTrace();
@@ -35,10 +33,6 @@ public class ClientRest {
 		if (response.getStatus() != 200) {
 			throw new RuntimeException("Failed : HTTP error code : "+ response.getStatus());
 		}
-		System.out.println("Output from Server .... \n");
-		String output = response.getEntity(String.class);
-		System.out.println(output);
-
 	  	} catch (Exception e) {
 	  		e.printStackTrace();
 	  		}
