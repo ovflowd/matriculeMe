@@ -140,9 +140,31 @@ angular.module('starter.controllers', [])
     /* Esta função acessa o servidor e recupera uma lista de disciplinas com nome ou código semelhante a busca.title 
      * Em seguida ele coloca o resultado na lista para serem apresentados
      * Estou supondo que é possivel solicitar com filtro (valor de busca.title) e que o resultado chegue filtrado */
+	var link;
     $scope.msg='todos os horários';
     if($stateParams.dia && $stateParams.hora){
-    	$scope.msg=$stateParams.dia+' às '+$stateParams.hora;
+      link = Url +  '/turmas/getTurmas/';
+      link = link + 'dia=' + $stateParams.dia + '&horarioInicio=' + $stateParams.hora;
+      var dia;
+      switch($stateParams.dia){
+        case '1': dia="Segunda-feira";
+          break;
+        case '2': dia="Terça-feira";
+          break;
+        case '3': dia="Quarta-feira";
+          break;
+        case '4': dia="Quinta-feira";
+          break;
+        case '5': dia="Sexta-feira";
+          break;
+        case '6': dia="Sábado";
+          break;
+      }
+
+      link = link + '&' + 'disciplina=';
+    	$scope.msg=dia+' às '+$stateParams.hora;
+    }else {
+      link = Url+'/disciplinas/getDisciplina/innome=';
     }
     $scope.procurar= function(busca) {
         if(!busca.title){
@@ -153,7 +175,7 @@ angular.module('starter.controllers', [])
           subTitle: 'Pesquisando',
           template: '<img src="img/loader.gif" height="42" width="42">'
         });
-        $http.get(Url + '/disciplinas/getDisciplina/innome=' + busca.title)
+        $http.get(link + busca.title)
             .success(function (data) {
         $scope.disciplinas = [];
                 popUp.close();
