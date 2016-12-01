@@ -100,7 +100,7 @@ angular.module('starter.controllers', [])
     };
 
     $scope.irParaTurmas=function(disciplina){
-        $state.go("app2.tela5",{"discId": $scope.swap.codDisc});
+        $state.go("app2.tela5",{"discId": $scope.swap.nomeDisc});
         $scope.taskModal.hide();
     };
 
@@ -256,7 +256,7 @@ angular.module('starter.controllers', [])
     };
     
     $scope.irParaTurmas=function(disciplina){
-        $state.go("app2.tela5",{"discId": $scope.swap.codDisc});
+        $state.go("app2.tela5",{"discId": $scope.swap.nomeDisc});
         $scope.taskModal.hide();
         //console.log('você selecionou turmas para ',$scope.swap.nomeDisc,'código:',$scope.swap.codDisc);
     };
