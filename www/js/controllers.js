@@ -417,7 +417,7 @@ angular.module('starter.controllers', [])
             popUp.close();
             $scope.disciplina = fuck;
         })
-        .error(function(data) {
+        .error(function(data,status) {
             popUp.close();
             if(status == '404'){
                   var notice = $ionicPopup.alert({
