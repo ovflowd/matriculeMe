@@ -16,9 +16,12 @@ A Interação com MatriculaWEB foi desenvolvido com a linguagem Java, e por isso
 * JSoup Library v1.9.2
 
 <b>Algoritmos Utilizados</b><br>
-O protótipo de MW do **matriculeMe** levou em consideração os seguintes algoritmos para obtenção e avaliação dos dados:
+O protótipo de MW do **matriculeMe** levou em consideração os seguintes para obtenção e avaliação dos dados:
 
-* Adicione aqui Algoritmos Utilizados
+* Todos os métodos são baseados na parserização de páginas HTML, onde primeiramente estuda-se um padrão que possa ser usado pelo programa para obtenção de dados, para em seguida ser repetido em tudo que for necessário. De forma pública, os seguintes dados são obtidos pelo módulo de Interação com o MW:
+- Dados de Cursos da UnB
+- Dados de Departamentos da UnB
+- Dados de Oferta da UnB (Turmas, Horário, Professor)
 
 <b>Como é realizada o output de Historico?</b><br>
 A saída (resultado) do MW do **matriculeMe** acontece da seguinte forma:
