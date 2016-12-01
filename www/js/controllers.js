@@ -56,9 +56,8 @@ angular.module('starter.controllers', [])
         esc=escolhas[i];
         for (var j = 0; j < esc.turma.horario.length; j++) {
           slot=esc.turma.horario[j];
-	  var unfuck = ["06", "08", "10", "12", "14", "16", "18", "20", "22", "24"];
-          dias = ["1","2","3","4","5","6"];
-          grade[unfuck.indexOf(slot.horarioInicio)][dias.indexOf(slot.dia)]=esc;
+          var dias = ["Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+          grade[parseInt((parseInt(slot.horarioInicio)-6)/2)][dias.indexOf(slot.dia)]=esc;
         }
       }
       $scope.grade = grade;
@@ -112,9 +111,29 @@ angular.module('starter.controllers', [])
         $state.reload();
         $scope.taskModal.hide();
     };
-	
+  
     $scope.request = function() {
-      $scope.oasd = sugestao.gera();
+      if(aluno.sugestoes == {}){
+        var popUp= $ionicPopup.show({
+          title: 'Aguarde',
+          subTitle: 'Carregando sugestões',
+          template: '<img src="img/loader.gif" height="42" width="42">'
+       });
+       //@TODO Pegar sugestões! 
+       $http.get(Url+'/alunos/getAluno/login='+aluno.login.accessKey+'&senha='+aluno.login.password).success(function(data) {
+            popUp.close();
+            aluno = data;
+            $state.go('app.tela4')
+            
+         }).error(function(data) {
+             popUp.close();
+             var alertPopup = $ionicPopup.alert({
+                 title: 'Erro!',
+                 template: 'Por favor tente mais tarde'
+             });
+         });
+      }
+
     }
   })
 
@@ -140,29 +159,15 @@ angular.module('starter.controllers', [])
     /* Esta função acessa o servidor e recupera uma lista de disciplinas com nome ou código semelhante a busca.title 
      * Em seguida ele coloca o resultado na lista para serem apresentados
      * Estou supondo que é possivel solicitar com filtro (valor de busca.title) e que o resultado chegue filtrado */
-	var link;
     $scope.msg='todos os horários';
+    var link;
     if($stateParams.dia && $stateParams.hora){
       link = Url +  '/turmas/getTurmas/';
-      link = link + 'dia=' + $stateParams.dia + '&horarioInicio=' + $stateParams.hora;
-      var dia;
-      switch($stateParams.dia){
-        case '1': dia="Segunda-feira";
-          break;
-        case '2': dia="Terça-feira";
-          break;
-        case '3': dia="Quarta-feira";
-          break;
-        case '4': dia="Quinta-feira";
-          break;
-        case '5': dia="Sexta-feira";
-          break;
-        case '6': dia="Sábado";
-          break;
-      }
-
+      var dias = ["Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+      var dia= dias.indexOf($stateParams.dia)+1;
+      link = link + 'dia=' + dia + '&horarioInicio=' + $stateParams.hora;
       link = link + '&' + 'disciplina=';
-    	$scope.msg=dia+' às '+$stateParams.hora;
+      $scope.msg=$stateParams.dia+' às '+$stateParams.hora;
     }else {
       link = Url+'/disciplinas/getDisciplina/innome=';
     }
@@ -175,9 +180,9 @@ angular.module('starter.controllers', [])
           subTitle: 'Pesquisando',
           template: '<img src="img/loader.gif" height="42" width="42">'
         });
-        $http.get(link + busca.title)
+        $http.get(link+ busca.title)
             .success(function (data) {
-        $scope.disciplinas = [];
+                $scope.disciplinas = [];
                 popUp.close();
                 for(i = 0;i < data.length;i++){
                   var fuck = {
@@ -190,17 +195,18 @@ angular.module('starter.controllers', [])
                 }
             })
             .error(function(data,status) {
-                popUp.close();
+              popUp.close();
                 if(status == '404'){
-                  var notice = $ionicPopup.alert({
-                    title: 'Não encontrado',
-                    template: 'Nenhuma disciplina com este nome, tente novamente'});}
-                else {
-                    var alertPopup = $ionicPopup.alert({
-                        title: 'Erro!',
-                        template: 'Ocorreu um erro ao processar a requisição, tente mais tarde'
-                    });
-                }
+                   var notice = $ionicPopup.alert({
+                     title: 'Não encontrado',
+                     template: 'Nenhuma disciplina com este nome, tente novamente.'
+                 });
+             }else{
+                 var alertPopup = $ionicPopup.alert({
+                     title: 'Erro!',
+                     template: 'Ocorreu um erro ao processar a requisição, tente mais tarde'
+                 });
+             }
             });
     }
     
@@ -240,26 +246,10 @@ angular.module('starter.controllers', [])
 })
 
   .controller("SugestoesCtrl",function($scope,$http,$ionicPopup,$ionicModal,$state){
-    if(!$scope.sugestoes){
-        var popUp= $ionicPopup.show({
-            title: 'Aguarde',
-            subTitle: 'Solicitando lista personalizada',
-            template: '<img src="img/loader.gif" height="42" width="42">'
-        });
-        $http.get('sugestoes.json')
-            .success(function (data){
-                popUp.close();
-                $scope.sugestoes=data.sugestoes;
-            })
-            .error(function(data) {
-                popUp.close();
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Erro!',
-                    template: 'Ocorreu um erro ao processar a requisição, tente mais tarde'
-                });
-            });
+    $scope.$on('$ionicView.enter', function(e) {
+    	$scope.sugestoes = aluno.sugestoes;
     }
-        
+
     $ionicModal.fromTemplateUrl('pop-up-motivo.html', function(modal) {
         $scope.taskModal = modal;
       }, {
@@ -268,7 +258,6 @@ angular.module('starter.controllers', [])
     );
       
     $scope.mostraMotivo = function(sugestao,index) {
-        //não encontrei foma mais simples de fazer isso funcionar. Variáveis somente são apresentadas se forem parte de $scope, então criei esta swap que pode ajudar em vários contextos parecidos
         $scope.swap=sugestao;
         $scope.taskModal.show();
     };
@@ -280,12 +269,11 @@ angular.module('starter.controllers', [])
     $scope.irParaTurmas=function(disciplina){
         $state.go("app2.tela5",{"discId": $scope.swap.nomeDisc});
         $scope.taskModal.hide();
-        //console.log('você selecionou turmas para ',$scope.swap.nomeDisc,'código:',$scope.swap.codDisc);
     };
     
     $scope.desgostar=function(sugestao,$index){
         //console.log('setando prioridade para',$scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].nomeDisc);
-	      var posi = $scope.sugestoes.indexOf(sugestao);
+        var posi = $scope.sugestoes.indexOf(sugestao);
         if($scope.sugestoes[posi].prioridade){
             $scope.sugestoes[posi].prioridadeOld=$scope.sugestoes[posi].prioridade;
             $scope.sugestoes[posi].prioridade=0; //Zerar prioridade da sugestão, faz com que a disciplina vá para o fim da lista
@@ -323,11 +311,11 @@ angular.module('starter.controllers', [])
 
 
     $scope.signup = function(){
-		  $state.go('signup');
+      $state.go('signup');
     }
 
     $scope.login = function() {
-	//Modificação do danilo: "Apenas deixei como comentário para teste no mobile!	    
+  //Modificação do danilo: "Apenas deixei como comentário para teste no mobile!     
        var result = (MD5($scope.data.password));
        $scope.data.senha = result;
        var popUp= $ionicPopup.show({
@@ -389,7 +377,6 @@ angular.module('starter.controllers', [])
       });
       return;
     }
-    //if(!($scope.data.first_name == "" || $scope.data.matricula.length != 9 || $scope.data.login == "" || $scope.data.password.length < 6 || $scope.data.password != $scope.data.password2)){
     var result = (MD5($scope.data.password));
     $scope.data.senha = result;
     var popUp= $ionicPopup.show({
@@ -401,7 +388,8 @@ angular.module('starter.controllers', [])
         'Content-Type' : 'text/plain'
       }
     }
-    var send = {
+
+      var send = {
         nome:      $scope.data.first_name,
         matricula: $scope.data.matricula,
         login: {
@@ -409,6 +397,7 @@ angular.module('starter.controllers', [])
           password:  $scope.data.senha
         }
       }
+
     $http.post(Url+'/alunos/setAluno/',send,config
     ).success(function(response) {
       popUp.close();
@@ -429,7 +418,8 @@ angular.module('starter.controllers', [])
          });
       }
     });
-  }//}
+  }
+
   $scope.voltar=function(){
         $state.go('login');
   }
@@ -454,7 +444,6 @@ angular.module('starter.controllers', [])
     //este controlador deve receber a disciplina para a qual se deseja selecionar uma turma como parâmetro
     //Solicita lista de turmas da disciplina para o servidor
     //Usar a id em $stateParams.discId para selecionar turmas da disciplina certa
-    console.log($stateParams.discId);
     var popUp= $ionicPopup.show({
           title: 'Aguarde',
           subTitle: 'Recuperando turmas da base de dados',
@@ -462,18 +451,18 @@ angular.module('starter.controllers', [])
     });
     $http.get(Url + '/turmas/getTurmas/disciplina=' + $stateParams.discId)
         .success(function (data){
-	    var fuck = {
-          	codDisc: data[0].oferta.disciplina.codigo,
-          	nomeDisc: data[0].oferta.disciplina.nome,
-          	turmas: []
+          var fuck = {
+            codDisc: data[0].oferta.disciplina.codigo,
+            nomeDisc: data[0].oferta.disciplina.nome,
+            turmas: []
             };
-	    for (i = 0; i < data.length; i++) {
-          	var turma = {codTurma: data[i].codigo, nomeProf: data[i].professor.nome, horario: data[i].horario};
-          	fuck.turmas.push(turma);
-            }
+          for (i = 0; i < data.length; i++) {
+            var turma = {codTurma: data[i].codigo, nomeProf: data[i].professor.nome, horario: data[i].horario};
+            fuck.turmas.push(turma);
+          }
             popUp.close();
             $scope.disciplina = fuck;
-	    for(i = 0; i < $scope.disciplina.turmas.length;i++){
+          for(i = 0; i < $scope.disciplina.turmas.length;i++){
             for(j = 0;j < $scope.disciplina.turmas[i].horario.length;j++){
               var dia;
               switch($scope.disciplina.turmas[i].horario[j].dia){
@@ -497,16 +486,16 @@ angular.module('starter.controllers', [])
         .error(function(data,status) {
             popUp.close();
             if(status == '404'){
-                  var notice = $ionicPopup.alert({
-                    title: 'Não encontrado',
-                    template: 'Nenhuma turma para esta disciplina'
-                });
-            }else{
-                var alertPopup = $ionicPopup.alert({
-                    title: 'Erro!',
-                    template: 'Ocorreu um erro ao processar a requisição, tente mais tarde'
-                });
-            }
+                 var notice = $ionicPopup.alert({
+                   title: 'Não encontrado',
+                   template: 'Nenhuma turma para esta disciplina'
+                 });
+             }else{
+                 var alertPopup = $ionicPopup.alert({
+                     title: 'Erro!',
+                     template: 'Ocorreu um erro ao processar a requisição, tente mais tarde'
+                 });
+             }
         });
     
     $scope.addGrade=function(turma){
@@ -517,7 +506,7 @@ angular.module('starter.controllers', [])
         //verificar a grade do usuário quanto a conflitos de horário
         //@TODO Este filtro necessita ser testado no mundo real.
         ocupado=filtrado.filter(function(elemento){
-            return (elemento.horario.dia == turma.horario.dia) && ((elemento.horario.horaIni >= turma.horario.horaIni && elemento.horario.horaIni < turma.horario.horaFim) || (elemento.horario.horaFim > turma.horario.horaIni && elemento.horario.horaFim <= turma.horario.horaFim));
+            return false;// (elemento.horario.dia == turma.horario.dia) && ((elemento.horario.horaIni >= turma.horario.horaIni && elemento.horario.horaIni < turma.horario.horaFim) || (elemento.horario.horaFim > turma.horario.horaIni && elemento.horario.horaFim <= turma.horario.horaFim));
         });
         //alerta-o quanto a mudança
         if(ocupado.length){
@@ -560,15 +549,16 @@ angular.module('starter.controllers', [])
 .controller('WebCtrl', function($scope, $state, $timeout,$ionicPopup, $http) {
     $scope.saida="Contactando MatriculaWeb";
     var timer=null;
-    var enviar={};
     var count=0;
+    var enviar={};
     var x = document.getElementById("oi");
     //x.style.display='none';
     //Abrir a página de login
     var frame=window.frames[0];
     $scope.$on('$ionicView.enter', function(e) {
         frame.location="https://wwwsec.serverweb.unb.br/graduacao/sec/login.aspx?sair=1";
-        enviar={htmlHist:'',htmlQR:''};
+         timer=setInterval(verifica,3000);
+         enviar={htmlHist:'',htmlQR:''};
     });
 
     //Função que automatiza a captura e navegação
@@ -584,6 +574,7 @@ angular.module('starter.controllers', [])
             okText: 'Tentar mais tarde'
         }).then(function(res){
             if(res){
+                clearInterval(timer);
                 $state.go('app.grade');
             }else{
                 count=0;
@@ -610,37 +601,38 @@ angular.module('starter.controllers', [])
         }
         if(y.getElementById("lblAlumatricula") != null){
           enviar.htmlQR=y.body.innerHTML;
-          //alert(enviar.htmlQR);
+          //alert(enviar.htmlHist);
         }
         if (enviar.htmlHist && enviar.htmlQR){
           //Se for o histórico, captura e envia, muda de estado
+          //Verificar se o envio do HTML via $http funciona
           var config = { headers:{
               'Content-Type' : 'text/plain'
             }
           }
           clearInterval(timer);
           $http.post(Url+'/disciplinasCursadas/setHist',enviar,config)
-                  .success(function(response){
-                      var notice = $ionicPopup.alert({
-                      title: 'Obrigado',
-                      template: 'Agora podemos gerar sugestões para você.'});
-                      $state.go('app.grade');
-                  }).error(function(response){
-                    var popUp= $ionicPopup.confirm({
-                        title: 'Fora do ar!?',
-                        subTitle: 'Não foi possivel conectar com nosso servidor',    
-                        template: 'O que deseja fazer?',
-                        cancelText: 'Tentar novamente',
-                        okText: 'Tentar mais tarde'
-                      }).then(function(res){    
-                        if(res){
-                            $state.go('app.grade');
-                        }else{
-                            count=0;
-                            timer=setInterval(verifica,3000);
-                        }
-                    });
-                  });
+            .success(function(response){
+              var notice = $ionicPopup.alert({
+                title: 'Obrigado!!',
+                template: 'Agora podemos gerar sugestõespara você'});
+              $state.go('app.grade');
+            }).error(function(response){
+              var popUp= $ionicPopup.confirm({
+                title: 'Fora do ar!?',
+                subTitle: 'Não foi possivel conectar com nosso servidor', 
+                template: 'O que deseja fazer?',
+                cancelText: 'Tentar novamente',
+                okText: 'Tentar mais tarde'
+              }).then(function(res){  
+                if(res){
+                    $state.go('app.grade');
+                }else{
+                    count=0;
+                    timer=setInterval(verifica,3000);
+                }
+              });
+            });
         }else{
           //Se não for a página do histórico, verifica se o aluno está logado
           qtd=y.getElementsByClassName("PadraoMenu").length;
@@ -658,7 +650,8 @@ angular.module('starter.controllers', [])
           }
         }
       }
+
     };
     //Faz verificações a cada ~3 segundos. O ideal seria usar "onload" ou "document.ready" mas não estavam se comportando como esperado
-    timer=setInterval(verifica,3000);
+   
 });
