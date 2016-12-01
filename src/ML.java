@@ -182,7 +182,7 @@ public class ML {
 		for(int i = 0; i < curriculoAluno.size(); i++)
 		{ 
 			for(int j = 0; j < aluno.getDisciplinasCursadas().size(); j++){
-				if(curriculoAluno.get(i).getDisciplina().getCodigo() == aluno.getDisciplinasCursadas().get(j).getOferta().getDisciplina().getCodigo()){
+				if(curriculoAluno.get(i).getDisciplina().getCodigo() == aluno.getDisciplinasCursadas().get(j).getOferta().getDisciplina().getCodigo() ){
 					if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("MM")){
 						arrayDiscACursar.remove(i);
 						break;
@@ -195,7 +195,10 @@ public class ML {
 					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("CC")){
 						arrayDiscACursar.remove(i);
 						break;
-					}					
+					}else if( curriculoAluno.get(i).getDisciplina().getNome()=="" | curriculoAluno.get(i).getDisciplina().getNome()==null){
+						arrayDiscACursar.remove(i);
+						break;
+					}	
 				}
 			}
 		}		
