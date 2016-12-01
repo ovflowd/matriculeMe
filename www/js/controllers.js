@@ -438,6 +438,26 @@ angular.module('starter.controllers', [])
             }
             popUp.close();
             $scope.disciplina = fuck;
+	    for(i = 0; i < $scope.disciplina.turmas.length;i++){
+            for(j = 0;j < $scope.disciplina.turmas[i].horario.length;j++){
+              var dia;
+              switch($scope.disciplina.turmas[i].horario[j].dia){
+                case '1': dia="Segunda-feira";
+                  break;
+                case '2': dia="Terça-feira";
+                  break;
+                case '3': dia="Quarta-feira";
+                  break;
+                case '4': dia="Quinta-feira";
+                  break;
+                case '5': dia="Sexta-feira";
+                  break;
+                case '6': dia="Sábado";
+                  break;
+              }
+              $scope.disciplina.turmas[i].horario[j].dia = dia;
+            }
+          }
         })
         .error(function(data,status) {
             popUp.close();
