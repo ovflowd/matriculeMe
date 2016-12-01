@@ -212,8 +212,7 @@ public class ML {
 		perf.aluno = aluno;
 		perf.GeraPerfil(aluno.getDisciplinasCursadas());
 		
-		
-		for(double p : perf.metrica)
+		for(double p : perf.getMetrica())
 		{
 			if(p>0)
 			{

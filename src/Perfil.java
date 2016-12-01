@@ -6,7 +6,8 @@ public class Perfil
 {
 	private int id;
 	public ArrayList<Departamento> departamentos;
-	transient public double[] metrica;
+	transient private double[] metrica;
+	transient public int[] suporte;
 	public String metricaString;
 	public Aluno aluno;
 	
@@ -18,6 +19,7 @@ public class Perfil
 	{
 		this.departamentos = new ArrayList<Departamento>();
 		this.metrica = new double[90];
+		this.suporte = new int[90];
 		this.aluno = new Aluno();
 		this.metricaString ="";
 	}
@@ -67,6 +69,7 @@ public class Perfil
 		return null;
 	}
 	
+
 	public void setDepartamentos(ArrayList<Departamento> departamentos)
 	{
 		this.departamentos = departamentos;
@@ -77,12 +80,13 @@ public class Perfil
 	}
 	public double getMetrica(int Id)
 	{
-		return metrica[this.departamentos.indexOf(this.getDepartamento(Id))];
+		return (metrica[this.departamentos.indexOf(this.getDepartamento(Id))]/suporte[this.departamentos.indexOf(this.getDepartamento(Id))]);
 	}
 	public void setMetricaDep(int Value,int Dep)
 	{
-		this.metrica[this.departamentos.indexOf(this.getDepartamento(Dep))] += Value;
-		this.metrica[this.departamentos.indexOf(this.getDepartamento(Dep))] /= 2;
+		this.metrica[this.departamentos.indexOf(this.getDepartamento(Dep))] = (this.metrica[this.departamentos.indexOf(this.getDepartamento(Dep))] 
+																				* this.suporte[this.departamentos.indexOf(this.getDepartamento(Dep))]+ Value) /( 1+ this.suporte[this.departamentos.indexOf(this.getDepartamento(Dep))]);
+		this.suporte[this.departamentos.indexOf(this.getDepartamento(Dep))] += 1;
 	}
 	public void setMetrica(double[] metrica)
 	{
