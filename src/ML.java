@@ -266,7 +266,7 @@ public class ML {
 		System.out.println(transformar.toJson(perf));
 		cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/SetPerfil/matricula="+String.valueOf(aluno.getMatricula()));
 		// PROFIT
-		return perf.toString();
+		return transformar.toJson(perf);
 	}
 
 	
