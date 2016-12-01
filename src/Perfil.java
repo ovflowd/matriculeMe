@@ -36,9 +36,9 @@ public class Perfil
 			//disciplina ainda nao mapeada
 				this.departamentos.add(disciplina.getOferta().getDisciplina().getDepartamento());
 			}
-			if(disciplina.Nota()>0)
+			if(disciplina.Nota(aluno.getIra())>0)
 			{//
-				this.setMetricaDep(disciplina.Nota(),disciplina.getOferta().getDisciplina().getDepartamento().getCodigo());
+				this.setMetricaDep(disciplina.Nota(aluno.getIra()),disciplina.getOferta().getDisciplina().getDepartamento().getCodigo());
 			}
 		}
 		
