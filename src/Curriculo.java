@@ -1,5 +1,9 @@
 package projeto.matriculeme.REST;
 import java.util.ArrayList;
+import java.util.List;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 public class Curriculo  implements Comparable<Curriculo>{
 	private Disciplina disciplina;
@@ -62,49 +66,85 @@ public class Curriculo  implements Comparable<Curriculo>{
 	void GeraMetrica(Aluno aluno,Perfil perf, ArrayList<Curriculo> historico) 
 	{
 		boolean valida = false;
-		for(Requisito C : disciplina.getRequisitoDisciplina())	
-		{
-			if(C.getTipo()==1)
-			{} //Juntas disciplinas se nao foram cursadas (super disciplina)
-			//tratar entre ou de listaDePrerequisitos
-		String[] requisitos = C.getDisciplinaRequisito().split("+");
-		for(String req : requisitos)
-		{
-			boolean validaAux = false;
-			for(Curriculo ha : historico)  
-			{ 
-			if(String.valueOf(ha.getDisciplina()).equals(req) & C.getTipo()==0) //prerequisito
-				{
-				validaAux = true;	
+		
+		if(this.disciplina.getRequisitoDisciplina().isEmpty())
+		{valida = true;
+		System.out.println("Vazia");
+		}
+		else{
+			for(Requisito C : this.disciplina.getRequisitoDisciplina())	
+			{   //System.out.println(C.getDisciplinaRequisito()+"\n");
+				if(C.getTipo()==1)
+				{} //Juntas disciplinas se nao foram cursadas (super disciplina)
+				//tratar entre ou de listaDePrerequisitos
+				
+				String[] requisitos;
+				try{
+				 requisitos = C.getDisciplinaRequisito().split("+");
 				}
+				catch(Exception e)
+				{
+					requisitos = new String[] {C.getDisciplinaRequisito()};
+				}
+				if(requisitos == null)
+				{
+					System.out.println("Sem requisitos");
+				}
+				for(String req : requisitos)
+				{
+					if(req=="")
+					{
+						valida = true;	
+						break;
+					}
+					boolean validaAux = false;
+					for(Curriculo ha : historico)  
+					{ 
+					if(String.valueOf(ha.getDisciplina()).equals(req) & C.getTipo()==0) //prerequisito
+						{
+						validaAux = true;	
+						}
+					}
+					
+					//// Coorequisito a Tratar
+					
+					
+					//tem este requisito
+					if(validaAux)
+					{valida = true;}
+				}
+				
+			
 			}
-			
-			//// Coorequisito a Tratar
-			
-			
-			//tem este requisito
-			if(validaAux)
-			{valida = true;}
 		}
 		boolean vagasExistentes = false;
-		for(Turma T : disciplina.getTurmas())
-		{
-			if(T.getVagas()>0)
+		
+		ClientRest cliente = new ClientRest();
+		Gson transformar = new Gson();
+		
+		this.getDisciplina().turmas = transformar.fromJson(cliente.receberDados("http://homol.redes.unb.br/ptr022016-b/mprjct3/turmas/getTurmas/codDisciplina="+String.valueOf(this.getDisciplina().getCodigo())), new TypeToken<List<Turma>>(){}.getType());
+			
+		try{
+			for(Turma T : this.disciplina.getTurmas())
 			{
+				if(T.getVagas()>0)
+				{
 				vagasExistentes = true;
+				}
 			}
 		}
-		
+		catch(Exception e)
+		{
+			System.out.println("Falha de recebimento de turma");
+		}
 		
 		if(valida & vagasExistentes==true) //ja tem pre requisitos e existem vagas
 			{
-			
-			this.disciplina.metrica = perf.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),disciplina.getCodigo());
-			
+				this.disciplina.metrica = perf.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),disciplina.getCodigo());
 			}
-		else
-			disciplina.metrica = 0;
-		}	
+			else
+				{disciplina.metrica = 0;}
+			
 	}
 	public int PesoSemestre(int sDisciplina,int sAluno){return Math.max(sAluno - sDisciplina,0);}
 	public int PesoTipo(int tipo)

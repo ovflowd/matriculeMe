@@ -80,7 +80,15 @@ public class Perfil
 	}
 	public double getMetrica(int Id)
 	{
-		return (metrica[this.departamentos.indexOf(this.getDepartamento(Id))]/suporte[this.departamentos.indexOf(this.getDepartamento(Id))]);
+		
+		double result;
+		try{
+			result = (metrica[this.departamentos.indexOf(this.getDepartamento(Id))]/suporte[this.departamentos.indexOf(this.getDepartamento(Id))]);
+		}catch(Exception e)
+		{result = 0;}
+		
+		
+		return result;
 	}
 	public void setMetricaDep(int Value,int Dep)
 	{

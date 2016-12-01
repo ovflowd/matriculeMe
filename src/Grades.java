@@ -3,33 +3,40 @@ import java.util.LinkedList;
 
 public class Grades /////Classe Manipula as informa��es do algoritmo
 	{
-		LinkedList<Curriculo> listaOrdenada = null;
+		LinkedList<Curriculo> listaOrdenada = new LinkedList<Curriculo>();
 		String pertencentes = "";
 		LinkedList<Curriculo> listaPertence = new LinkedList<Curriculo>();
-		String[] horario = new String[108];
-		String horarios;
+		String[][] SLOT = new String[7][24];
+		String horarios = "";
 		double metricaTotal = 0;
 		int totalCreditos = 0;
 
-		public Grades(LinkedList<Curriculo> l,String p,String[] h, double d, int t,LinkedList<Curriculo> lp)
+		
+		
+		
+		public Grades(LinkedList<Curriculo> l,String p, double d, int t,LinkedList<Curriculo> lp,String[][] S)
 		{
-		listaOrdenada = l;
-		pertencentes = p; //disciplinas "com" da �rvore
-		horario = h;
-		metricaTotal = d; //m�trica resultante das pertencentes
-		totalCreditos = t; //total de cr�ditos
-		listaPertence = lp;
+		this.SLOT = S;
+		this.listaOrdenada = l;
+		this.pertencentes = p; //disciplinas "com" da �rvore
+		this.metricaTotal = d; //m�trica resultante das pertencentes
+		this.totalCreditos = t; //total de cr�ditos
+		this.listaPertence = lp;
+		System.out.print("Lista comeco"+this.pertencentes+"\n");
 		}
+		
 		
 		public Grades(LinkedList<Curriculo> l)
 		{
-		listaOrdenada = l;
+			this.listaOrdenada = l;
+		System.out.print("Lista comeco"+pertencentes+"\n");
+			
 		}
 		
 		
-		public Grades(String[] h)
+		public Grades(String[][] S)
 		{
-		horario = h;
+			this.SLOT = S;
 		}
 		
 		

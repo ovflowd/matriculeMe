@@ -4,7 +4,7 @@ public class Sugestao {
 	private Curriculo curriculo;
 	private int prioridade;
 	private boolean vagas;
-	private Motivo motivo;
+	private String motivo;
 	private int creditos;
 
 	public Sugestao() 
@@ -12,7 +12,7 @@ public class Sugestao {
 		this.curriculo = new Curriculo();
 		this.prioridade = 0;
 		this.vagas = false;
-		this.motivo = new Motivo();
+		this.motivo = new String();
 		this.creditos = 0;
 	}
 	public int getId()
@@ -47,13 +47,13 @@ public class Sugestao {
 	{
 		this.vagas = vagas;
 	}
-	public Motivo getMotivo()
+	public String getMotivo()
 	{
 		return motivo;
 	}
-	public void setMotivo(Motivo motivo)
+	public void setMotivo(String horarios)
 	{
-		this.motivo = motivo;
+		this.motivo = horarios;
 	}
 	public int getCreditos()
 	{

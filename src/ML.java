@@ -22,6 +22,7 @@ public class ML {
 		
 	public Grades GetGrid(Grades grade) //// Funcao geradora da grade final
 	{
+		
 		// se nao alcancou a folha da arvore
 		if (!grade.listaOrdenada.isEmpty()) {
 			Grades selecionado = grade;
@@ -29,9 +30,9 @@ public class ML {
 			Disciplina first = curr.getDisciplina();
 			// existe creditos disponiveis
 			if (first.metrica < 30 - grade.totalCreditos) {
-				Grades auxInclude = new Grades(grade.horario);
-				Grades auxExclude = new Grades(grade.horario);
-				Grades auxSelecionado = new Grades(grade.horario);
+				Grades auxInclude = new Grades(grade.SLOT);
+				Grades auxExclude = new Grades(grade.SLOT);
+				Grades auxSelecionado = new Grades(grade.SLOT);
 				for (Turma oferta : first.getTurmas()) //// Paralelismo das
 															//// arvores para
 															//// cada turma da
@@ -40,42 +41,44 @@ public class ML {
 				{
 
 					boolean valid = true;
-					Grades auxIncludeInter = new Grades(grade.horario);
-					for (int aloc = 0; aloc < oferta.getHorario().size(); aloc++) {
-						Horario[] hour = (Horario[]) oferta.getHorario().toArray();
-						for (int slot = (int) Math.pow(9, Integer.parseInt(hour[aloc].getDia()))
-								+Integer.parseInt(hour[aloc].getHorarioInicio()); slot < (int) Math.pow(9,
-										Integer.parseInt(hour[aloc].getDia()))
-										+ Integer.parseInt(hour[aloc].getHorarioFim()); slot++) {
-							if (grade.horario[slot].equals(null)) {
-								valid = false;
+					Grades auxIncludeInter = new Grades(grade.SLOT);
+					for (int aloc = 0; aloc < oferta.getHorario().size(); aloc++)
+					{
+						for(Horario h : oferta.getHorario())
+						{
+							for( int i = Integer.parseInt(h.getHorarioInicio()); i <= Integer.parseInt(h.getHorarioFim());i++)
+							{
+								if(!grade.SLOT[Integer.parseInt(h.getDia())][i].equals(null))
+								{
+									System.out.print("Ocupado");
+									valid = false;
+								}
 							}
 						}
+						
 					}
 					if (valid) // existe vaga, caso n�o exista pula ramo de
 								// solu��o
 					{
-						for (int aloc = 0; aloc < oferta.getHorario().size(); aloc++) {
-							Horario[] hour = (Horario[]) oferta.getHorario().toArray();
-							for (int slot = (int) Math.pow(9, Integer.parseInt(hour[aloc].getDia()))
-									+Integer.parseInt(hour[aloc].getHorarioInicio()); slot < (int) Math.pow(9,
-											Integer.parseInt(hour[aloc].getDia()))
-											+ Integer.parseInt(hour[aloc].getHorarioFim()); slot++) 
+						for(Horario h : oferta.getHorario())
+						{
+							for( int i = Integer.parseInt(h.getHorarioInicio()); i <= Integer.parseInt(h.getHorarioFim());i++)
 							{
-								auxSelecionado.horario[slot] = String
-										.valueOf(first.getCodigo() + "-" + String.valueOf(oferta.getCodigo()));
+								auxInclude.SLOT[Integer.parseInt(h.getDia())][i] = String.valueOf(first.getCodigo() + "-" + String.valueOf(oferta.getCodigo()));
+								System.out.println("Valido");
+									
 							}
 						}
-						LinkedList<Curriculo> clone = grade.listaPertence;
-						curr.getDisciplina().setTurmas(new ArrayList<Turma>()); //define apenas 1 turma para aquela disciplina
-						clone.add(curr);
-						// Ramo que inclui essa disciplina
+						
+							// Ramo que inclui essa disciplina
+						grade.listaPertence.add(curr);
 						auxIncludeInter = GetGrid(new Grades(grade.listaOrdenada,
 								grade.pertencentes.concat(
 										String.valueOf(first.getCodigo()) + "-" + String.valueOf(oferta.getCodigo()) + "|"),
-								auxSelecionado.horario, grade.metricaTotal + first.metrica,
+								 grade.metricaTotal + first.metrica,
 								grade.totalCreditos + first.getCredito(),
-								clone));
+								grade.listaPertence, auxInclude.SLOT
+								));
 						if (auxIncludeInter.metricaTotal > auxInclude.metricaTotal) // Pega
 																					// o
 																					// maior
@@ -116,8 +119,8 @@ public class ML {
 																	//// disciplinas
 																	//// mandatorias
 				{
-					auxExclude = GetGrid(new Grades(grade.listaOrdenada, grade.pertencentes, auxSelecionado.horario,
-							grade.metricaTotal, grade.totalCreditos,grade.listaPertence));
+					auxExclude = GetGrid(new Grades(grade.listaOrdenada, grade.pertencentes,
+							grade.metricaTotal, grade.totalCreditos,grade.listaPertence, auxSelecionado.SLOT));
 				}
 
 				if (auxExclude.metricaTotal > auxInclude.metricaTotal) // Pega o
@@ -148,8 +151,8 @@ public class ML {
 			else /// Se a solu��o n�o pode incluir essa disciplinas pois estoura
 					/// o n�mero de creditos
 			{
-				selecionado = GetGrid(new Grades(grade.listaOrdenada, grade.pertencentes, grade.horario,
-						grade.metricaTotal, grade.totalCreditos,grade.listaPertence));
+				selecionado = GetGrid(new Grades(grade.listaOrdenada, grade.pertencentes,
+						grade.metricaTotal, grade.totalCreditos,grade.listaPertence, grade.SLOT));
 			}
 			return selecionado;
 		} else /// No folha, lista vazia
@@ -169,7 +172,7 @@ public class ML {
 		ArrayList<Curriculo> curriculoAluno = new ArrayList<Curriculo>();
 		try
 		{
-		curriculoAluno = transformar.fromJson(cliente.receberDados("http://homol.redes.unb.br/ptr0220160-b/mprjct3/curriculo/getCurriculo/aluno="+String.valueOf(aluno.getCurso().getCodigo())), new TypeToken<ArrayList<Curriculo>>(){}.getType());
+		curriculoAluno = transformar.fromJson(cliente.receberDados("http://homol.redes.unb.br/ptr022016-b/mprjct3/curriculos/getCurriculos/codigoCurso="+String.valueOf(aluno.getCurso().getCodigo())), new TypeToken<ArrayList<Curriculo>>(){}.getType());
 		}catch (Exception i)
 		{
 			System.out.print("ERRO\n");
@@ -177,9 +180,9 @@ public class ML {
 	    //try and catch  FIM
 		
 		
-		ArrayList<Curriculo> arrayDiscACursar = new ArrayList<Curriculo>();
+		ArrayList<Curriculo> arrayDiscACursar = curriculoAluno;
 		try{
-		for(int i = 0; i < curriculoAluno.size(); i++)
+		for(int i = curriculoAluno.size() -1 ; i > 0; i--)
 		{ 
 			for(int j = 0; j < aluno.getDisciplinasCursadas().size(); j++){
 				if(curriculoAluno.get(i).getDisciplina().getCodigo() == aluno.getDisciplinasCursadas().get(j).getOferta().getDisciplina().getCodigo() ){
@@ -206,7 +209,7 @@ public class ML {
 		{
 			System.out.print("ERRO 2\n");
 		}
-		
+		System.out.print(arrayDiscACursar.size()+" a cursar\n");
 		Perfil perf = new Perfil();
 		try{
 		perf.aluno = aluno;
@@ -216,8 +219,9 @@ public class ML {
 		{
 			if(p>0)
 			{
+				System.out.println(p + " metric");
 				perf.metricaString += String.valueOf(p);
-		}
+			}
 		}		
 		}catch(Exception i)
 		{
@@ -227,14 +231,16 @@ public class ML {
 		LinkedList<Curriculo> disciplineList = new LinkedList<Curriculo>();
 		// varre entradas, atribui pesos e filtra apenas elementos que podem ser
 		// cursados para lista ponderada
-		try{
+		
 		for (Curriculo disc : arrayDiscACursar) {
 			
 			disc.GeraMetrica(aluno,perf,curriculoAluno);
+			System.out.print(disc.getDisciplina().metrica+" metrica |");
 			if (disc.getDisciplina().metrica > 0) {
 				disciplineList.addLast(disc);
 			}
-		}
+			}
+		try{
 		}catch(Exception i)
 		{
 			System.out.print("ERRO 4\n");
@@ -243,15 +249,26 @@ public class ML {
 		Collections.sort(disciplineList);
 		// instancia inicio de operacoes
 		Grades result = GetGrid(new Grades(disciplineList));
+		
 		ArrayList<Sugestao> finalForm = new ArrayList<Sugestao>();
 		int prio = 0;
+		
+		for(String[] s :result.SLOT)
+		{
+			result.horarios.concat("/"+String.join("/", s));
+		}
+		result.horarios.replaceFirst("/", "");
+		result.horarios = result.horarios.replaceAll("/null/", "/0/");
+		
 		try{
+			
 		for(Curriculo resultado: result.listaPertence)
 		{
 			Sugestao sugestion = new Sugestao();
 			sugestion.setCreditos(resultado.getDisciplina().getCredito());
 			sugestion.setPrioridade(prio);
 			prio++;
+			sugestion.setMotivo(result.horarios);
 			sugestion.setVagas(true);
 			sugestion.setCurriculo(resultado);
 			finalForm.add(sugestion);
@@ -262,12 +279,14 @@ public class ML {
 		}
 		perf.aluno.setSugestoes(finalForm);
 		
-		System.out.println(transformar.toJson(perf));
-		cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/SetPerfil/matricula="+String.valueOf(aluno.getMatricula()));
+	//	cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/SetPerfil/matricula="+String.valueOf(aluno.getMatricula()));
 		// PROFIT
-		return transformar.toJson(perf);
+		
+		return transformar.toJson(result.horarios);
 	}
 
+	
+	/// horarios >>> sugestao.motivo
 	
 
 	

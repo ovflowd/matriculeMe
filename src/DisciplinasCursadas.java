@@ -31,12 +31,12 @@ public class DisciplinasCursadas {
 	{
 		this.oferta = oferta;
 	}
-	int Nota() {
+	int Nota(int i) {
 		switch (this.mencao.getCodigo().toLowerCase()) {
 		case "ss":
 			return 5;
 		case "CC":
-			return 3;
+			return i/1000;
 
 		case "ms":
 			return 4;

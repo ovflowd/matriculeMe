@@ -9,7 +9,7 @@ public class Disciplina{
 	private int credito;
 	private int codigo;
 	private List<Requisito> requisitoDisciplina;
-	private List<Turma> turmas;
+	transient public List<Turma> turmas;
     private int id;
     transient public double metrica;
     
@@ -22,13 +22,12 @@ public class Disciplina{
         this.id = id;
     }
 	public Disciplina() 
-	{
+	{	
 		this.nome = new String();
 		this.departamento = new Departamento();
 		this.credito = 0;
 		this.codigo = 0;
 		this.requisitoDisciplina = new ArrayList<Requisito>();
-		this.turmas = new ArrayList<Turma>();
 		
 	}
 	public String getNome()
