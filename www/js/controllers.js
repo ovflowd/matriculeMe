@@ -248,7 +248,7 @@ angular.module('starter.controllers', [])
   .controller("SugestoesCtrl",function($scope,$http,$ionicPopup,$ionicModal,$state){
     $scope.$on('$ionicView.enter', function(e) {
     	$scope.sugestoes = aluno.sugestoes;
-    }
+    });
 
     $ionicModal.fromTemplateUrl('pop-up-motivo.html', function(modal) {
         $scope.taskModal = modal;
