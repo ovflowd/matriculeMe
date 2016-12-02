@@ -67,10 +67,13 @@ public class Curriculo  implements Comparable<Curriculo>{
 	{
 		boolean valida = false;
 		
-		
-		{
+		if(this.disciplina.getRequisitoDisciplina().isEmpty())
+		{valida = true;
+		//System.out.print("Sem Requisito");
+		}
+		else{
 			for(Requisito C : this.disciplina.getRequisitoDisciplina())	
-			{   //ln(C.getDisciplinaRequisito()+"\n");
+			{   ////System.out.println(C.getDisciplinaRequisito()+"\n");
 				if(C.getTipo()==1)
 				{} //Juntas disciplinas se nao foram cursadas (super disciplina)
 				//tratar entre ou de listaDePrerequisitos
@@ -83,6 +86,10 @@ public class Curriculo  implements Comparable<Curriculo>{
 				{
 					requisitos = new String[] {C.getDisciplinaRequisito()};
 				}
+				if(requisitos == null)
+				{
+					//System.out.println("Sem requisitos");
+				}
 				for(String req : requisitos)
 				{
 					if(req=="")
@@ -93,15 +100,10 @@ public class Curriculo  implements Comparable<Curriculo>{
 					boolean validaAux = false;
 					for(Curriculo ha : historico)  
 					{ 
-						
-						
-					//if(String.valueOf(ha.getDisciplina().getCodigo()).equals(req)) //prerequisito
-						if(req.contains(String.valueOf(ha.getDisciplina().getCodigo()))) //prerequisito
+					if(String.valueOf(ha.getDisciplina()).equals(req) & C.getTipo()==0) //prerequisito
 						{
 						validaAux = true;	
 						}
-					
-					
 					}
 					
 					//// Coorequisito a Tratar
@@ -134,12 +136,13 @@ public class Curriculo  implements Comparable<Curriculo>{
 		}
 		catch(Exception e)
 		{
-			System.out.print("Erro");
+			//System.out.println("Falha de recebimento de turma");
 		}
 	
 
 		if(valida & vagasExistentes) //ja tem pre requisitos e existem vagas
 			{
+			//System.out.println("Valido " + disciplina.getNome());
 				this.disciplina.metrica =(int) perf.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),disciplina.getCodigo());
 			}
 		else

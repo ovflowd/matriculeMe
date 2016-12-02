@@ -62,9 +62,9 @@ public class Perfil
 	
 	public Departamento getDepartamento(int Code)
 	{
-		for(Departamento Dep : departamentos)
+		for(int i =0 ; i<departamentos.size();i++)
 		{
-			if(Dep.getCodigo()== Code){return Dep;}
+			if(departamentos.get(i).getCodigo()== Code){return departamentos.get(i);}
 		}
 		return null;
 	}

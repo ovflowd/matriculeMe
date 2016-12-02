@@ -20,10 +20,7 @@ public class MachineLearn {
 		aluno = gson.fromJson(json,Aluno.class);
 		ML criador = new ML();
 		return criador.MachineLearn(aluno);
+	
 	}
-	public void main()
-	{
-		ClientRest criador = new ClientRest();
-		criador.receberDados("http://homol.redes.unb.br/ptr022016-b/mprjct3/alunos/getAluno/nome='batata'");
-	}
+	
 }

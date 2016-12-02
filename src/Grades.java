@@ -24,14 +24,13 @@ public class Grades /////Classe Manipula as informa��es do algoritmo
 		this.metricaTotal = d; //m�trica resultante das pertencentes
 		this.totalCreditos = t; //total de cr�ditos
 		this.listaPertence = lp;
-		try{
-		}catch(Exception e){}}
+		
+		}
 		
 		
 		public Grades(List<Curriculo> disciplineList)
 		{
 			this.listaOrdenada = disciplineList;
-		System.out.print("Lista comeco"+pertencentes+"\n");
 			
 		}
 		
