@@ -97,9 +97,10 @@ public class Curriculo  implements Comparable<Curriculo>{
 						break;
 					}
 					boolean validaAux = false;
-					for(Curriculo ha : disciplinasACursar)  
+					//for(Curriculo ha : disciplinasACursar)  
+					for(DisciplinasCursadas ha : aluno.getDisciplinasCursadas())
 					{ 
-					if(String.valueOf(ha.getDisciplina().getCodigo()).equals(req) && C.getTipo()==0) //prerequisito
+					if(String.valueOf(ha.getOferta().getDisciplina().getCodigo()).equals(req) && C.getTipo()==0) //prerequisito
 						{
 						validaAux = true;	
 						}
@@ -110,7 +111,13 @@ public class Curriculo  implements Comparable<Curriculo>{
 					
 					//tem este requisito
 					if(validaAux)
-					{valida = true;}
+					{
+						valida = true;
+						}
+					if(this.disciplina.getCodigo()==113034)
+					{
+						valida=false;
+					}
 				}
 				
 			

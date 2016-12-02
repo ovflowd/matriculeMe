@@ -264,8 +264,8 @@ public class ML {
 		}
 		perf.aluno.sugestoes = finalForm;
 		
-	//	cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/setPerfil/matricula="+String.valueOf(aluno.getMatricula()));
-		cliente.enviarDados(transformar.toJson(perf), "http://localhost:8080/mprjct3/perfil/setPerfil/matricula="+String.valueOf(aluno.getMatricula()));
+		cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/setPerfil/matricula="+String.valueOf(aluno.getMatricula()));
+		//cliente.enviarDados(transformar.toJson(perf), "http://localhost:8080/mprjct3/perfil/setPerfil/matricula="+String.valueOf(aluno.getMatricula()));
 		
 		// PROFIT
 		
