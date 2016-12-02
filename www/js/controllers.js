@@ -43,15 +43,15 @@ angular.module('starter.controllers', [])
 
   .controller('GradeCtrl', function($scope,$ionicModal, $state, sugestao) {
     $scope.$on('$ionicView.enter', function(e) {
-      var grade = [[{},{},{},{},{},{}],
-                   [{},{},{},{},{},{}],
-                   [{},{},{},{},{},{}],
-                   [{},{},{},{},{},{}],
-                   [{},{},{},{},{},{}],
-                   [{},{},{},{},{},{}],
-                   [{},{},{},{},{},{}],
-                   [{},{},{},{},{},{}],
-                   [{},{},{},{},{},{}]];
+      grade = [[{},{},{},{},{},{}],
+              [{},{},{},{},{},{}],
+              [{},{},{},{},{},{}],
+              [{},{},{},{},{},{}],
+              [{},{},{},{},{},{}],
+              [{},{},{},{},{},{}],
+              [{},{},{},{},{},{}],
+              [{},{},{},{},{},{}],
+              [{},{},{},{},{},{}]];
       for (var i = 0; i < escolhas.length; i++) {
         esc=escolhas[i];
         for (var j = 0; j < esc.turma.horario.length; j++) {
@@ -113,27 +113,7 @@ angular.module('starter.controllers', [])
     };
   
     $scope.request = function() {
-      if(aluno.sugestoes == {}){
-        var popUp= $ionicPopup.show({
-          title: 'Aguarde',
-          subTitle: 'Carregando sugestões',
-          template: '<img src="img/loader.gif" height="42" width="42">'
-       });
-       //@TODO Pegar sugestões! 
-       $http.get(Url+'/alunos/getAluno/login='+aluno.login.accessKey+'&senha='+aluno.login.password).success(function(data) {
-            popUp.close();
-            aluno = data;
-            $state.go('app.tela4')
-            
-         }).error(function(data) {
-             popUp.close();
-             var alertPopup = $ionicPopup.alert({
-                 title: 'Erro!',
-                 template: 'Por favor tente mais tarde'
-             });
-         });
-      }
-
+      $state.go('app.tela4')
     }
   })
 
@@ -159,6 +139,9 @@ angular.module('starter.controllers', [])
     /* Esta função acessa o servidor e recupera uma lista de disciplinas com nome ou código semelhante a busca.title 
      * Em seguida ele coloca o resultado na lista para serem apresentados
      * Estou supondo que é possivel solicitar com filtro (valor de busca.title) e que o resultado chegue filtrado */
+    $scope.$on('$ionicView.enter', function(e) {
+      $scope.disciplinas = [];
+    });
     $scope.msg='todos os horários';
     var link;
     if($stateParams.dia && $stateParams.hora){
@@ -182,7 +165,6 @@ angular.module('starter.controllers', [])
         });
         $http.get(link+ busca.title)
             .success(function (data) {
-                $scope.disciplinas = [];
                 popUp.close();
                 for(i = 0;i < data.length;i++){
                   var fuck = {
@@ -247,7 +229,27 @@ angular.module('starter.controllers', [])
 
   .controller("SugestoesCtrl",function($scope,$http,$ionicPopup,$ionicModal,$state){
     $scope.$on('$ionicView.enter', function(e) {
-    	$scope.sugestoes = aluno.sugestoes;
+        if(!aluno.sugestoes){
+            var popUp= $ionicPopup.show({
+              title: 'Aguarde',
+              subTitle: 'Carregando sugestões',
+              template: '<img src="img/loader.gif" height="42" width="42">'
+            });
+            //@TODO Pegar sugestões! 
+            $http.get(Url+'/alunos/getAluno/login='+aluno.login.accessKey+'&senha='+aluno.login.password)
+              .success(function(data) {
+                popUp.close();
+                aluno = data;
+                
+              }).error(function(data) {
+                 popUp.close();
+                 var alertPopup = $ionicPopup.alert({
+                     title: 'Erro!',
+                     template: 'Por favor tente mais tarde'
+                 });
+             });
+        }
+        $scope.sugestoes = aluno.sugestoes;
     });
 
     $ionicModal.fromTemplateUrl('pop-up-motivo.html', function(modal) {
@@ -326,6 +328,7 @@ angular.module('starter.controllers', [])
        $http.get(Url+'/alunos/getAluno/login='+$scope.data.username+'&senha='+$scope.data.senha).success(function(data) {
             popUp.close();
             $state.go('app.grade');
+            aluno=data;
          }).error(function(data) {
              popUp.close();
              var alertPopup = $ionicPopup.alert({
@@ -499,20 +502,32 @@ angular.module('starter.controllers', [])
         });
     
     $scope.addGrade=function(turma){
+        var adiciona={
+                        codDisc: $scope.disciplina.codDisc,
+                        nomeDisc: $scope.disciplina.nomeDisc,
+                        turma: turma
+                    }
         //em caso de mudança de turma para uma mesma disciplina, remove-a
         filtrado=escolhas.filter(function(elemento){
           return (elemento.codDisc != $scope.disciplina.codDisc);
         });
         //verificar a grade do usuário quanto a conflitos de horário
         //@TODO Este filtro necessita ser testado no mundo real.
-        ocupado=filtrado.filter(function(elemento){
-            return false;// (elemento.horario.dia == turma.horario.dia) && ((elemento.horario.horaIni >= turma.horario.horaIni && elemento.horario.horaIni < turma.horario.horaFim) || (elemento.horario.horaFim > turma.horario.horaIni && elemento.horario.horaFim <= turma.horario.horaFim));
-        });
+        ocupado=[];
+        for (var j = 0; j < turma.horario.length; j++) {
+          slot=turma.horario[j];
+          var dias = ["Segunda-feira","Terça-feira","Quarta-feira","Quinta-feira","Sexta-feira","Sábado"];
+          var conflito=grade[parseInt((parseInt(slot.horarioInicio)-6)/2)][dias.indexOf(slot.dia)]
+          if(conflito.turma && (ocupado.indexOf(conflito)<0)){
+            ocupado.push(conflito);
+          }
+        }
         //alerta-o quanto a mudança
         if(ocupado.length){
             var texto='<p>Você já possui disciplinas nestes horários </p><p> Deseja retirar a(s) disciplina(s)? </p>';
-            for(disc in ocupado){
-                texto+='<p>'+ocupado.nomeDisc+'</p>';
+            for (var i = 0; i < ocupado.length; i++) {
+                console.log(ocupado[i]);
+                texto+='<p>'+ocupado[i].nomeDisc+'</p>';
             }
             $ionicPopup.confirm({
                 title: 'Grade Ocupada',
@@ -525,22 +540,17 @@ angular.module('starter.controllers', [])
                     for(disc in ocupado){
                         filtrado.splice(filtrado.indexOf(disc),1);
                     }
-                }else {
-                    //sai sem fazer alterações
-                    return;
+                    filtrado.push(adiciona);
+                    escolhas=filtrado;
                 }
             });
-        }//else
-        //Insere a nova escolha à lista de escolhas do usuário
-        filtrado.push({
-            codDisc: $scope.disciplina.codDisc,
-            nomeDisc: $scope.disciplina.nomeDisc,
-            turma: turma
-        });
-        escolhas=filtrado;
-        console.log('A disciplina',$scope.disciplina.nomeDisc,'turma',turma.codTurma,'foi adicionada a tua grade');
-        //o ideal é retornar para a grade, mas tela3 é boa para testes
-        $state.transitionTo('app.grade', {}, { 
+        }else{
+            //Insere a nova escolha à lista de escolhas do usuário
+            filtrado.push(adiciona);
+            escolhas=filtrado;
+        }
+        //console.log('A disciplina',$scope.disciplina.nomeDisc,'turma',turma.codTurma,'foi adicionada a tua grade');
+        $state.transitionTo('app.tela3', {}, { 
             location: true, inherit: true, relative: 'app.grade', notify: true, reload: true
         });
     }
