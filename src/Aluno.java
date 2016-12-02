@@ -53,6 +53,7 @@ public class Aluno {
 		String creditosLimite = null;
 		while(ite.hasNext()){
 			String stringSimples = ite.next().text();
+			System.out.println(stringSimples);
 			if(stringSimples.equals("Aluno: Curso: Opção:")||stringSimples.equals("Aluna: Curso: Opção:")){
 				tratar = ite.next().text();
 				matriculaTemp = tratar.split(" ")[0];
@@ -129,23 +130,35 @@ public class Aluno {
 			}
 		}
 		Iterator<Element> ite = doc.select("TD").iterator();
+		//Element table = doc.select("TD").first();
+		//Iterator<Element> ite = table.select("tr").iterator();
 		String stringSimples = "";
 		boolean flagLaco = true;
+		boolean flagLaco2 = true;
+		int j = 0;
 		while(ite.hasNext()&&(!stringSimples.equals("Créd.:"))&&(flagLaco)){
 			stringSimples = ite.next().text();
+			//System.out.println(stringSimples);
 			stringSimples = stringSimples.replaceAll("\u00a0"," ");
 			String arrayString[] = stringSimples.split(" ");
 			for(int i = 0; i < arrayString.length; i++){
 				//System.out.println(arrayString[i]);
 				if(arrayString[i].equals("EQ")){
+					DisciplinasCursadas tempDC = new DisciplinasCursadas();
+					Mencao tempMencao = new Mencao();
+					Disciplina discTemp = new Disciplina();
 					if(arrayString[i+7].equals("=")){
 						flagLaco = false;
 						break;
 					}
-					DisciplinasCursadas tempDC = new DisciplinasCursadas();
-					Mencao tempMencao = new Mencao();
-					Disciplina discTemp = new Disciplina();
-					discTemp.setCodDisc(arrayString[i+7]);
+					while(flagLaco2){
+						if(arrayString[i+j].length() == 6){
+							flagLaco2 = false;
+						}
+						j++;
+					}
+					flagLaco2 = true;
+					discTemp.setCodDisc(arrayString[(i+j)-1]);
 					discTemp.extrairPreReq();
 					discTemp.extrairCreditos();
 					discTemp.converter();
@@ -156,6 +169,7 @@ public class Aluno {
 					tempDC.setMencao(tempMencao);
 					tempDC.setOferta(tempOferta);
 					this.getDisciplinasCursadas().add(tempDC);
+					j = 0;
 				}
 			}
 		}
