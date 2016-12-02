@@ -1,5 +1,5 @@
 // Ionic Starter App
-
+var grade;
 var escolhas = [];
 var aluno = {};
 //var Url = 'http://172.16.5.28:8080/mprjct3';
