@@ -1,6 +1,6 @@
 package com.datamining.rest.api;
-import com.datamining.rest.models.*;
 import java.io.IOException;
+
 
 
 import javax.ws.rs.Consumes;
@@ -8,15 +8,22 @@ import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
-import javax.ws.rs.core.MediaType;
 
 import java.util.ArrayList;
-import com.google.gson.Gson; 
+import com.google.gson.Gson;
 
 @Path("/datamining") 
 
 public class DataMining {
-
+	@GET
+	@Path("/script")
+	@Produces("application/textplain")
+	public String getBD(){
+		ScriptRest script = new ScriptRest();
+		Thread execute = new Thread(script);
+		execute.start();
+		return "OK";
+	}
 	@GET
 	@Path("/departamento")
 	@Produces("application/textplain")
@@ -40,6 +47,7 @@ public class DataMining {
 		jsonEnviar += "]";
 		//System.out.print("\\");
 		//guardar2 = guardar2.replaceAll("\\", "");
+		System.out.println(jsonEnviar);
 		return jsonEnviar;
 	}
 	@GET
@@ -184,30 +192,21 @@ public class DataMining {
 	@POST
 	@Path("/historico")
 	@Consumes("application/textplain")
-	public String postHistorico(String htmlHist){
+	public String postHistorico(String htmlReceiver){
 		Worker criador = new Worker();
-		criador.gerarDisciplinasCursadas(htmlHist);
-		ArrayList<String> arrayJson = new ArrayList<String>();
-		for(int i = 0; i < criador.getDisciplinasCursadas().size(); i++){
-			Gson json = new Gson();
-			String guardar = json.toJson(criador.getDisciplinasCursadas().get(i));
-			arrayJson.add(guardar);
-		}
-		String jsonEnviar = "[";
-		for(int i = 0; i < arrayJson.size(); i++){
-			if(i < arrayJson.size()-1){
-				jsonEnviar += arrayJson.get(i) + ",";
-			} else {
-				jsonEnviar += arrayJson.get(i);
-			}
-		}
-		jsonEnviar += "]";
-		//System.out.print("\\");
-		//guardar2 = guardar2.replaceAll("\\", "");
+		HTMLs html = (new Gson()).fromJson(htmlReceiver, HTMLs.class);
+		criador.gerarDisciplinasCursadas(html.getHtmlHist());
+		Aluno aluno = new Aluno(html.getHtmlQR());
+		aluno.pegarMatriCursoIraSemestre();
+		aluno.setDisciplinasCursadas(criador.getDisciplinasCursadas());
+		aluno.pegarEQ();
+		Gson transformar = new Gson();
+		String jsonEnviar = transformar.toJson(aluno);
+		//System.out.println();
 		ClientRest cliente = new ClientRest();
-		cliente.enviarDados(jsonEnviar);
+		cliente.enviarDados(jsonEnviar, "http://homol.redes.unb.br/ptr022016-b/mprjct3/alunos/updateAluno/disciplinasCursadas");
 		System.out.println(jsonEnviar);
-		return jsonEnviar;
+		return "Enviado.";
 	}
 } 
 

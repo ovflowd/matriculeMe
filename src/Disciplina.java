@@ -1,14 +1,10 @@
 package com.datamining.rest.api;
-
-import java.io.IOException;
-
-
 import java.util.ArrayList;
 import java.util.Iterator;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+
 
 public class Disciplina {
 	private transient String codDpto;
@@ -17,8 +13,9 @@ public class Disciplina {
 	private Departamento departamento;
 	//private int departamento;
 	private String nome = null;
-	private int creditos;
-	ArrayList<Requisito> requisito = new ArrayList<Requisito>();
+	private int credito;
+	ArrayList<Requisito> requisitoDisciplina = new ArrayList<Requisito>();
+	//ArrayList<TurmaEnviar> turmas = new ArrayList<TurmaEnviar>();
 	transient ArrayList<String> preReq = new ArrayList<String>();
 	
 	public void converter(){
@@ -45,7 +42,7 @@ public class Disciplina {
 			for(int i = 0; i < tratar.length; i++){
 				if(tratar[i].equals(compInic)){
 					String[] cred = tratar[i+1].split("-");
-					creditos = Integer.parseInt(cred[0]) + Integer.parseInt(cred[1]);
+					credito = Integer.parseInt(cred[0]) + Integer.parseInt(cred[1]);
 				}
 			}
 		}
@@ -119,11 +116,11 @@ public class Disciplina {
 	}
 
 	public int getCreditos() {
-		return creditos;
+		return credito;
 	}
 
 	public void setCreditos(int creditos) {
-		this.creditos = creditos;
+		this.credito = creditos;
 	}
 
 	public int getCodigo() {
@@ -148,7 +145,7 @@ public class Disciplina {
 			Requisito temp = new Requisito();
 			temp.setCodigo(preReq.get(i));
 			temp.setTipo("0");
-			requisito.add(temp);
+			requisitoDisciplina.add(temp);
 		}
 	}
 

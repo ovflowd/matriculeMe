@@ -1,7 +1,5 @@
 package com.datamining.rest.api;
 
-import com.datamining.rest.models.Oferta;
-
 public class Turmas {
 	private String codigo;
 	private String professor;

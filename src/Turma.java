@@ -1,10 +1,7 @@
 package com.datamining.rest.api;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.StringTokenizer;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -14,9 +11,33 @@ public class Turma {
 	private String codDisc;
 	//private String semestre;
 	private String horario;
-	private String profDisc;
+	private String profDisc = "";
 	private String campus;
 	private String vagas;
+	
+	public void extrairProfessor(){
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/oferta_dados.aspx?cod="+codDisc).get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
+		Element table = doc.select("TD").first();
+		Iterator<Element> ite = table.select("td").iterator();
+		while(ite.hasNext()){
+			String stringSimples = ite.next().text();
+			if(stringSimples.equals("SÁB ")){
+				for(int j = 0; j < 7; j++){
+					ite.next();
+				}
+				profDisc += ite.next().text() + ";";
+			}
+		}
+	}
 	
 	public void extrairVagas() throws IOException{
 		int flag = 0;

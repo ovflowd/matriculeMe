@@ -9,12 +9,15 @@ public class CurriculoEnviar {
 	private DisciplinaCurriculo disciplina;
 	private int semestreDisciplina;
 	
-	public CurriculoEnviar(Habilitacao habilitacao, String discipli, String sem) throws IOException {
+	public CurriculoEnviar(Habilitacao habilitacao, String discipli, String sem, String sigla) throws IOException {
 		// TODO Auto-generated constructor stub
 		this.setCurso(habilitacao);
 		this.setSemestre(Integer.parseInt(sem));
 		DisciplinaCurriculo enviar = new DisciplinaCurriculo();
 		enviar.setCodigo(Integer.parseInt(discipli));
+		DepartamentoCurriculo depto = new DepartamentoCurriculo();
+		depto.setSigla(sigla);
+		enviar.setDepartamento(depto);
 		this.setDisciplinaCurriculo(enviar);
 	}
 	public Habilitacao getCurso() {

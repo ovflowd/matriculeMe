@@ -1,9 +1,16 @@
 package com.datamining.rest.api;
 
+import java.util.Iterator;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
 public class Curriculo {
 	private transient String codCurso;
 	private transient String codDisc;
 	private transient String semestre1; 
+	private transient String siglaDepto;
 	private int curso;
 	private int disciplina;
 	private int semestre;
@@ -12,6 +19,24 @@ public class Curriculo {
 		setCurso(Integer.parseInt(codCurso));
 		setDisciplina(Integer.parseInt(codDisc));
 		setSemestre(Integer.parseInt(semestre1));
+		int flag = 0;
+		Document doc = null;
+		while(flag == 0){
+			try{doc = Jsoup.connect("https://matriculaweb.unb.br/graduacao/disciplina.aspx?cod="+codDisc).get();
+			flag = 1;
+			}
+			catch(Exception e){
+				System.out.println("Erro");
+			}
+		}
+		Element table = doc.select("TD").first();
+		Iterator<Element> ite = table.select("tr").iterator();
+		while(ite.hasNext()){
+			String textoTratar = ite.next().text();
+			if(textoTratar.split(" ")[0].equals("Órgão:")){
+				setSiglaDepto(textoTratar.split(" ")[1]);
+			}
+		}
 	}
 	
 	public String getCodCurso() {
@@ -49,5 +74,21 @@ public class Curriculo {
 	}
 	public void setSemestre(int semestreEnviar) {
 		this.semestre = semestreEnviar;
+	}
+
+	public String getSiglaDepto() {
+		return siglaDepto;
+	}
+
+	public void setSiglaDepto(String siglaDepto) {
+		this.siglaDepto = siglaDepto;
+	}
+
+	public void converterSemDpto() {
+		// TODO Auto-generated method stub
+		setCurso(Integer.parseInt(codCurso));
+		setDisciplina(Integer.parseInt(codDisc));
+		setSemestre(Integer.parseInt(semestre1));
+		setSiglaDepto("FLW");
 	}
 }

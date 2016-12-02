@@ -1,12 +1,8 @@
 package com.datamining.rest.api;
 import com.datamining.rest.models.*;
 import java.io.IOException;
-
 import java.util.ArrayList;
 import java.util.Iterator;
-
-import javax.xml.ws.http.HTTPException;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -22,7 +18,11 @@ public class Worker {
 	
 	public void gerarCurriculos() throws IOException{
 		CriadorFluxo gerador;
-		gerarHabilitacoes();
+		
+		if(habilitacoes.size() == 0){
+			gerarHabilitacoes();
+		}
+		
 		for(int i = 0; i < habilitacoes.size(); i++){
 			gerador = new CriadorFluxo();
 			gerador.extrairFluxo(habilitacoes.get(i).getCodHab());
@@ -32,10 +32,20 @@ public class Worker {
 				temp = new Curriculo();
 				temp.setCodCurso(habilitacoes.get(i).getCodHab());
 				//System.out.println(gerador.fluxo.get(j)[2]);
-				temp.setCodDisc(gerador.fluxo.get(j)[2]);
-				temp.setSemestre1(gerador.fluxo.get(j)[0]);
-				temp.converter();
-				CurriculoEnviar tempEnviar = new CurriculoEnviar(habilitacoes.get(i), gerador.fluxo.get(j)[2], gerador.fluxo.get(j)[0]);
+				System.out.println(gerador.fluxo.get(j)[1]);
+				if(gerador.fluxo.get(j)[1].equals("NÃO CADASTRADA ")){
+					System.out.println("Entrou");
+					temp.setCodDisc(gerador.fluxo.get(j)[2]);
+					temp.setSemestre1(gerador.fluxo.get(j)[0]);
+					temp.converterSemDpto();
+				}else{
+					temp.setCodDisc(gerador.fluxo.get(j)[2]);
+					temp.setSemestre1(gerador.fluxo.get(j)[0]);
+					temp.converter();
+				}
+				//System.out.println(temp.getSiglaDepto());
+				CurriculoEnviar tempEnviar = new CurriculoEnviar(habilitacoes.get(i), gerador.fluxo.get(j)[2],
+						gerador.fluxo.get(j)[0], temp.getSiglaDepto());
 				curriculos.add(tempEnviar);
 			}
 		}
@@ -71,6 +81,7 @@ public class Worker {
 			temp.setNome(ofertaPrimeiraExt.nomeDepto.get(i));
 			temp.setCod(ofertaPrimeiraExt.codDepto.get(i));
 			temp.setCodigo(Integer.parseInt(ofertaPrimeiraExt.codDepto.get(i)));
+			temp.setSigla(ofertaPrimeiraExt.siglaDepto.get(i));
 			//temp.extrairDiscOfertadas();
 			departamentos.add(temp);
 		}	
@@ -78,8 +89,9 @@ public class Worker {
 	}
 	
 	public void gerarDisciplinas() throws IOException{
-		
-		gerarDepartamentos();
+		if(departamentos.size() == 0){
+			gerarDepartamentos();
+		}
 		
 		ArrayList<String> discOfertadas = new ArrayList<String>();
 		ArrayList<String> codDiscOfertadas = new ArrayList<String>();
@@ -112,7 +124,7 @@ public class Worker {
 					discOfertadas.add(subfrase);
 					stringMW = ite2.next().text();
 				} 
-				//System.out.println(departamentos.get(i).getNome());
+				System.out.println(departamentos.get(i).getNome());
 				Disciplina temp;
 				for(int j = tamanhoAnterior; j < codDiscOfertadas.size(); j++){
 					temp = new Disciplina();
@@ -122,8 +134,8 @@ public class Worker {
 					temp.setDepartamento(departamentos.get(i));
 					temp.extrairPreReq();
 					temp.extrairCreditos();
-					temp.converterPreReq();
 					temp.converter();
+					temp.converterPreReq();
 					disciplinas.add(temp);
 				}
 			//System.out.print(stringMW);
@@ -132,21 +144,23 @@ public class Worker {
 	}
 
 	public void gerarTurmas() throws IOException{
-		
-		gerarDisciplinas();
+		if(disciplinas.size() == 0){
+			gerarDisciplinas();
+		}
 		
 		for(int i = 0; i < disciplinas.size(); i++){
-			if(!disciplinas.get(i).getCodDisc().equals("135097")){
+			if(!(disciplinas.get(i).getCodDisc().equals("135097")||disciplinas.get(i).getCodDisc().equals("156949"))){
 			Turma temp = new Turma();
 			temp.setCodDisc(disciplinas.get(i).getCodDisc());
 			temp.extrairTurmas(disciplinas.get(i).getCodDpto(), disciplinas.get(i).getCodDisc());
-			//professor
+			temp.extrairProfessor();
 			temp.extrairVagas();
 			//conversão
 			Turmas temp1 = null;
 			String[] divTemp = temp.getTurmas().split(";");
 			String[] divTemp2 = temp.getHorario().split(";");
 			String[] divVagas = temp.getVagas().split(";");
+			String[] divProf = temp.getProfDisc().split(";");
 			//System.out.println(divTemp[0]);
 			//System.out.println(divTemp2[0]);
 			//System.out.println(divVagas.length);
@@ -167,13 +181,15 @@ public class Worker {
 					}
 					if(controle < divVagas.length){
 						//Oferta ofertaTemp = new Oferta(disciplinas.get(i), "2000/0");
-						temp1 = new Turmas(divTemp[j], temp.getProfDisc(), temp.getCampus(), hora, divVagas[controle]);
+						temp1 = new Turmas(divTemp[j], divProf[controle], temp.getCampus(), hora, divVagas[controle]);
 						hora = "";
-						TurmaEnviar tempEnviar = new TurmaEnviar(temp1.getCodigo(), temp1.getHorario(), temp1.getProfessor(),
+						TurmaEnviar tempEnviar = new TurmaEnviar(temp1.getCodigo(), temp1.getHorario(), divProf[controle],
 								temp1.getVagas(), temp1.getCampus());
-						Oferta ofertaTemp = new Oferta(disciplinas.get(i),"2000/0",tempEnviar);
-						ofertas.add(ofertaTemp);
+						Oferta ofertaTemp = new Oferta(disciplinas.get(i),"2016/2");
+						tempEnviar.setOferta(ofertaTemp);
+						//turmas.add(tempEnviar);
 						turmas.add(tempEnviar);
+						//disciplinas.get(i).turmas.add(tempEnviar);
 						//System.out.println(ofertas.get(ofertas.size()-1).getDisciplina().getNomeDisc());
 					}
 					controle++;
@@ -199,7 +215,8 @@ public class Worker {
 		String inic = "Período:";
 		String fim = "Total de Créditos";
 		while(ite.hasNext()){
-			if(ite.next().text().split(" ")[0].equals(inic)){
+			String comparar = ite.next().text();
+			if(comparar.split(" ")[0].equals(inic)){
 				String tratar;
 				do{
 					tratar = ite.next().text();
@@ -217,6 +234,10 @@ public class Worker {
 									mencao.add(tratar.split(" ")[i]);
 								}else if(tratar.split(" ")[i].equals("SR")){
 									mencao.add(tratar.split(" ")[i]);
+								}else if(tratar.split(" ")[i].equals("CC")){
+									mencao.add(tratar.split(" ")[i]);
+								}else if(tratar.split(" ")[i].equals("TR")){
+									mencao.add(tratar.split(" ")[i]);
 								}
 							}
 							codDisc.add(tratar.split(" ")[0].split("-")[1]);
@@ -224,21 +245,18 @@ public class Worker {
 					}while(!(tratar.equals(fim)));
 				}
 			}
-		for(int i = 0; i < codDisc.size(); i++){
+		for(int i = 0; i < mencao.size(); i++){
 			DisciplinasCursadas temp = new DisciplinasCursadas();
-			temp.setMencao(mencao.get(i));
-			//System.out.println(codDisc.get(i));
+			Mencao tempMencao = new Mencao();
+			tempMencao.setCodigo(mencao.get(i));
+			temp.setMencao(tempMencao);
 			Disciplina discTemp = new Disciplina();
 			discTemp.setCodDisc(codDisc.get(i));
 			discTemp.extrairPreReq();
 			discTemp.extrairCreditos();
 			discTemp.converter();
 			discTemp.converterPreReq();
-			Aluno aluno = new Aluno();
-			aluno.setMatricula(11111111);
-			temp.setAluno(aluno);
-			TurmaEnviar turmaTemp = new TurmaEnviar();
-			Oferta oferta = new Oferta(discTemp, "2000/0", turmaTemp);
+			Oferta oferta = new Oferta(discTemp, "2016/2");
 			temp.setOferta(oferta);
 			disciplinasCursadas.add(temp);
 		}

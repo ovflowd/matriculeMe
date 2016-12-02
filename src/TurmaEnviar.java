@@ -3,6 +3,7 @@ package com.datamining.rest.models;
 import java.util.ArrayList;
 
 public class TurmaEnviar {
+	private Oferta oferta;
 	private String codigo;
 	private Professor professor;
 	private int campus;
@@ -49,5 +50,11 @@ public class TurmaEnviar {
 	}
 	public void setVagas(int vagas) {
 		this.vagas = vagas;
+	}
+	public Oferta getOferta() {
+		return oferta;
+	}
+	public void setOferta(Oferta oferta) {
+		this.oferta = oferta;
 	}
 }

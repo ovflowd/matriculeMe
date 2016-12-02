@@ -3,16 +3,16 @@ import com.datamining.rest.api.*;
 
 public class Oferta {
 	
-	private TurmaEnviar turma;
+	//private TurmaEnviar turma;
 	private Disciplina disciplina;
 	private Semestre semestre;
 	
-	public Oferta(Disciplina disc, String codigo, TurmaEnviar turma){
+	public Oferta(Disciplina disc, String codigo){
 		setDisciplina(disc);
 		Semestre temp = new Semestre();
 		temp.setCodigo(codigo);
 		setSemestre(temp);
-		setTurma(turma);
+		//setTurma(turma);
 	}
 	public Disciplina getDisciplina() {
 		return disciplina;
@@ -26,11 +26,4 @@ public class Oferta {
 	public void setSemestre(Semestre semestre) {
 		this.semestre = semestre;
 	}
-	public TurmaEnviar getTurma() {
-		return turma;
-	}
-	public void setTurma(TurmaEnviar turma) {
-		this.turma = turma;
-	}
-	
 }

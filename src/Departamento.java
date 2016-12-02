@@ -1,17 +1,10 @@
 package com.datamining.rest.api;
-
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Iterator;
-
-import org.jsoup.Jsoup;
-import org.jsoup.nodes.Document;
-import org.jsoup.nodes.Element;
-
 public class Departamento {
 	private String nome;
 	private int codigo;
+	private String sigla;
 	private transient String cod;
+	
 	//ArrayList<String> discOfertadas = new ArrayList<String>();
 	//ArrayList<String> codDiscOfertadas = new ArrayList<String>();
 	/*
@@ -58,6 +51,14 @@ public class Departamento {
 
 	public void setCodigo(int codEnviar) {
 		this.codigo = codEnviar;
+	}
+
+	public String getSigla() {
+		return sigla;
+	}
+
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
 
 }
