@@ -1,7 +1,7 @@
 <ion-view view-title="Disciplinas sugeridas para você">
   <ion-content class = "pag">
   	<p align="center">Estas são nossas sugestões para você. Clique em uma disciplina para obter mais informações.</p>
-        <div class="row" ng-repeat="sugestao in sugestoes | orderBy : 'prioridade' : reverse=true ">
+        <div class="row" ng-repeat="sugestao in sugestoes | orderBy : 'prioridade'">
           <div class="margin1" style="padding: 10px;">
             <button style="width:300px;text-align:left;" class="button button-royal ion-information-circled" ng-click="mostraMotivo(sugestao,$index)">
               {{sugestao.nomeDisc}}
