@@ -228,19 +228,19 @@ angular.module('starter.controllers', [])
 })
 
   .controller("SugestoesCtrl",function($scope,$http,$ionicPopup,$ionicModal,$state){
+    $scope.sugestoes = [];
+  
     $scope.$on('$ionicView.enter', function(e) {
-        if(!aluno.sugestoes){
+        if(aluno.sugestoes == 0){
             var popUp= $ionicPopup.show({
               title: 'Aguarde',
               subTitle: 'Carregando sugestões',
               template: '<img src="img/loader.gif" height="42" width="42">'
             });
-            //@TODO Pegar sugestões! 
             $http.get(Url+'/alunos/getAluno/login='+aluno.login.accessKey+'&senha='+aluno.login.password)
               .success(function(data) {
                 popUp.close();
                 aluno = data;
-                
               }).error(function(data) {
                  popUp.close();
                  var alertPopup = $ionicPopup.alert({
@@ -249,8 +249,24 @@ angular.module('starter.controllers', [])
                  });
              });
         }
-        $scope.sugestoes = aluno.sugestoes;
+        if(aluno.sugestoes.length != 0){
+            for (i = 0; i < aluno.sugestoes.length; i++){
+              var unfuck = {
+                  codDisc:      aluno.sugestoes[i].disciplina.codigo,
+                  prioridade:   aluno.sugestoes[i].prioridade,
+                  nomeDisc:     aluno.sugestoes[i].disciplina.nome,
+                  motivo:       "Nosso servidor não informa o motivo de cada disciplina sugerida"
+              };
+              $scope.sugestoes.push(unfuck);
+            }
+        } else {
+            var alertPopup = $ionicPopup.alert({
+                  title: 'Sem Sugestão',
+                  template: 'ainda não conseguimos gerar uma sugetão para você, tente novamente em alguns minutos'
+            });
+        }
     });
+  
 
     $ionicModal.fromTemplateUrl('pop-up-motivo.html', function(modal) {
         $scope.taskModal = modal;
