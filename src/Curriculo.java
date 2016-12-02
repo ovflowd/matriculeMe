@@ -63,7 +63,7 @@ public class Curriculo  implements Comparable<Curriculo>{
 	}
 	
 	
-	void GeraMetrica(Aluno aluno,Perfil perf, ArrayList<Curriculo> historico) 
+	void GeraMetrica(Aluno aluno,Perfil perf, ArrayList<Curriculo> disciplinasACursar) 
 	{
 		boolean valida = false;
 		
@@ -75,10 +75,12 @@ public class Curriculo  implements Comparable<Curriculo>{
 			for(Requisito C : this.disciplina.getRequisitoDisciplina())	
 			{   ////System.out.println(C.getDisciplinaRequisito()+"\n");
 				if(C.getTipo()==1)
-				{} //Juntas disciplinas se nao foram cursadas (super disciplina)
+				{
+					break;
+				} //Juntas disciplinas se nao foram cursadas (super disciplina)
 				//tratar entre ou de listaDePrerequisitos
 				
-				String[] requisitos;
+				String[] requisitos ;// tenta separar os requisitos (caso multiplos)
 				try{
 				 requisitos = C.getDisciplinaRequisito().split("+");
 				}
@@ -86,21 +88,18 @@ public class Curriculo  implements Comparable<Curriculo>{
 				{
 					requisitos = new String[] {C.getDisciplinaRequisito()};
 				}
-				if(requisitos == null)
-				{
-					//System.out.println("Sem requisitos");
-				}
+				
 				for(String req : requisitos)
 				{
 					if(req=="")
 					{
-						valida = true;	
+						valida = true;	//sem requisitos
 						break;
 					}
 					boolean validaAux = false;
-					for(Curriculo ha : historico)  
+					for(Curriculo ha : disciplinasACursar)  
 					{ 
-					if(String.valueOf(ha.getDisciplina()).equals(req) & C.getTipo()==0) //prerequisito
+					if(String.valueOf(ha.getDisciplina().getCodigo()).equals(req) && C.getTipo()==0) //prerequisito
 						{
 						validaAux = true;	
 						}
@@ -143,7 +142,7 @@ public class Curriculo  implements Comparable<Curriculo>{
 		if(valida & vagasExistentes) //ja tem pre requisitos e existem vagas
 			{
 			//System.out.println("Valido " + disciplina.getNome());
-				this.disciplina.metrica =(int) perf.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),disciplina.getCodigo());
+				this.disciplina.metrica =(int) perf.PerfilporDepartamento(disciplina.getDepartamento().getCodigo()) + PesoSemestre(this.getSemestreDisciplina(),aluno.getSemestreAtual());
 			}
 		else
 				{disciplina.metrica = 0;}

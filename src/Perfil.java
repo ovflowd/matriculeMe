@@ -31,7 +31,7 @@ public class Perfil
 		for(DisciplinasCursadas disciplina : histDisciplinas)
 		{
 			
-			if(this.getDepartamento(disciplina.getId())==null)
+			if(this.getDepartamento(disciplina.getOferta().getDisciplina().getDepartamento().getCodigo())==null)
 			{
 			//disciplina ainda nao mapeada
 				this.departamentos.add(disciplina.getOferta().getDisciplina().getDepartamento());
@@ -83,7 +83,7 @@ public class Perfil
 		
 		double result;
 		try{
-			result = (metrica[this.departamentos.indexOf(this.getDepartamento(Id))]/suporte[this.departamentos.indexOf(this.getDepartamento(Id))]);
+			result = suporte[this.departamentos.indexOf(this.getDepartamento(Id))] / 3 + (metrica[this.departamentos.indexOf(this.getDepartamento(Id))]/suporte[this.departamentos.indexOf(this.getDepartamento(Id))]);
 		}catch(Exception e)
 		{result = 0;}
 		

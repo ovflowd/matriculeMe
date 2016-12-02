@@ -201,7 +201,7 @@ public class ML {
 			if(p>0)
 			{
 				//System.out.println(p + " metric!");
-				perf.metricaString += String.valueOf(p);
+				perf.metricaString += String.valueOf(p)+"|";
 			}
 		}		
 		}catch(Exception i)
@@ -215,7 +215,7 @@ public class ML {
 		
 		for (Curriculo disc : arrayDiscACursar) {
 			
-			disc.GeraMetrica(aluno,perf,curriculoAluno);
+			disc.GeraMetrica(aluno,perf,arrayDiscACursar);
 			//System.out.print(disc.getDisciplina().metrica+" metrica | ");
 			if (disc.getDisciplina().metrica > 0) 
 			{
@@ -264,7 +264,9 @@ public class ML {
 		}
 		perf.aluno.sugestoes = finalForm;
 		
-		cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/SetPerfil/matricula="+String.valueOf(aluno.getMatricula()));
+	//	cliente.enviarDados(transformar.toJson(perf), "http://homol.redes.unb.br/ptr022016-b/mprjct3/perfil/setPerfil/matricula="+String.valueOf(aluno.getMatricula()));
+		cliente.enviarDados(transformar.toJson(perf), "http://localhost:8080/mprjct3/perfil/setPerfil/matricula="+String.valueOf(aluno.getMatricula()));
+		
 		// PROFIT
 		
 		return transformar.toJson(perf);
