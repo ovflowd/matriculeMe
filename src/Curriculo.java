@@ -114,10 +114,7 @@ public class Curriculo  implements Comparable<Curriculo>{
 					{
 						valida = true;
 						}
-					if(this.disciplina.getCodigo()==113034)
-					{
-						valida=false;
-					}
+					
 				}
 				
 			

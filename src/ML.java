@@ -179,6 +179,9 @@ public class ML {
 					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("CC")){
 						arrayDiscACursar.remove(i);
 						break;
+					}else if(aluno.getDisciplinasCursadas().get(j).getMencao().getCodigo().equals("EQ")){
+						arrayDiscACursar.remove(i);
+						break;
 					}else if( curriculoAluno.get(i).getDisciplina().getNome()=="" || curriculoAluno.get(i).getDisciplina().getNome()==null){
 						arrayDiscACursar.remove(i);
 						break;
@@ -214,7 +217,10 @@ public class ML {
 		// cursados para lista ponderada
 		
 		for (Curriculo disc : arrayDiscACursar) {
-			
+			if(disc.getDisciplina().getCodigo()==113034)
+			{
+				continue;
+			}
 			disc.GeraMetrica(aluno,perf,arrayDiscACursar);
 			//System.out.print(disc.getDisciplina().metrica+" metrica | ");
 			if (disc.getDisciplina().metrica > 0) 
