@@ -8,20 +8,22 @@ Uma solução criada para realizar sugestões de disciplinas e montagem de uma g
 <b>Qual o conteúdo desta Branch?</b><br>
 Arquivos relacionados ao protótipo de **Machine Learning** do **matriculeMe**
 
+Histórico e Fluxo do Aluno
+
 <b>Como foi Desenvolvido?</b><br>
 O Machine Learning foi desenvolvido com a linguagem Java, e por isso é interoperável, utilizando:
 
-* Adicione aqui Frameworks/Libraries Utilizadas
+Bibliotecas básicas java, Jersey, Eclipse, Maven, Gson e Apache Tomcat
 
 <b>Algoritmos Utilizados</b><br>
 O protótipo de ML do **matriculeMe** levou em consideração os seguintes algoritmos para obtenção e avaliação dos dados:
 
-* Adicione aqui Algoritmos Utilizados
+Àrvores de decisão ponderadas
 
 <b>Como é realizada o output de Sugestões?</b><br>
 A saída (resultado) do ML do **matriculeMe** acontece da seguinte forma:
 
-Explique como Acontece.
+Através do desempenho e histórico de disciplinas cursadas é gerada uma sugestão de disciplinas a cursar e também é sugerida uma grade horária inicial.
 
 <b>Licença e Uso</b><br>
 O Machine Learning do **matriculeMe** é Open Source e sob a Licença MIT. 
