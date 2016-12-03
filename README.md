@@ -8,11 +8,8 @@ Uma solução criada para realizar sugestões de disciplinas e montagem de uma g
 <b>Qual o conteúdo desta Branch?</b><br>
 Arquivos relacionados ao protótipo de **Machine Learning** do **matriculeMe**
 
-Histórico e Fluxo do Aluno
-
 <b>Como foi Desenvolvido?</b><br>
 O Machine Learning foi desenvolvido com a linguagem Java, e por isso é interoperável, utilizando:
-
 Bibliotecas básicas java, Jersey, Eclipse, Maven, Gson e Apache Tomcat
 
 <b>Algoritmos Utilizados</b><br>
