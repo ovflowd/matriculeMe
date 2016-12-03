@@ -23,7 +23,7 @@ O protótipo de ML do **matriculeMe** levou em consideração os seguintes algor
 <b>Como é realizada o output de Sugestões?</b><br>
 A saída (resultado) do ML do **matriculeMe** acontece da seguinte forma:
 
-Através do desempenho e histórico de disciplinas cursadas é gerada uma sugestão de disciplinas a cursar e também é sugerida uma grade horária inicial.
+Através do desempenho e histórico de disciplinas cursadas é gerada uma métrica para as disciplinas a serem cursadas, essas disciplinas então são selecionadas de modo a maximizar o número de créditos a serem cursados, desta forma temos sugestões de disciplinas a cursar e também é sugerida uma grade horária inicial.
 
 <b>Licença e Uso</b><br>
 O Machine Learning do **matriculeMe** é Open Source e sob a Licença MIT. 
