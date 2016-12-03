@@ -91,12 +91,12 @@ public class Turma {
 		String turmaTemp = "";
 		String horarioTemp = "";
 		String turma;
-		
 		do{								
 			temp = ite.next().text();
 			if(compInicio.equals(temp)){
 				tratar = ite.next().text();
-				String[] divTratarH = tratar.split(":");
+				String tratarSemOr = tratar.split("SÁB")[1];
+				String[] divTratarH = tratarSemOr.split(":");
 				for(int j = 1; j < divTratarH.length; j++){
 					horaDisc.add(divTratarH[j-1].substring((divTratarH[j-1].length())-2,(divTratarH[j-1].length()))+ 
 							":" +divTratarH[j].substring(0,2));
