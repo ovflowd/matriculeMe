@@ -249,7 +249,7 @@ angular.module('starter.controllers', [])
                  });
              });
         }
-        if(aluno.sugestoes.length != 0){
+        if(aluno.sugestoes.length != 0 && $scope.sugestoes.length == 0){
             for (i = 0; i < aluno.sugestoes.length; i++){
               var unfuck = {
                   codDisc:      aluno.sugestoes[i].disciplina.codigo,
@@ -259,11 +259,50 @@ angular.module('starter.controllers', [])
               };
               $scope.sugestoes.push(unfuck);
             }
-        } else {
+            
+            for (i = 0; i < aluno.sugestoes.length; i++){
+              if (aluno.sugestoes[i].motivo != "") {
+                var preturma = aluno.sugestoes[i].motivo.split(" ");
+                var disciplina = {
+                  codDisc:    aluno.sugestoes[i].disciplina.codigo,
+                  nomeDisc:   aluno.sugestoes[i].disciplina.nome,
+                  turma:     {
+                    codTurma: preturma[0],
+                    horario:  []
+                  }
+                }
+                for(j = 0; j < (preturma.length)/2;j = j + 2){
+                  var dia;
+                  switch(preturma[j + 1]){
+                    case '1': dia = "Segunda-feira";
+                      break;
+                    case '2': dia = "Terça-feira";
+                      break;
+                    case '3': dia = "Quarta-feira";
+                      break;
+                    case '4': dia = "Quinta-feira";
+                      break;
+                    case '5': dia = "Sexta-feira";
+                      break;
+                    case '6': dia = "Sábado";
+                      break;
+                  }
+                  var horario = {
+                    dia:           dia,
+                    horarioInicio: preturma[j + 2]
+                  }
+                  disciplina.turma.horario.push(horario);
+                }
+                escolhas.push(disciplina);
+              }
+            }
+          } else {
+            if ($scope.sugestoes.length != 0) {
             var alertPopup = $ionicPopup.alert({
-                  title: 'Sem Sugestão',
-                  template: 'ainda não conseguimos gerar uma sugetão para você, tente novamente em alguns minutos'
+              title: 'Sem Sugestão',
+              template: 'ainda não conseguimos gerar uma sugetão para você, tente novamente em alguns minutos ou nos envie seu historico'
             });
+          }
         }
     });
   
