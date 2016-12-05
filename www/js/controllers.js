@@ -163,6 +163,7 @@ angular.module('starter.controllers', [])
           subTitle: 'Pesquisando',
           template: '<img src="img/loader.gif" height="42" width="42">'
         });
+        $scope.disciplinas = [];
         $http.get(link+ busca.title)
             .success(function (data) {
                 popUp.close();
@@ -579,9 +580,8 @@ angular.module('starter.controllers', [])
         }
         //alerta-o quanto a mudança
         if(ocupado.length){
-            var texto='<p>Você já possui disciplinas nestes horários </p><p> Deseja retirar a(s) disciplina(s)? </p>';
+        	  var texto='<p>Você já possui disciplinas nestes horários </p><p> Deseja retirar a(s) disciplina(s)? </p>';
             for (var i = 0; i < ocupado.length; i++) {
-                console.log(ocupado[i]);
                 texto+='<p>'+ocupado[i].nomeDisc+'</p>';
             }
             $ionicPopup.confirm({
@@ -592,8 +592,10 @@ angular.module('starter.controllers', [])
             }).then(function(res){
                 if(res){
                     //remove disciplinas conflitantes
-                    for(disc in ocupado){
-                        filtrado.splice(filtrado.indexOf(disc),1);
+                    for (var i = 0; i < ocupado.length; i++) {
+                        filtrado=escolhas.filter(function(elemento){
+                          return (elemento.codDisc != ocupado[i].codDisc);
+                        });
                     }
                     filtrado.push(adiciona);
                     escolhas=filtrado;
@@ -605,7 +607,7 @@ angular.module('starter.controllers', [])
             escolhas=filtrado;
         }
         //console.log('A disciplina',$scope.disciplina.nomeDisc,'turma',turma.codTurma,'foi adicionada a tua grade');
-        $state.transitionTo('app.tela3', {}, { 
+        $state.transitionTo('app.grade', {}, { 
             location: true, inherit: true, relative: 'app.grade', notify: true, reload: true
         });
     }
