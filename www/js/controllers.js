@@ -599,17 +599,20 @@ angular.module('starter.controllers', [])
                     }
                     filtrado.push(adiciona);
                     escolhas=filtrado;
+                    $state.transitionTo('app.grade', {}, { 
+                       location: true, inherit: true, relative: 'app.grade', notify: true, reload: true
+                    });
                 }
             });
         }else{
             //Insere a nova escolha à lista de escolhas do usuário
             filtrado.push(adiciona);
             escolhas=filtrado;
+            $state.transitionTo('app.grade', {}, { 
+                location: true, inherit: true, relative: 'app.grade', notify: true, reload: true
+            });
         }
-        //console.log('A disciplina',$scope.disciplina.nomeDisc,'turma',turma.codTurma,'foi adicionada a tua grade');
-        $state.transitionTo('app.grade', {}, { 
-            location: true, inherit: true, relative: 'app.grade', notify: true, reload: true
-        });
+        //console.log('A disciplina',$scope.disciplina.nomeDisc,'turma',turma.codTurma,'foi adicionada a tua grade')
     }
 })
 
