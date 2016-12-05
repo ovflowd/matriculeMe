@@ -334,7 +334,7 @@ angular.module('starter.controllers', [])
         var posi = $scope.sugestoes.indexOf(sugestao);
         if($scope.sugestoes[posi].prioridade){
             $scope.sugestoes[posi].prioridadeOld=$scope.sugestoes[posi].prioridade;
-            $scope.sugestoes[posi].prioridade=0; //Zerar prioridade da sugestão, faz com que a disciplina vá para o fim da lista
+            $scope.sugestoes[posi].prioridade=9999; //Zerar prioridade da sugestão, faz com que a disciplina vá para o fim da lista
             //retirar turma da grade, se houver
             filtrado=escolhas.filter(function(elemento){
                 return elemento.codDisc != sugestao.codDisc;
