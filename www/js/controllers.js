@@ -298,7 +298,7 @@ angular.module('starter.controllers', [])
               }
             }
           } else {
-            if ($scope.sugestoes.length != 0) {
+            if ($scope.sugestoes.length == 0) {
             var alertPopup = $ionicPopup.alert({
               title: 'Sem Sugestão',
               template: 'ainda não conseguimos gerar uma sugetão para você, tente novamente em alguns minutos ou nos envie seu historico'
@@ -332,7 +332,7 @@ angular.module('starter.controllers', [])
     $scope.desgostar=function(sugestao,$index){
         //console.log('setando prioridade para',$scope.sugestoes[$scope.sugestoes.indexOf(sugestao)].nomeDisc);
         var posi = $scope.sugestoes.indexOf(sugestao);
-        if($scope.sugestoes[posi].prioridade){
+        if($scope.sugestoes[posi].prioridade!=9999){
             $scope.sugestoes[posi].prioridadeOld=$scope.sugestoes[posi].prioridade;
             $scope.sugestoes[posi].prioridade=9999; //Zerar prioridade da sugestão, faz com que a disciplina vá para o fim da lista
             //retirar turma da grade, se houver
