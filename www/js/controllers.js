@@ -260,7 +260,7 @@ angular.module('starter.controllers', [])
               };
               $scope.sugestoes.push(unfuck);
             }
-            
+            if(escolhas.length == 0){
             for (i = 0; i < aluno.sugestoes.length; i++){
               if (aluno.sugestoes[i].motivo != "") {
                 var preturma = aluno.sugestoes[i].motivo.split(" ");
@@ -297,7 +297,7 @@ angular.module('starter.controllers', [])
                 escolhas.push(disciplina);
               }
             }
-          } else {
+          }} else {
             if ($scope.sugestoes.length == 0) {
             var alertPopup = $ionicPopup.alert({
               title: 'Sem Sugestão',
