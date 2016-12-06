@@ -12,7 +12,7 @@
 	  </div>
 	  <div class="row" ng-repeat="tempo in grade">
 	    <div class="col"><b>{{$index*2+6}}-{{$index*2+8}}</b></div>
-	    <div class="col letrapequena" ng-click="mostrarOpcoes(dia,$index,grade.indexOf(tempo)*2+6)" ng-repeat="dia in tempo track by $index">{{dia.nomeDisc}} - {{dia.turma.codTurma}}</div>
+	    <div class="col letrapequena" style="width:14%;" ng-click="mostrarOpcoes(dia,$index,grade.indexOf(tempo)*2+6)" ng-repeat="dia in tempo track by $index">{{dia.nomeDisc}} - {{dia.turma.codTurma}}</div>
 	  </div>
   </ion-content>
   <ion-footer-bar class="bar-secundary col" style="text-align: center;">
