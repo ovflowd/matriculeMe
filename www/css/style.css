@@ -32,7 +32,8 @@
 }
 
 .tamanholetra{
-	font-size: medium;
+	font-size: x-small;
+	word-wrap: break-all;
 
 }
 
