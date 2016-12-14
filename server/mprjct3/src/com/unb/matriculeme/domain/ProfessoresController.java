@@ -1,49 +1,53 @@
 package com.unb.matriculeme.domain;
+//TODO: esse ta liso, refazer o domain
 
-import com.mysema.commons.lang.Pair;
+import com.unb.matriculeme.helpers.PersistenceHelper;
 import com.unb.matriculeme.dao.Professor;
-import com.unb.matriculeme.helpers.ClientUtils;
-import com.unb.matriculeme.helpers.Persistence;
-import com.unb.matriculeme.messages.AllRightMessage;
-import com.unb.matriculeme.messages.NotFoundMessage;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import java.util.List;
+
+import com.unb.matriculeme.helpers.*;
+import com.unb.matriculeme.messages.*;
 
 @Path("/professor")
 public class ProfessoresController {
+
     @Path("/setProfessor")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setProfessor(Professor professor) throws Exception {
-        Persistence.insert(professor);
+    public Response sayPlainTextHello(Professor professor) throws Exception {
 
-        return ClientUtils.sendMessage(new AllRightMessage("Professor added successfully in the system."));
+        Professor p1 = new Professor();
+        p1.setNome(professor.getNome());
+        PersistenceHelper.Persist(p1);
+        return Response.status(200).build();
     }
 
-    @Path("/getProfessorNome/nome={nome}")
+    @Path("/getProfessorNome/name={nome}")
     @GET
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response getProfessorByNome(@PathParam("nome") String nome) {
-        List<Professor> professors = Persistence.select(Professor.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
+    public Response convertFeetToInch(@PathParam("nome") String nome) {
 
-        return professors.size() > 0 ? ClientUtils.sendResponse(professors.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This Professor wasn't found on our system."));
+        List professors = PersistenceHelper.queryCustom("Professor", "nome", nome, true);
+
+        return professors.size() > 0  ? ClientUtils.sendResponse(professors.get(0)) :
+                ClientUtils.sendMessage(new NotFoundMessage("This Professor wasn't found on our system."));
     }
 
-    @Path("/alterProfessor/nome={nome}")
+    @Path("/alterProfessor/name={nome}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response updateProfessor(@PathParam("nome") String nome, Professor professor) throws Exception {
-        List<Professor> professors = Persistence.select(Professor.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
+    public Response alterProfessor(@PathParam("nome") String nome, Professor professor) throws Exception {
 
-        professor.setId(professors.get(0).getId());
-
-        if (professors.size() > 0) {
-            Persistence.update(professors.get(0), professor);
+        List professors = PersistenceHelper.queryCustom("Professor", "nome", nome, true);
+        if(professors.size() > 0){
+            //PersistenceHelper.update(professors.get(0), professor);
         }
-
-        return ClientUtils.sendMessage(professors.size() > 0 ? new AllRightMessage("Professor changed successfully.") : new NotFoundMessage("This professor wasn't found on our system."));
+        return ClientUtils.sendMessage(professors.size() > 0 ? new BaseMessage(200, "Professor changed successfully.") :
+                new NotFoundMessage("This professor wasn't found on our system."));
     }
 }
