@@ -88,8 +88,12 @@ public class CurriculoController {
     @Produces(MediaType.APPLICATION_JSON) 
     public Response getCurriculosByCodigo(@PathParam("codigo") int codigo) throws Exception {
         List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(codigo), false);
+        
+        if(cursos.size() == 0)
+            return ClientUtils.sendMessage(new NotFoundMessage("This Course wasn't found on our system."));
+        
         List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", String.valueOf(((Curso)cursos.get(0)).getId()) ,false);
          return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : 
-                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+                ClientUtils.sendMessage(new NotFoundMessage("Any curriculum for this Course wasn't found on our system."));
     }  
 }
