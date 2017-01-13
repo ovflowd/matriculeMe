@@ -34,7 +34,7 @@ public class HorarioController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch(@PathParam("dia") String dia) {
 
-        List horario = PersistenceHelper.queryCustom("Horario", "dia", dia, true);
+        List horario = PersistenceHelper.queryCustom("Horario", "dia", dia);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
@@ -44,7 +44,7 @@ public class HorarioController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch1(@PathParam("horarioFim") String horarioFim) {
-        List horario = PersistenceHelper.queryCustom("Horario", "fim", horarioFim, true);
+        List horario = PersistenceHelper.queryCustom("Horario", "fim", horarioFim);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
@@ -54,7 +54,7 @@ public class HorarioController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch2(@PathParam("horarioInicio") String horarioInicio) {
-        List horario = PersistenceHelper.queryCustom("Horario", "horarioInicio", horarioInicio, true);
+        List horario = PersistenceHelper.queryCustom("Horario", "horarioInicio", horarioInicio);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));

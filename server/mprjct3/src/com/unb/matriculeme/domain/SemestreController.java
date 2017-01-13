@@ -21,6 +21,6 @@ public class SemestreController {
         for (int i = 0; i < semestre.size(); i++) {
             PersistenceHelper.Persist(semestre.get(i));
         }
-        return Response.status(200).build();
+        return ClientUtils.sendMessage(new AllRightMessage("Semestre set successfully."));
     }
 }

@@ -21,8 +21,6 @@ import java.util.List;
 
 @Path("/perfil")
 public class PerfilController {
-
-
     @Path("/setPerfil/matricula={matricula}")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
@@ -49,7 +47,8 @@ public class PerfilController {
         em.getTransaction().commit();
         em.close();
         emf.close();
-        return Response.status(200).build();
+
+        return ClientUtils.sendMessage(new AllRightMessage("Profile set successfully."));
     }
 
 

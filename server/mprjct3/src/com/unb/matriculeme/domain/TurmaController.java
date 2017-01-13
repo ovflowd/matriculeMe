@@ -90,7 +90,7 @@ public class TurmaController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllCoisas(@PathParam("codigo") String codigo) throws Exception {
-        List Turmas = PersistenceHelper.queryCustom("Turma", "codigo", codigo, true);
+        List Turmas = PersistenceHelper.queryCustom("Turma", "codigo", codigo);
         return Turmas.size() > 0 ? ClientUtils.sendResponse(Turmas) :
                 ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
@@ -99,12 +99,12 @@ public class TurmaController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTurmas(@PathParam("nome") String nome) {
-        List disciplinas = PersistenceHelper.queryCustom("Disciplina", "nome", nome, true);
+        List disciplinas = PersistenceHelper.queryCustom("Disciplina", "nome", nome);
         if (disciplinas.size() > 0) {
-            List ofertas = PersistenceHelper.queryCustom("Oferta", "disciplina_id", String.valueOf(((Disciplina) disciplinas.get(0)).getId()), false);
+            List ofertas = PersistenceHelper.queryCustom("Oferta", "disciplina_id", ((Disciplina) disciplinas.get(0)).getId());
             if (ofertas.size() > 0) {
                 System.out.println(((Oferta) ofertas.get(0)).getId());
-                List turmas = PersistenceHelper.queryCustom("Turma", "oferta_id", String.valueOf(((Oferta) ofertas.get(0)).getId()), false);
+                List turmas = PersistenceHelper.queryCustom("Turma", "oferta_id", ((Oferta) ofertas.get(0)).getId());
                 return turmas.size() > 0 ? ClientUtils.sendResponse(turmas) :
                         ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
             }
@@ -117,12 +117,12 @@ public class TurmaController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getTurmas(@PathParam("codigo") int codigo) {
-        List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(codigo), true);
+        List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", codigo);
         if (disciplinas.size() > 0) {
-            List ofertas = PersistenceHelper.queryCustom("Oferta", "disciplina_id", String.valueOf(((Disciplina) disciplinas.get(0)).getId()), false);
+            List ofertas = PersistenceHelper.queryCustom("Oferta", "disciplina_id", ((Disciplina) disciplinas.get(0)).getId());
             if (ofertas.size() > 0) {
                 System.out.println(((Oferta) ofertas.get(0)).getId());
-                List turmas = PersistenceHelper.queryCustom("Turma", "oferta_id", String.valueOf(((Oferta) ofertas.get(0)).getId()), false);
+                List turmas = PersistenceHelper.queryCustom("Turma", "oferta_id", ((Oferta) ofertas.get(0)).getId());
                 return turmas.size() > 0 ? ClientUtils.sendResponse(turmas) :
                         ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
             }
@@ -138,8 +138,8 @@ public class TurmaController {
         for (int i = 0; i < allTurmas.size(); i++) {
             PersistenceHelper.Persist(allTurmas.get(i).getProfessor());
 
-            Disciplina d1 = (Disciplina) (PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(allTurmas.get(i).getOferta().getDisciplina().getCodigo()), false).get(0));
-            Semestre s1 = (Semestre) (PersistenceHelper.queryCustom("Semestre", "codigo", allTurmas.get(i).getOferta().getSemestre().getCodigo(), true).get(0));
+            Disciplina d1 = (Disciplina) (PersistenceHelper.queryCustom("Disciplina", "codigo", allTurmas.get(i).getOferta().getDisciplina().getCodigo()).get(0));
+            Semestre s1 = (Semestre) (PersistenceHelper.queryCustom("Semestre", "codigo", allTurmas.get(i).getOferta().getSemestre().getCodigo()).get(0));
 
             List o1 = PersistenceHelper.queryCustomTurma("Oferta", "semestre_id", s1.getId(), "disciplina_id", d1.getId());
             if (o1.size() > 0) //Existe a oferta, setar;
@@ -156,7 +156,6 @@ public class TurmaController {
             PersistenceHelper.Persist(allTurmas.get(i));
         }
 
-        return Response.status(200).build();
+        return ClientUtils.sendMessage(new AllRightMessage("Turma set succesffuly."));
     }
-
 }

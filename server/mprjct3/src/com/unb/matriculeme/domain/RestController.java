@@ -28,9 +28,9 @@ public class RestController {
         }
         List response = new ArrayList<>();
         if (parsable) {
-            response = PersistenceHelper.queryCustom(table, queried, String.valueOf(toQuery), false);
+            response = PersistenceHelper.queryCustom(table, queried, toQuery);
         } else { //false, meaning is string
-            response = PersistenceHelper.queryCustom(table, queried, toQuery, true);
+            response = PersistenceHelper.queryCustom(table, queried, toQuery);
         }
         return response.size() > 0 ? ClientUtils.sendResponse(response) :
                 ClientUtils.sendMessage(new NotFoundMessage("Nothing found with those parameters"));

@@ -22,7 +22,8 @@ public class ProfessoresController {
         Professor p1 = new Professor();
         p1.setNome(professor.getNome());
         PersistenceHelper.Persist(p1);
-        return Response.status(200).build();
+
+        return ClientUtils.sendMessage(new AllRightMessage("Professor set successfully."));
     }
 
     @Path("/getProfessorNome/name={nome}")
@@ -30,7 +31,7 @@ public class ProfessoresController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch(@PathParam("nome") String nome) {
 
-        List professors = PersistenceHelper.queryCustom("Professor", "nome", nome, true);
+        List professors = PersistenceHelper.queryCustom("Professor", "nome", nome);
 
         return professors.size() > 0 ? ClientUtils.sendResponse(professors.get(0)) :
                 ClientUtils.sendMessage(new NotFoundMessage("This Professor wasn't found on our system."));
@@ -41,11 +42,11 @@ public class ProfessoresController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response alterProfessor(@PathParam("nome") String nome, Professor professor) throws Exception {
 
-        List professors = PersistenceHelper.queryCustom("Professor", "nome", nome, true);
+        List professors = PersistenceHelper.queryCustom("Professor", "nome", nome);
         if (professors.size() > 0) {
             //PersistenceHelper.update(professors.get(0), professor);
         }
-        return ClientUtils.sendMessage(professors.size() > 0 ? new BaseMessage(200, "Professor changed successfully.") :
+        return ClientUtils.sendMessage(professors.size() > 0 ? new AllRightMessage("Professor changed successfully.") :
                 new NotFoundMessage("This professor wasn't found on our system."));
     }
 }

@@ -15,22 +15,21 @@ public class DisciplinasCursadasController {
     @POST
     @Consumes(MediaType.TEXT_PLAIN)
     public Response setHist(String string) {
-        System.out.println("\n\n chegou" + string);
-        System.out.println("\n\n passou 2! \n\n");
         Trigger thread = new Trigger(string, "http://homol.redes.unb.br/ptr022016-b/mining/rest/datamining/historico", false);
+
         thread.start();
-        System.out.println("\n\n passou! \n\n");
-        return Response.status(200).build();
+
+        return ClientUtils.sendMessage(new AllRightMessage("History set succesffuly.."));
     }
 
     @Path("/getDisciplinasCursadas/matricula={mat}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getDisciplinasCursadas(@PathParam("mat") int Matricula) {
-//		List<Aluno> aluno = Queries.queryCustom("Aluno", "matricula", String.valueOf(Matricula), false);
-//		aluno.get(0).getDisciplinasCursadas();
-//		Essa esta em duvwidas para matheus
-        return Response.status(200).build();
+        //		List<Aluno> aluno = Queries.queryCustom("Aluno", "matricula", String.valueOf(Matricula), false);
+        //		aluno.get(0).getDisciplinasCursadas();
+        //		Essa esta em duvwidas para matheus
+        return ClientUtils.sendMessage(new AllRightMessage("Wat.."));
     }
 
     @Path("/setDisciplinasCursadas/")
@@ -40,9 +39,10 @@ public class DisciplinasCursadasController {
         //List aluno = Queries.queryCustom("Aluno", "matricula", String.valueOf(disciplinasCursadas.get(0).getAluno().getMatricula()), false);
 
         for (int i = 0; i < disciplinasCursadas.size(); i++) {
-            List mencao = PersistenceHelper.queryCustom("Mencao", "codigo", disciplinasCursadas.get(0).getMencao().getCodigo(), true);
+            List mencao = PersistenceHelper.queryCustom("Mencao", "codigo", disciplinasCursadas.get(0).getMencao().getCodigo());
             PersistenceHelper.Persist(disciplinasCursadas.get(i));
         }
-        return Response.status(200).build();
+
+        return ClientUtils.sendMessage(new AllRightMessage("Coursed disciplines set.."));
     }
 }

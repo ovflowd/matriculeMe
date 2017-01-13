@@ -20,16 +20,11 @@ public class OfertaController {
     public Response setOferta(Oferta ofertaRecebida) {
 
         Oferta oferta = new Oferta();
-        oferta.setDisciplina((Disciplina) (PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(ofertaRecebida.getDisciplina().getCodigo()), false).get(0)));
-        oferta.setSemestre((Semestre) (PersistenceHelper.queryCustom("Semestre", "codigo", ofertaRecebida.getSemestre().getCodigo(), true).get(1)));
+        oferta.setDisciplina((Disciplina) (PersistenceHelper.queryCustom("Disciplina", "codigo", ofertaRecebida.getDisciplina().getCodigo()).get(0)));
+        oferta.setSemestre((Semestre) (PersistenceHelper.queryCustom("Semestre", "codigo", ofertaRecebida.getSemestre().getCodigo()).get(1)));
+        
         PersistenceHelper.Persist(oferta);
-        return Response.status(200).build();
 
+        return ClientUtils.sendMessage(new AllRightMessage("Oferta set successfully."));
     }
-
-//	@Path("/getOferta")
-//	@GET
-//	@Produces(MediaType.APPLICATION_JSON)
-//	public Response getOferta ()
-
 }

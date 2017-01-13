@@ -21,8 +21,7 @@ public class DisciplinasController {
     @Path("/getDisciplinas/{primeira_tabela}/{row}/{parametro}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response trial(@PathParam("primeira_tabela") String table, @PathParam("row") String coluna,
-                          @PathParam("parametro") String parametro) {
+    public Response trial(@PathParam("primeira_tabela") String table, @PathParam("row") String coluna, @PathParam("parametro") String parametro) {
         boolean parsable = true;
         List helper = new ArrayList<>();
 
@@ -31,12 +30,15 @@ public class DisciplinasController {
         } catch (NumberFormatException e) {
             parsable = false;
         }
+
         if (parsable) {
-            helper = PersistenceHelper.queryCustom(table, coluna, String.valueOf(parametro), false);
-        } else { //false, meaning is string
-            helper = PersistenceHelper.queryCustom(table, coluna, parametro, true);
+            helper = PersistenceHelper.queryCustom(table, coluna, parametro);
+        } else {
+            helper = PersistenceHelper.queryCustom(table, coluna, parametro);
         }
-        List disciplinas = PersistenceHelper.queryCustom("Disciplina", "departamento_id", String.valueOf(((Departamento) (helper.get(0))).getId()), true);
+
+        List disciplinas = PersistenceHelper.queryCustom("Disciplina", "departamento_id", ((Departamento) (helper.get(0))).getId());
+
         return disciplinas.size() > 0 ? ClientUtils.sendResponse(disciplinas) : ClientUtils.sendMessage(new NotFoundMessage("The desired Discipline wasn't found in our system."));
     }
 
@@ -53,7 +55,7 @@ public class DisciplinasController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome) {
-        List disciplinas = PersistenceHelper.queryCustom("Disciplina", "nome", nome, true);
+        List disciplinas = PersistenceHelper.queryCustom("Disciplina", "nome", nome);
 
         return disciplinas.size() > 0 ? Response.ok(new Gson().toJson(disciplinas.get(0)),
                 MediaType.APPLICATION_JSON).build() : Response.status(404).build();
@@ -67,13 +69,14 @@ public class DisciplinasController {
         for (Disciplina dis : allDis) {
             Disciplina disciplina = new Disciplina();
 
-            List department = PersistenceHelper.queryCustom("Departamento", "codigo", String.valueOf(dis.getDepartamento().getCodigo()), false);
+            List department = PersistenceHelper.queryCustom("Departamento", "codigo", dis.getDepartamento().getCodigo());
             List<Requisito> requisitos = new ArrayList<Requisito>();
 
             for (int i = 0; i < dis.getRequisitoDisciplina().size(); i++) {
                 PersistenceHelper.Persist(dis.getRequisitoDisciplina().get(i));
-                requisitos.add((Requisito) (PersistenceHelper.queryCustom("Requisito", "codigo", dis.getRequisitoDisciplina().get(i).getCodigo(), true).get(0)));
+                requisitos.add((Requisito) (PersistenceHelper.queryCustom("Requisito", "codigo", dis.getRequisitoDisciplina().get(i).getCodigo()).get(0)));
             }
+
             disciplina.setCodigo(dis.getCodigo());
             disciplina.setCredito(dis.getCredito());
             disciplina.setNome(dis.getNome());
@@ -86,6 +89,7 @@ public class DisciplinasController {
 
             PersistenceHelper.Persist(disciplina);
         }
+        
         return ClientUtils.sendMessage(new AllRightMessage("The Discipline was added successfully on the system."));
     }
 } 

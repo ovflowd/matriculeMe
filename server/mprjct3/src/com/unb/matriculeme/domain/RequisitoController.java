@@ -20,7 +20,7 @@ public class RequisitoController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setRequisito(Requisito requisito) {
         PersistenceHelper.Persist(requisito);
-        return Response.status(200).build();
+        return ClientUtils.sendMessage(new AllRightMessage("Requisito set succesffully."));
     }
 
 //	@Path("/getRequisito/")

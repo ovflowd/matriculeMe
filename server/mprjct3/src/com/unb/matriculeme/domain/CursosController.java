@@ -36,13 +36,13 @@ public class CursosController {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response alterCurso(@PathParam("nome") String nome, Curso curso) throws Exception {
-        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
+        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome);
 
         if (cursos.size() > 0) {
             Update((Curso) cursos.get(0), curso);
         }
 
-        return cursos.size() > 0 ? Response.status(200).build() : Response.status(404).build();
+        return ClientUtils.sendMessage(cursos.size() > 0 ? new AllRightMessage("Course changed successfully.") : new NotFoundMessage("Course not found."));
     }
 
     @Path("/setCursos")
@@ -50,28 +50,30 @@ public class CursosController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sayPlainTextHello(List<Curso> cursos) throws Exception {
         for (int i = 0; i < cursos.size(); i++) {
-            if (PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(cursos.get(i).getCodigo()), false).size() == 0) {
+            if (PersistenceHelper.queryCustom("Curso", "codigo", cursos.get(i).getCodigo()).size() == 0) {
                 PersistenceHelper.Persist(cursos.get(i));
             }
         }
-        return Response.status(200).build();
+
+        ClientUtils.sendMessage(new AllRightMessage("Courses created successfully."));
     }
 
     @Path("/getCurso/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch(@PathParam("nome") String nome) {
-        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
-        return cursos.size() > 0 ? Response.ok(new Gson().toJson(cursos), MediaType.APPLICATION_JSON).build() :
-                Response.status(404).build();
+        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome);
+
+        return cursos.size() > 0 ? ClientUtils.sendResponse(cursos) : ClientUtils.sendMessage(new NotFoundMessage("Courses not Found."));
     }
 
     @Path("/getCurso/nome={nome}&codigo={codigo}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome, @PathParam("codigo") int codigo) {
-        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, "codigo", String.valueOf(codigo));
-        return cursos.size() > 0 ? Response.ok(new Gson().toJson(cursos), MediaType.APPLICATION_JSON).build() :
-                Response.status(404).build();
+
+        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, "codigo", codigo);
+
+        return cursos.size() > 0 ? ClientUtils.sendResponse(cursos) : ClientUtils.sendMessage(new NotFoundMessage("Courses not Found."));
     }
 }

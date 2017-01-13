@@ -68,7 +68,7 @@ public class PersistenceHelper {
         return objects;
     }
 
-    public static List queryCustom(String table, String toQuery, String t, boolean isString) {
+    public static List queryCustom(String table, String toQuery, String t) {
         EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
         EntityManager em = emf.createEntityManager();
 
@@ -78,12 +78,26 @@ public class PersistenceHelper {
         int valor = 0;
         List objects = new ArrayList<>();
 
-        if (!isString) {
-            valor = Integer.parseInt(t);
-            objects = query.setParameter("t", valor).getResultList();
-        } else {
-            objects = query.setParameter("t", t).getResultList();
-        }
+        objects = query.setParameter("t", t).getResultList();
+
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+
+        return objects;
+    }
+
+    public static List queryCustom(String table, String toQuery, int t) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        Query query = em.createQuery("from " + table + " where " + toQuery + "=:t ");
+        int valor = 0;
+        List objects = new ArrayList<>();
+        
+        objects = query.setParameter("t", Integer.parseInt(t)).getResultList();
 
         em.getTransaction().commit();
         em.close();
@@ -173,6 +187,4 @@ public class PersistenceHelper {
 
         return objects;
     }
-
-
 }

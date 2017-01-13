@@ -18,6 +18,7 @@ public class MotivoController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setMotivo(Motivo motivo) {
         PersistenceHelper.Persist(motivo);
-        return Response.status(200).build();
+
+        return ClientUtils.sendMessage(new AllRightMessage("Reason set successfully."));
     }
 }

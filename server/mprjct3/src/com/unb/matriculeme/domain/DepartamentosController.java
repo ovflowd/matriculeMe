@@ -18,7 +18,9 @@ public class DepartamentosController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String name) {
-        List departments = PersistenceHelper.queryCustom("Departamento", "nome", name, true);
+
+        List departments = PersistenceHelper.queryCustom("Departamento", "nome", name);
+
         return departments.size() > 0 ? ClientUtils.sendResponse(departments.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The department wasn't found on the system."));
     }
 
@@ -26,12 +28,11 @@ public class DepartamentosController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setAllCoisas(List<Departamento> allDepartments) throws Exception {
-        // Para que Esse System.out?
-
         for (int i = 0; i < allDepartments.size(); i++) {
             PersistenceHelper.Persist(allDepartments.get(i));
         }
-        return Response.status(200).build();
+
+        return ClientUtils.sendMessage(new AllRightMessage("Department Set."));
     }
 
     @Path("/setDepartamento/")
@@ -39,6 +40,7 @@ public class DepartamentosController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setHorarios(Departamento department) throws Exception {
         PersistenceHelper.Persist(department);
+        
         return ClientUtils.sendMessage(new AllRightMessage("The Department was added successfully on the system."));
     }
 }

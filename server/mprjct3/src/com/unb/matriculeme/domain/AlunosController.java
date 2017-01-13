@@ -34,18 +34,18 @@ public class AlunosController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAlunoFull(Aluno aluno) {
-        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(aluno.getMatricula()), false);
-        List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(aluno.getCurso().getCodigo()), false);
+        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", aluno.getMatricula());
+        List cursos = PersistenceHelper.queryCustom("Curso", "codigo", aluno.getCurso().getCodigo());
         for (int i = 0; i < aluno.getDisciplinasCursadas().size(); i++) {
-            List mencoes = PersistenceHelper.queryCustom("Mencao", "codigo", aluno.getDisciplinasCursadas().get(i).getMencao().getCodigo(), true);
-            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().getCodigo()), false);
-            List semestres = PersistenceHelper.queryCustom("Semestre", "codigo", aluno.getDisciplinasCursadas().get(i).getOferta().getSemestre().getCodigo(), true);
+            List mencoes = PersistenceHelper.queryCustom("Mencao", "codigo", aluno.getDisciplinasCursadas().get(i).getMencao().getCodigo());
+            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().getCodigo());
+            List semestres = PersistenceHelper.queryCustom("Semestre", "codigo", aluno.getDisciplinasCursadas().get(i).getOferta().getSemestre().getCodigo());
             if (disciplinas.size() < 1) {
                 System.out.println("ERRO DISCIPLINA: -1");
-                List departamentos = PersistenceHelper.queryCustom("Departamento", "codigo", String.valueOf(aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().getDepartamento().getCodigo()), false);
+                List departamentos = PersistenceHelper.queryCustom("Departamento", "codigo", aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().getDepartamento().getCodigo());
                 aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().setDepartamento((Departamento) departamentos.get(0));
                 PersistenceHelper.Persist(aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina());
-                disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().getCodigo()), false);
+                disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", aluno.getDisciplinasCursadas().get(i).getOferta().getDisciplina().getCodigo());
             }
             List ofertas = PersistenceHelper.queryCustomTurma("Oferta", "disciplina_id", ((Disciplina) disciplinas.get(0)).getId(), "semestre_id", ((Semestre) semestres.get(0)).getId());
             aluno.getDisciplinasCursadas().get(i).setMencao((Mencao) mencoes.get(0));
@@ -74,22 +74,22 @@ public class AlunosController {
         em.close();
         emf.close();
 
-        List alunos_2 = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(aluno.getMatricula()), false);
+        List alunos_2 = PersistenceHelper.queryCustom("Aluno", "matricula", aluno.getMatricula());
 
         Trigger thread = new Trigger(new Gson().toJson((Aluno) alunos_2.get(0)), "http://homol.redes.unb.br/ptr022016-b/ML/rest/MachineLearn/loadAluno", true);
         thread.start();
 
-        return Response.status(200).build();
+        return ClientUtils.sendMessage(new AllRightMessage("Student updated succesffully."));
     }
 
     @Path("/updateAluno/alunoSugestao")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response updateAlunoSugestao(Aluno aluno) {
-        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(aluno.getMatricula()), false);
+        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", aluno.getMatricula());
 
         for (int i = 0; i < aluno.getSugestoes().size(); i++) {
-            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(aluno.getSugestoes().get(i).getDisciplina().getCodigo()), false);
+            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", aluno.getSugestoes().get(i).getDisciplina().getCodigo());
             aluno.getSugestoes().get(i).setDisciplina(((Disciplina) disciplinas.get(0)));
             PersistenceHelper.Persist((Sugestao) aluno.getSugestoes().get(i));
         }
@@ -103,36 +103,40 @@ public class AlunosController {
         em.close();
         emf.close();
 
-        return Response.status(200).build();
+        return ClientUtils.sendMessage(new AllRightMessage());
     }
 
     @Path("/getAluno/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome) {
-        List students = PersistenceHelper.queryCustom("Aluno", "nome", nome, true);
-        return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) :
-                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+        List students = PersistenceHelper.queryCustom("Aluno", "nome", nome);
+        
+        return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
     @Path("/updateAlunoCurso/matricula={matricula}")
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response UpdateCurso(Curso curso, @PathParam("matricula") int Matricula) {
-        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(Matricula), false);
-        List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(curso.getCodigo()), false);
+    public Response UpdateCurso(Curso curso, @PathParam("matricula") int matricula) {
+        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", matricula);
+        List cursos = PersistenceHelper.queryCustom("Curso", "codigo", curso.getCodigo());
+
         if (alunos.size() > 0 && cursos.size() > 0) {
             EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
             EntityManager em = emf.createEntityManager();
+
             em.getTransaction().begin();
+
             Aluno a1 = (Aluno) em.merge(alunos.get(0));
             a1.setCurso((Curso) cursos.get(0));
             em.getTransaction().commit();
             em.close();
             emf.close();
-            return Response.status(200).build();
+
+            return ClientUtils.sendMessage(new AllRightMessage());
         } else
-            return Response.status(404).build();
+            return ClientUtils.sendMessage(new NotFoundMessage("Student not Found!"));
     }
 
 
@@ -142,11 +146,12 @@ public class AlunosController {
     public Response example(@PathParam("login") String accessKey, @PathParam("senha") String senha) {
         List students = PersistenceHelper.queryCustom("Login", "accessKey", accessKey, "password", senha);
         List alunos = null;
+
         if (students.size() > 0) {
-            alunos = PersistenceHelper.queryCustom("Aluno", "login_id", String.valueOf(((Login) students.get(0)).getId()), false);
+            alunos = PersistenceHelper.queryCustom("Aluno", "login_id", ((Login) students.get(0)).getId()));
         }
-        return students.size() > 0 ? ClientUtils.sendResponse(alunos.get(0)) :
-                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+
+        return students.size() > 0 ? ClientUtils.sendResponse(alunos.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
     @Path("/setAluno/")
@@ -156,12 +161,13 @@ public class AlunosController {
         Aluno student = new Gson().fromJson(mandatory, Aluno.class);
 
         List students = PersistenceHelper.queryCustom("Login", "accessKey", student.getLogin().getAccessKey(), true);
+
         if (students.size() == 0) {
-            student.setCurso((Curso) (PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(0), false).get(0)));
+            student.setCurso((Curso) (PersistenceHelper.queryCustom("Curso", "codigo", 0).get(0)));
             PersistenceHelper.Persist(student.getLogin());
             PersistenceHelper.Persist(student);
         }
-        return ClientUtils.sendMessage(students.size() > 0 ? new BaseMessage(483, "User Already Exists. Creation not Allowed.") :
-                new BaseMessage(200, "User Doesn't exists. Creation Allowed."));
+
+        return ClientUtils.sendMessage(students.size() > 0 ? new BaseMessage(483, "User Already Exists. Creation not Allowed.") : new BaseMessage(200, "User Doesn't exists. Creation Allowed."));
     }
 }
