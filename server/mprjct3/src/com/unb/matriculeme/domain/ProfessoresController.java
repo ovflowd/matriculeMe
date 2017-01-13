@@ -1,17 +1,15 @@
 package com.unb.matriculeme.domain;
 //TODO: esse ta liso, refazer o domain
 
-import com.unb.matriculeme.helpers.PersistenceHelper;
 import com.unb.matriculeme.dao.Professor;
+import com.unb.matriculeme.helpers.*;
+import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.*;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.util.List;
-
-import com.unb.matriculeme.helpers.*;
-import com.unb.matriculeme.messages.*;
 
 @Path("/professor")
 public class ProfessoresController {
@@ -34,7 +32,7 @@ public class ProfessoresController {
 
         List professors = PersistenceHelper.queryCustom("Professor", "nome", nome, true);
 
-        return professors.size() > 0  ? ClientUtils.sendResponse(professors.get(0)) :
+        return professors.size() > 0 ? ClientUtils.sendResponse(professors.get(0)) :
                 ClientUtils.sendMessage(new NotFoundMessage("This Professor wasn't found on our system."));
     }
 
@@ -44,7 +42,7 @@ public class ProfessoresController {
     public Response alterProfessor(@PathParam("nome") String nome, Professor professor) throws Exception {
 
         List professors = PersistenceHelper.queryCustom("Professor", "nome", nome, true);
-        if(professors.size() > 0){
+        if (professors.size() > 0) {
             //PersistenceHelper.update(professors.get(0), professor);
         }
         return ClientUtils.sendMessage(professors.size() > 0 ? new BaseMessage(200, "Professor changed successfully.") :

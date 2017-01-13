@@ -10,7 +10,6 @@ import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.util.List;
 
 
@@ -50,15 +49,13 @@ public class CursosController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sayPlainTextHello(List<Curso> cursos) throws Exception {
-    	for (int i = 0; i < cursos.size(); i++)
-    	{
-    		if (PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(cursos.get(i).getCodigo()), false).size() == 0)
-    		{
-        		PersistenceHelper.Persist(cursos.get(i));
-    		}
-    	}   	
-    	return Response.status(200).build(); 
-}
+        for (int i = 0; i < cursos.size(); i++) {
+            if (PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(cursos.get(i).getCodigo()), false).size() == 0) {
+                PersistenceHelper.Persist(cursos.get(i));
+            }
+        }
+        return Response.status(200).build();
+    }
 
     @Path("/getCurso/nome={nome}")
     @GET

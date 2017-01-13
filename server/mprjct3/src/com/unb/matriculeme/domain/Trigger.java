@@ -8,9 +8,9 @@ public class Trigger extends Thread {
     private boolean isDavid;
 
     public Trigger(String data, String path, boolean isDavid) {
-        this.data = data; 
+        this.data = data;
         this.path = path;
-        this.isDavid = isDavid; 
+        this.isDavid = isDavid;
     }
 
     @Override

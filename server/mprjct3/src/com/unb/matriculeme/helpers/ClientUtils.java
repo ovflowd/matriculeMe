@@ -5,7 +5,7 @@ import com.unb.matriculeme.messages.MessageInterface;
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.List; 
+import java.util.List;
 
 public class ClientUtils {
 

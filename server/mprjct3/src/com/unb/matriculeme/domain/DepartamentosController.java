@@ -1,6 +1,5 @@
 package com.unb.matriculeme.domain;
 
-import com.google.gson.Gson;
 import com.unb.matriculeme.dao.Departamento;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
@@ -10,17 +9,16 @@ import com.unb.matriculeme.messages.NotFoundMessage;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-
 import java.util.List;
 
 @Path("/departamentos/")
 public class DepartamentosController {
 
-	@Path("/getDepartamento/nome={nome}")
+    @Path("/getDepartamento/nome={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String name) {
-    	List departments = PersistenceHelper.queryCustom("Departamento", "nome", name, true);
+        List departments = PersistenceHelper.queryCustom("Departamento", "nome", name, true);
         return departments.size() > 0 ? ClientUtils.sendResponse(departments.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The department wasn't found on the system."));
     }
 
@@ -29,11 +27,10 @@ public class DepartamentosController {
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setAllCoisas(List<Departamento> allDepartments) throws Exception {
         // Para que Esse System.out?
-    	
-        for (int i = 0; i < allDepartments.size(); i++)
-        { 
-        	PersistenceHelper.Persist(allDepartments.get(i));
-       	}
+
+        for (int i = 0; i < allDepartments.size(); i++) {
+            PersistenceHelper.Persist(allDepartments.get(i));
+        }
         return Response.status(200).build();
     }
 

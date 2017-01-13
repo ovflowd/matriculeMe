@@ -18,7 +18,7 @@ public class HorarioController {
     @Path("/setHorario")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response sayPlainTextHello(Horario horario){
+    public Response sayPlainTextHello(Horario horario) {
 
         Horario horario1 = new Horario();
 
@@ -32,7 +32,7 @@ public class HorarioController {
     @Path("/getHorario/dia={dia}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch(@PathParam("dia") String dia){
+    public Response convertFeetToInch(@PathParam("dia") String dia) {
 
         List horario = PersistenceHelper.queryCustom("Horario", "dia", dia, true);
 
@@ -43,7 +43,7 @@ public class HorarioController {
     @Path("/getHorario/fim={horarioFim}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch1(@PathParam("horarioFim") String horarioFim){
+    public Response convertFeetToInch1(@PathParam("horarioFim") String horarioFim) {
         List horario = PersistenceHelper.queryCustom("Horario", "fim", horarioFim, true);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
@@ -53,7 +53,7 @@ public class HorarioController {
     @Path("/getHorario/inicio={horarioInicio}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch2(@PathParam("horarioInicio") String horarioInicio){
+    public Response convertFeetToInch2(@PathParam("horarioInicio") String horarioInicio) {
         List horario = PersistenceHelper.queryCustom("Horario", "horarioInicio", horarioInicio, true);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
@@ -63,9 +63,9 @@ public class HorarioController {
     @Path("/getHorario/dia={dia}&inicio={horarioInicio}&fim={horarioFim}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch2(@PathParam("dia") String dia,@PathParam("horarioInicio") String horarioInicio,
-                                        @PathParam("horarioFim") String horarioFim){
-        List horario = PersistenceHelper.queryCustom("Horario", "dia", dia, "horarioInicio", horarioInicio,"horarioFim", horarioFim);
+    public Response convertFeetToInch2(@PathParam("dia") String dia, @PathParam("horarioInicio") String horarioInicio,
+                                       @PathParam("horarioFim") String horarioFim) {
+        List horario = PersistenceHelper.queryCustom("Horario", "dia", dia, "horarioInicio", horarioInicio, "horarioFim", horarioFim);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
                 ClientUtils.sendMessage(new NotFoundMessage("The Horario was not found on the system."));
@@ -74,7 +74,7 @@ public class HorarioController {
     @Path("/getHorario/inicio={horarioInicio}&fim={horarioFim}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public  Response convertFeetToInch2(@PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim){
+    public Response convertFeetToInch2(@PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim) {
 
         List horario = PersistenceHelper.queryCustom("Horario", "horarioInicio", horarioInicio, "horarioFim", horarioFim);
 
