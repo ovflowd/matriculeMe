@@ -1,19 +1,24 @@
 package com.unb.matriculeme.domain;
 
-import com.mysema.commons.lang.Pair;
+
+import com.google.gson.Gson;
 import com.unb.matriculeme.dao.Curriculo;
 import com.unb.matriculeme.dao.Curso;
 import com.unb.matriculeme.dao.Departamento;
 import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.helpers.ClientUtils;
-import com.unb.matriculeme.helpers.Persistence;
-import com.unb.matriculeme.messages.AllRightMessage;
+import com.unb.matriculeme.helpers.PersistenceHelper;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+
 import java.util.List;
+
 
 @Path("/curriculos")
 public class CurriculoController {
@@ -22,61 +27,73 @@ public class CurriculoController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculos() throws Exception {
-        List<Curriculo> curriculos = Persistence.select(Curriculo.class);
-
-        return curriculos.size() > 0 ? ClientUtils.sendResponse(curriculos) : ClientUtils.sendMessage(new NotFoundMessage("No one resume was found in our system."));
+        List curriculos = PersistenceHelper.queryGetList("Curriculo");
+        Gson gson = new Gson();
+        String json = gson.toJson(curriculos);
+        return Response.ok(json, MediaType.APPLICATION_JSON).build();
     }
 
     @Path("/setAllCurr")
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    public Response setAllResumes(List<Curriculo> curriculos) throws Exception {
+    public Response setAllCoisas(List<Curriculo> curriculos) throws Exception {
+        //Problema: se o cara nao passar id, nao eh possivel fazer a referencia, dai tem q instanciar
         for (Curriculo curriculo : curriculos) {
             Curriculo curr = new Curriculo();
 
             curr.setSemestreDisciplina(curriculo.getSemestreDisciplina());
 
-            List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getCurso().getCodigo())), true);
+            List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(curriculo.getCurso().getCodigo()), false);
 
-            if (cursos.size() > 0) {
-                curr.setCurso(cursos.get(0));
+            if (cursos.size() > 0 ) {curr.setCurso((Curso) cursos.get(0));}
+
+            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(curriculo.getDisciplina().getCodigo()), false);
+            
+            if (disciplinas.size() > 0 )
+            {
+                curr.setDisciplina((Disciplina) disciplinas.get(0));
+            }
+            else
+            {  
+            	List departamentox = PersistenceHelper.queryCustom("Departamento", "sigla", curriculo.getDisciplina().getDepartamento().getSigla(), true);
+            	if (departamentox.size() > 0){
+            		curriculo.getDisciplina().setDepartamento((Departamento)departamentox.get(0));                	
+            	} 
+            	else{  
+            		PersistenceHelper.Persist(curriculo.getDisciplina().getDepartamento());
+            		curriculo.getDisciplina().setDepartamento((Departamento)PersistenceHelper.queryCustom("Departamento", "sigla", curriculo.getDisciplina().getDepartamento().getSigla(), true).get(0));
+            	}
+            	PersistenceHelper.Persist(curriculo.getDisciplina());
+            	curr.setDisciplina((Disciplina)(PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(curriculo.getDisciplina().getCodigo()), false).get(0)));
             }
 
-            List<Disciplina> disciplinas = Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getDisciplina().getCodigo())), true);
-
-            if (disciplinas.size() > 0) {
-                curr.setDisciplina(disciplinas.get(0));
-            } else {
-                curriculo.getDisciplina().setDepartamento((Departamento) Persistence.select(Departamento.class, Persistence.createExpression(new Pair<>("sigla", curriculo.getDisciplina().getDepartamento().getSigla())), true).get(0));
-
-                Persistence.insert(curriculo.getDisciplina());
-
-                curr.setDisciplina((Disciplina) (Persistence.select(Disciplina.class, Persistence.createExpression(new Pair<>("codigo", curriculo.getDisciplina().getCodigo())), true).get(0)));
-            }
-
-            Persistence.insert(curr);
+            PersistenceHelper.Persist(curr); 
         }
-
-        return ClientUtils.sendMessage(new AllRightMessage("Inserted all Resumes successfully on the system."));
+        return Response.status(200).build();
     }
-
+    
     @Path("/getCurriculos/nomeCurso={nome}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
-    public Response getCurriculoByNome(@PathParam("nome") String nome) throws Exception {
-        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("nome", nome)), true);
-        List<Curriculo> curriculo = Persistence.select(Curriculo.class, Persistence.createExpression(new Pair<>("curso", (cursos.get(0)).getId())), true);
-
-        return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This curriculum wasn't found on our system."));
+    public Response getCurriculosByName(@PathParam("nome") String nome) throws Exception {
+        Gson gson = new Gson();
+        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
+        List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", String.valueOf(((Curso)cursos.get(0)).getId()) ,false);
+         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) :
+                ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
-
+    
     @Path("/getCurriculos/codigoCurso={codigo}")
     @GET
-    @Produces(MediaType.APPLICATION_JSON)
+    @Produces(MediaType.APPLICATION_JSON) 
     public Response getCurriculosByCodigo(@PathParam("codigo") int codigo) throws Exception {
-        List<Curso> cursos = Persistence.select(Curso.class, Persistence.createExpression(new Pair<>("codigo", codigo)), true);
-        List<Curriculo> curriculo = Persistence.select(Curriculo.class, Persistence.createExpression(new Pair<>("curso", (cursos.get(0)).getId())), true);
-
-        return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
-    }
+        List cursos = PersistenceHelper.queryCustom("Curso", "codigo", String.valueOf(codigo), false);
+        
+        if(cursos.size() == 0)
+            return ClientUtils.sendMessage(new NotFoundMessage("This Course wasn't found on our system."));
+        
+        List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", String.valueOf(((Curso)cursos.get(0)).getId()) ,false);
+         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : 
+                ClientUtils.sendMessage(new NotFoundMessage("Any curriculum for this Course wasn't found on our system."));
+    }  
 }

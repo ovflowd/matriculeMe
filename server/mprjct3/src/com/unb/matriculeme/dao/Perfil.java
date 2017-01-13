@@ -1,50 +1,55 @@
 package com.unb.matriculeme.dao;
 
+import java.util.List;
+
 import javax.persistence.*;
 
 @Entity
-public class Perfil {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int id;
-    @ManyToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn
-    private Departamento departamento;
-    @Column(nullable = false)
-    private int metrica;
-    @OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
-    @JoinColumn
-    private Aluno aluno;
-
-    public int getId() {
-        return id;
-    }
-
-    public void setId(int id) {
-        this.id = id;
-    }
-
-    public Departamento getDepartamento() {
-        return departamento;
-    }
-
-    public void setDepartamento(Departamento departamento) {
-        this.departamento = departamento;
-    }
-
-    public int getMetrica() {
-        return metrica;
-    }
-
-    public void setMetrica(int metrica) {
-        this.metrica = metrica;
-    }
-
-    public Aluno getAluno() {
-        return this.aluno;
-    }
-
-    public void setAluno(Aluno aluno) {
-        this.aluno = aluno;
-    }
+public class Perfil 
+{
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO) 
+	private int id;
+	
+	@OneToMany(cascade = {CascadeType.MERGE,CascadeType.REFRESH})
+	@JoinTable(name = "perfil_departamento")
+	private List<Departamento> departamentos; 
+	
+	@Column
+	private String metricaString;
+	
+	@OneToOne(cascade = {CascadeType.MERGE, CascadeType.REFRESH})
+	@JoinColumn
+	private Aluno aluno;
+	
+	public int getId()
+	{
+		return id;
+	}
+	public void setId(int id)
+	{
+		this.id = id; 
+	}
+	public List<Departamento> getDepartamentos()
+	{
+		return departamentos;
+	}
+	public void setDepartamentos(List<Departamento> departamentos)
+	{
+		this.departamentos = departamentos;
+	}
+	public String getMetricaString() 
+	{
+		return metricaString;
+	}
+	public void setMetricaString(String metricaString)
+	{
+		this.metricaString = metricaString;  
+	}
+	public Aluno getAluno(){
+		return this.aluno; 
+	}
+	public void setAluno(Aluno aluno){
+		this.aluno = aluno;
+	}
 }
