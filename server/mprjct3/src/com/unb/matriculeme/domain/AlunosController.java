@@ -40,7 +40,7 @@ public class AlunosController {
 
         Persistence.update(alunos.get(0), aluno);
 
-        Trigger thread = new Trigger(new Gson().toJson(aluno),"http://127.0.0.1:8081/ML/rest/MachineLearn/loadAluno");
+        Trigger thread = new Trigger(new Gson().toJson(aluno), "http://127.0.0.1:8081/ML/rest/MachineLearn/loadAluno");
         thread.start();
 
         return ClientUtils.sendMessage(new AllRightMessage("The user was updated successfully with the coursed disciplines!"));
