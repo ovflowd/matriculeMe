@@ -25,7 +25,7 @@ public class PerfilController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sayPlainTextHello(@PathParam("matricula") int matricula, Perfil profile) throws Exception {
-        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(matricula), false);
+        List alunos = PersistenceHelper.queryCustom("Aluno", "matricula", matricula);
         if (alunos.size() < 0) {
             //TRATANDO SE PASSAR MATRICULA INVALIDA
             return ClientUtils.sendMessage(new NotFoundMessage("This user wasn't found on our system."));
@@ -34,7 +34,7 @@ public class PerfilController {
         //Abaixo segue o algol p poder linkar sugestao com disciplina ja presente no BD
 
         for (int i = 0; i < profile.getAluno().getSugestoes().size(); i++) {
-            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", String.valueOf(profile.getAluno().getSugestoes().get(i).getDisciplina().getCodigo()), false);
+            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", profile.getAluno().getSugestoes().get(i).getDisciplina().getCodigo());
             profile.getAluno().getSugestoes().get(i).setDisciplina(((Disciplina) disciplinas.get(0)));
             //PersistenceHelper.Persist(profile.getAluno().getSugestoes().get(i));
         }
@@ -56,9 +56,9 @@ public class PerfilController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response alterPerfil(@PathParam("matricula") int matricula) throws IllegalAccessException {
-        List Alunos = PersistenceHelper.queryCustom("Aluno", "matricula", String.valueOf(matricula), false);
+        List Alunos = PersistenceHelper.queryCustom("Aluno", "matricula", matricula);
         if (Alunos.size() > 0) {
-            List perfis = PersistenceHelper.queryCustom("Perfil", "aluno_id", String.valueOf(((Aluno) Alunos.get(0)).getId()), false);
+            List perfis = PersistenceHelper.queryCustom("Perfil", "aluno_id", ((Aluno) Alunos.get(0)).getId());
             return perfis.size() > 0 ? ClientUtils.sendResponse(perfis.get(0)) :
                     ClientUtils.sendMessage(new NotFoundMessage("This Profile wasn't found on our system."));
         }
