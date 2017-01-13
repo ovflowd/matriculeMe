@@ -74,7 +74,8 @@ public class CurriculoController {
     public Response getCurriculosByName(@PathParam("nome") String nome) throws Exception {
         Gson gson = new Gson();
         List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
-        List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", ((Curso) cursos.get(0)).getId());
+        //List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", ((Curso) cursos.get(0)).getId());
+        List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", (Curso) cursos.get(0));
         
         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
