@@ -97,7 +97,7 @@ public class PersistenceHelper {
         int valor = 0;
         List objects = new ArrayList<>();
         
-        objects = query.setParameter("t", Integer.parseInt(t)).getResultList();
+        objects = query.setParameter("t", t).getResultList();
 
         em.getTransaction().commit();
         em.close();

@@ -1,7 +1,9 @@
 package com.unb.matriculeme.domain;
 
 import com.unb.matriculeme.dao.Motivo;
+import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

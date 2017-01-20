@@ -23,7 +23,7 @@ public class DisciplinasController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response trial(@PathParam("primeira_tabela") String table, @PathParam("row") String coluna, @PathParam("parametro") String parametro) {
         boolean parsable = true;
-        List helper = new ArrayList<>();
+        List helper;
 
         try {
             Integer.parseInt(parametro);
@@ -32,7 +32,7 @@ public class DisciplinasController {
         }
 
         if (parsable) {
-            helper = PersistenceHelper.queryCustom(table, coluna, parametro);
+            helper = PersistenceHelper.queryCustom(table, coluna, Integer.valueOf(parametro));
         } else {
             helper = PersistenceHelper.queryCustom(table, coluna, parametro);
         }

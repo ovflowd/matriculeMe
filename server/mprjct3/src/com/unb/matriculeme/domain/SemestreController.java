@@ -1,7 +1,9 @@
 package com.unb.matriculeme.domain;
 
 import com.unb.matriculeme.dao.Semestre;
+import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -18,8 +20,8 @@ public class SemestreController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setSemestre(List<Semestre> semestre) {
-        for (int i = 0; i < semestre.size(); i++) {
-            PersistenceHelper.Persist(semestre.get(i));
+        for (Semestre aSemestre : semestre) {
+            PersistenceHelper.Persist(aSemestre);
         }
         return ClientUtils.sendMessage(new AllRightMessage("Semestre set successfully."));
     }

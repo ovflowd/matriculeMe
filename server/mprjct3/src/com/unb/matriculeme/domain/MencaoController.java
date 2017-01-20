@@ -1,7 +1,9 @@
 package com.unb.matriculeme.domain;
 
 import com.unb.matriculeme.dao.Mencao;
+import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
@@ -19,9 +21,10 @@ public class MencaoController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setMencoes(List<Mencao> mencoes) {
-        for (int i = 0; i < mencoes.size(); i++) {
-            PersistenceHelper.Persist(mencoes.get(i));
+        for (Mencao mencoe : mencoes) {
+            PersistenceHelper.Persist(mencoe);
         }
+
         return ClientUtils.sendMessage(new AllRightMessage("Mentions set successfully."));
     }
 

@@ -4,6 +4,7 @@ import com.google.gson.Gson;
 import com.unb.matriculeme.dao.*;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.BaseMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
@@ -111,7 +112,7 @@ public class AlunosController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome) {
         List students = PersistenceHelper.queryCustom("Aluno", "nome", nome);
-        
+
         return students.size() > 0 ? ClientUtils.sendResponse(students.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
@@ -148,10 +149,11 @@ public class AlunosController {
         List alunos = null;
 
         if (students.size() > 0) {
-            alunos = PersistenceHelper.queryCustom("Aluno", "login_id", ((Login) students.get(0)).getId()));
+            alunos = PersistenceHelper.queryCustom("Aluno", "login_id", ((Login) students.get(0)).getId());
+            return ClientUtils.sendResponse(alunos.get(0));
         }
 
-        return students.size() > 0 ? ClientUtils.sendResponse(alunos.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
+        return ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
     @Path("/setAluno/")
@@ -160,7 +162,7 @@ public class AlunosController {
     public Response setHorarios(String mandatory) throws Exception {
         Aluno student = new Gson().fromJson(mandatory, Aluno.class);
 
-        List students = PersistenceHelper.queryCustom("Login", "accessKey", student.getLogin().getAccessKey(), true);
+        List students = PersistenceHelper.queryCustom("Login", "accessKey", student.getLogin().getAccessKey());
 
         if (students.size() == 0) {
             student.setCurso((Curso) (PersistenceHelper.queryCustom("Curso", "codigo", 0).get(0)));

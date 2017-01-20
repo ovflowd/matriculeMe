@@ -6,11 +6,13 @@ import com.unb.matriculeme.dao.Semestre;
 import com.unb.matriculeme.dao.Turma;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import java.util.*;
 
 @Path("/turmas/")
 public class TurmaController {
@@ -28,13 +30,12 @@ public class TurmaController {
 
         List<Disciplina> disciplinas = new ArrayList<Disciplina>();
 
-        Iterator itr = Turmas.iterator();
-
-        while (itr.hasNext()) {
-            Object[] obj = (Object[]) itr.next();
+        for (Object Turma : Turmas) {
+            Object[] obj = (Object[]) Turma;
             Turma t1 = (Turma) obj[0];
             disciplinas.add(t1.getOferta().getDisciplina());
         }
+
         Set<Disciplina> disciplinasUnique = new HashSet<Disciplina>(disciplinas);
 
         return Turmas.size() > 0 ? ClientUtils.sendResponse(disciplinasUnique) :
@@ -51,10 +52,8 @@ public class TurmaController {
 
         List<Disciplina> disciplinas = new ArrayList<Disciplina>();
 
-        Iterator itr = Turmas.iterator();
-
-        while (itr.hasNext()) {
-            Object[] obj = (Object[]) itr.next();
+        for (Object Turma : Turmas) {
+            Object[] obj = (Object[]) Turma;
             Turma t1 = (Turma) obj[0];
             disciplinas.add(t1.getOferta().getDisciplina());
         }
@@ -67,11 +66,11 @@ public class TurmaController {
 
         List<Disciplina> disciplinas_toSend = new ArrayList<Disciplina>();
 
-        for (int i = 0; i < disciplinas.size(); i++) {
-            for (int j = 0; j < disciplinas_LIKE.size(); j++) {
-                if (((Disciplina) disciplinas_LIKE.get(j)).getNome().equals(((Disciplina) disciplinas.get(i)).getNome())) {
+        for (Disciplina disciplina : disciplinas) {
+            for (Object aDisciplinas_LIKE : disciplinas_LIKE) {
+                if (((Disciplina) aDisciplinas_LIKE).getNome().equals(((Disciplina) disciplina).getNome())) {
                     System.out.println("entrou");
-                    d1 = (Disciplina) disciplinas_LIKE.get(j);
+                    d1 = (Disciplina) aDisciplinas_LIKE;
                     disciplinas_toSend.add(d1);
                     break;
                 }

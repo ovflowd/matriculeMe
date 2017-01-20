@@ -22,8 +22,8 @@ public class SuperDisciplinaController {
         List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", ((Curso) cursos.get(0)).getId());
 
         List<SuperDisciplina> superDisciplinas = new ArrayList<>();
-        for (int i = 0; i < curriculo.size(); i++) {
-            SuperDisciplina sup1 = new SuperDisciplina(((Curriculo) curriculo.get(i)).getDisciplina());
+        for (Object aCurriculo : curriculo) {
+            SuperDisciplina sup1 = new SuperDisciplina(((Curriculo) aCurriculo).getDisciplina());
             List ofertas = PersistenceHelper.queryCustom("Oferta", "disciplina_id", ((Curriculo) curriculo.get(0)).getDisciplina().getId());
             if (ofertas.size() > 0) {
                 System.out.println(((Oferta) ofertas.get(0)).getId());

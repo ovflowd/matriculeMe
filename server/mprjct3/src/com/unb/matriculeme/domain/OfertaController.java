@@ -3,7 +3,9 @@ package com.unb.matriculeme.domain;
 import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.dao.Oferta;
 import com.unb.matriculeme.dao.Semestre;
+import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;

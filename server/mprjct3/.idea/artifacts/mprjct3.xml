@@ -1,0 +1,16 @@
+<component name="ArtifactManager">
+  <artifact type="war" build-on-make="true" name="mprjct3">
+    <output-path>$PROJECT_DIR$/classes/artifacts/mprjct3</output-path>
+    <root id="archive" name="mprjct3.war">
+      <element id="directory" name="WEB-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/WebContent/WEB-INF/web.xml" />
+        <element id="directory" name="lib">
+          <element id="dir-copy" path="$PROJECT_DIR$/WebContent/WEB-INF/lib" />
+        </element>
+        <element id="directory" name="classes">
+          <element id="dir-copy" path="$PROJECT_DIR$/build/classes" />
+        </element>
+      </element>
+    </root>
+  </artifact>
+</component>

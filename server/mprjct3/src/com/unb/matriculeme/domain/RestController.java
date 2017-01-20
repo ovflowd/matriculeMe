@@ -28,7 +28,7 @@ public class RestController {
         }
         List response = new ArrayList<>();
         if (parsable) {
-            response = PersistenceHelper.queryCustom(table, queried, toQuery);
+            response = PersistenceHelper.queryCustom(table, queried, Integer.valueOf(toQuery));
         } else { //false, meaning is string
             response = PersistenceHelper.queryCustom(table, queried, toQuery);
         }

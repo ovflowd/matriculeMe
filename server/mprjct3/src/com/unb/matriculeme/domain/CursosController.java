@@ -2,7 +2,10 @@ package com.unb.matriculeme.domain;
 
 import com.google.gson.Gson;
 import com.unb.matriculeme.dao.Curso;
+import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
+import com.unb.matriculeme.messages.NotFoundMessage;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -55,7 +58,7 @@ public class CursosController {
             }
         }
 
-        ClientUtils.sendMessage(new AllRightMessage("Courses created successfully."));
+        return ClientUtils.sendMessage(new AllRightMessage("Courses created successfully."));
     }
 
     @Path("/getCurso/nome={nome}")
@@ -72,7 +75,7 @@ public class CursosController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome, @PathParam("codigo") int codigo) {
 
-        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, "codigo", codigo);
+        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, "codigo", String.valueOf(codigo));
 
         return cursos.size() > 0 ? ClientUtils.sendResponse(cursos) : ClientUtils.sendMessage(new NotFoundMessage("Courses not Found."));
     }

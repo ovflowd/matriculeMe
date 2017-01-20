@@ -8,6 +8,7 @@ import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.dao.Perfil;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
 import javax.persistence.EntityManager;

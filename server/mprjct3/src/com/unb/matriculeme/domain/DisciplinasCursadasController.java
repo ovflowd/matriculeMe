@@ -1,7 +1,9 @@
 package com.unb.matriculeme.domain;
 
 import com.unb.matriculeme.dao.DisciplinasCursadas;
+import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
@@ -38,9 +40,10 @@ public class DisciplinasCursadasController {
     public Response example(List<DisciplinasCursadas> disciplinasCursadas) {
         //List aluno = Queries.queryCustom("Aluno", "matricula", String.valueOf(disciplinasCursadas.get(0).getAluno().getMatricula()), false);
 
-        for (int i = 0; i < disciplinasCursadas.size(); i++) {
+        for (DisciplinasCursadas disciplinasCursada : disciplinasCursadas) {
+            // Mencao never used
             List mencao = PersistenceHelper.queryCustom("Mencao", "codigo", disciplinasCursadas.get(0).getMencao().getCodigo());
-            PersistenceHelper.Persist(disciplinasCursadas.get(i));
+            PersistenceHelper.Persist(disciplinasCursada);
         }
 
         return ClientUtils.sendMessage(new AllRightMessage("Coursed disciplines set.."));

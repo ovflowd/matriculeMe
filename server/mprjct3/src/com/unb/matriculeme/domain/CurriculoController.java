@@ -8,6 +8,7 @@ import com.unb.matriculeme.dao.Departamento;
 import com.unb.matriculeme.dao.Disciplina;
 import com.unb.matriculeme.helpers.ClientUtils;
 import com.unb.matriculeme.helpers.PersistenceHelper;
+import com.unb.matriculeme.messages.AllRightMessage;
 import com.unb.matriculeme.messages.NotFoundMessage;
 
 import javax.ws.rs.*;
@@ -46,14 +47,14 @@ public class CurriculoController {
                 curr.setCurso((Curso) cursos.get(0));
             }
 
-            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", curriculo.getDisciplina().getCodigo();
+            List disciplinas = PersistenceHelper.queryCustom("Disciplina", "codigo", curriculo.getDisciplina().getCodigo());
 
             if (disciplinas.size() > 0) {
                 curr.setDisciplina((Disciplina) disciplinas.get(0));
             } else {
-                List departamentox = PersistenceHelper.queryCustom("Departamento", "sigla", curriculo.getDisciplina().getDepartamento().getSigla());
-                if (departamentox.size() > 0) {
-                    curriculo.getDisciplina().setDepartamento((Departamento) departamentox.get(0));
+                List departments = PersistenceHelper.queryCustom("Departamento", "sigla", curriculo.getDisciplina().getDepartamento().getSigla());
+                if (departments.size() > 0) {
+                    curriculo.getDisciplina().setDepartamento((Departamento) departments.get(0));
                 } else {
                     PersistenceHelper.Persist(curriculo.getDisciplina().getDepartamento());
                     curriculo.getDisciplina().setDepartamento((Departamento) PersistenceHelper.queryCustom("Departamento", "sigla", curriculo.getDisciplina().getDepartamento().getSigla()).get(0));
@@ -73,9 +74,9 @@ public class CurriculoController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculosByName(@PathParam("nome") String nome) throws Exception {
         Gson gson = new Gson();
-        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, true);
+        List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome);
         //List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", ((Curso) cursos.get(0)).getId());
-        List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", (Curso) cursos.get(0));
+        List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", ((Curso) cursos.get(0)).getNome());
         
         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
