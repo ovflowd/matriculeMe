@@ -18,7 +18,6 @@ public class DepartamentosController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String name) {
-
         List departments = PersistenceHelper.queryCustom("Departamento", "nome", name);
 
         return departments.size() > 0 ? ClientUtils.sendResponse(departments.get(0)) : ClientUtils.sendMessage(new NotFoundMessage("The department wasn't found on the system."));
@@ -28,8 +27,8 @@ public class DepartamentosController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setAllCoisas(List<Departamento> allDepartments) throws Exception {
-        for (int i = 0; i < allDepartments.size(); i++) {
-            PersistenceHelper.Persist(allDepartments.get(i));
+        for (Departamento allDepartment : allDepartments) {
+            PersistenceHelper.Persist(allDepartment);
         }
 
         return ClientUtils.sendMessage(new AllRightMessage("Department Set."));

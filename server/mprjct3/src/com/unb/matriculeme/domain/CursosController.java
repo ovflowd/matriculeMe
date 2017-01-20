@@ -52,9 +52,9 @@ public class CursosController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sayPlainTextHello(List<Curso> cursos) throws Exception {
-        for (int i = 0; i < cursos.size(); i++) {
-            if (PersistenceHelper.queryCustom("Curso", "codigo", cursos.get(i).getCodigo()).size() == 0) {
-                PersistenceHelper.Persist(cursos.get(i));
+        for (Curso curso : cursos) {
+            if (PersistenceHelper.queryCustom("Curso", "codigo", curso.getCodigo()).size() == 0) {
+                PersistenceHelper.Persist(curso);
             }
         }
 
@@ -74,7 +74,6 @@ public class CursosController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response example(@PathParam("nome") String nome, @PathParam("codigo") int codigo) {
-
         List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome, "codigo", String.valueOf(codigo));
 
         return cursos.size() > 0 ? ClientUtils.sendResponse(cursos) : ClientUtils.sendMessage(new NotFoundMessage("Courses not Found."));

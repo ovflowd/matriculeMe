@@ -104,7 +104,7 @@ public class AlunosController {
         em.close();
         emf.close();
 
-        return ClientUtils.sendMessage(new AllRightMessage());
+        return ClientUtils.sendMessage(new AllRightMessage("Updated Suggestion."));
     }
 
     @Path("/getAluno/nome={nome}")

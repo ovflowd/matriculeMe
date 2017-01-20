@@ -75,10 +75,25 @@ public class PersistenceHelper {
         em.getTransaction().begin();
 
         Query query = em.createQuery("from " + table + " where " + toQuery + "=:t ");
-        int valor = 0;
-        List objects = new ArrayList<>();
 
-        objects = query.setParameter("t", t).getResultList();
+        List objects = query.setParameter("t", t).getResultList();
+
+        em.getTransaction().commit();
+        em.close();
+        emf.close();
+
+        return objects;
+    }
+
+    public static List queryCustom(String table, String toQuery, Object t) {
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("myDB");
+        EntityManager em = emf.createEntityManager();
+
+        em.getTransaction().begin();
+
+        Query query = em.createQuery("from " + table + " where " + toQuery + "=:t ");
+
+        List objects = query.setParameter("t", t).getResultList();
 
         em.getTransaction().commit();
         em.close();
@@ -93,11 +108,9 @@ public class PersistenceHelper {
 
         em.getTransaction().begin();
 
-        Query query = em.createQuery("from " + table + " where " + toQuery + "=:t ");
-        int valor = 0;
-        List objects = new ArrayList<>();
-        
-        objects = query.setParameter("t", t).getResultList();
+        Query query = em.createQuery("from " + table + " where " + toQuery + " = :t ");
+
+        List objects = query.setParameter("t", t).getResultList();
 
         em.getTransaction().commit();
         em.close();

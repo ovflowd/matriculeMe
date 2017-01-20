@@ -1,7 +1,6 @@
 package com.unb.matriculeme.domain;
 
 
-import com.google.gson.Gson;
 import com.unb.matriculeme.dao.Curriculo;
 import com.unb.matriculeme.dao.Curso;
 import com.unb.matriculeme.dao.Departamento;
@@ -25,10 +24,7 @@ public class CurriculoController {
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculos() throws Exception {
         List curriculos = PersistenceHelper.queryGetList("Curriculo");
-        Gson gson = new Gson();
-        String json = gson.toJson(curriculos);
-
-        return ClientUtils.sendResponse(json);
+        return ClientUtils.sendResponse(curriculos);
     }
 
     @Path("/setAllCurr")
@@ -73,11 +69,10 @@ public class CurriculoController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getCurriculosByName(@PathParam("nome") String nome) throws Exception {
-        Gson gson = new Gson();
         List cursos = PersistenceHelper.queryCustom("Curso", "nome", nome);
         //List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", ((Curso) cursos.get(0)).getId());
         List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", ((Curso) cursos.get(0)).getNome());
-        
+
         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : ClientUtils.sendMessage(new NotFoundMessage("This User wasn't found on our system."));
     }
 
@@ -90,8 +85,8 @@ public class CurriculoController {
         if (cursos.size() == 0)
             return ClientUtils.sendMessage(new NotFoundMessage("This Course wasn't found on our system."));
 
-        List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", ((Curso) cursos.get(0)).getId());
-        
+        List curriculo = PersistenceHelper.queryCustom("Curriculo", "curso", (Curso) cursos.get(0));
+
         return curriculo.size() > 0 ? ClientUtils.sendResponse(curriculo) : ClientUtils.sendMessage(new NotFoundMessage("Any curriculum for this Course wasn't found on our system."));
     }
 }

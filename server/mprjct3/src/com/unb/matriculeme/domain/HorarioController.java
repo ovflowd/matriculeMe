@@ -19,7 +19,6 @@ public class HorarioController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sayPlainTextHello(Horario horario) {
-
         Horario horario1 = new Horario();
 
         horario1.setDia(horario.getDia());
@@ -33,7 +32,6 @@ public class HorarioController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch(@PathParam("dia") String dia) {
-
         List horario = PersistenceHelper.queryCustom("Horario", "dia", dia);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :
@@ -75,7 +73,6 @@ public class HorarioController {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response convertFeetToInch2(@PathParam("horarioInicio") String horarioInicio, @PathParam("horarioFim") String horarioFim) {
-
         List horario = PersistenceHelper.queryCustom("Horario", "horarioInicio", horarioInicio, "horarioFim", horarioFim);
 
         return horario.size() > 0 ? ClientUtils.sendResponse(horario) :

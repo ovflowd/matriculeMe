@@ -18,7 +18,6 @@ public class ProfessoresController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response sayPlainTextHello(Professor professor) throws Exception {
-
         Professor p1 = new Professor();
         p1.setNome(professor.getNome());
         PersistenceHelper.Persist(p1);
@@ -41,11 +40,12 @@ public class ProfessoresController {
     @PUT
     @Consumes(MediaType.APPLICATION_JSON)
     public Response alterProfessor(@PathParam("nome") String nome, Professor professor) throws Exception {
-
         List professors = PersistenceHelper.queryCustom("Professor", "nome", nome);
+
         if (professors.size() > 0) {
             //PersistenceHelper.update(professors.get(0), professor);
         }
+
         return ClientUtils.sendMessage(professors.size() > 0 ? new AllRightMessage("Professor changed successfully.") :
                 new NotFoundMessage("This professor wasn't found on our system."));
     }

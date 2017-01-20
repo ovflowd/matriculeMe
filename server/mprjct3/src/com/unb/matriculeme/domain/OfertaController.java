@@ -20,7 +20,6 @@ public class OfertaController {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     public Response setOferta(Oferta ofertaRecebida) {
-
         Oferta oferta = new Oferta();
         oferta.setDisciplina((Disciplina) (PersistenceHelper.queryCustom("Disciplina", "codigo", ofertaRecebida.getDisciplina().getCodigo()).get(0)));
         oferta.setSemestre((Semestre) (PersistenceHelper.queryCustom("Semestre", "codigo", ofertaRecebida.getSemestre().getCodigo()).get(1)));

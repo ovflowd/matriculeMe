@@ -8,7 +8,7 @@
           <element id="dir-copy" path="$PROJECT_DIR$/WebContent/WEB-INF/lib" />
         </element>
         <element id="directory" name="classes">
-          <element id="dir-copy" path="$PROJECT_DIR$/build/classes" />
+          <element id="module-output" name="mprjct3" />
         </element>
       </element>
     </root>
