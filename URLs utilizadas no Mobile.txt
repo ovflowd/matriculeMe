@@ -1,0 +1,140 @@
+URLs utilizadas no Mobile
+Os valores entre <> seão prenchidos dinamicamente com dados fornecidos pelo usuário ou por valores computados pelo servidor, conforme o caso
+
+URL base: Url = 'http://homol.redes.unb.br/ptr022016-b/mprjct3'
+
+1.  Busca de disciplina por nome:
+        Url+'/disciplinas/getDisciplina/innome=<nome>'
+    Resposta esperada:
+        [   {   "codDisc":      <código>,
+                "nomeDisc":     <nome>,
+                "deptSigla":    <sigla>,
+                "creditos":     <créditos>
+            },
+            {   "codDisc":      <código>,
+                "nomeDisc":     <nome>,
+                "deptSigla":    <sigla>,
+                "creditos":     <créditos>
+            },
+            <...>
+        ]
+
+2.  Busca de disciplina por nome com filtro de slot de horário:
+        Url + '/turmas/getTurmas/dia=<dia>&horarioInicio=<horario>&disciplina=<nome>'
+    Resposta esperada:
+        [   {   "codDisc":      <código>,
+                "nomeDisc":     <nome>,
+                "deptSigla":    <sigla>,
+                "creditos":     <créditos>
+            },
+            {   "codDisc":      <código>,
+                "nomeDisc":     <nome>,
+                "deptSigla":    <sigla>,
+                "creditos":     <créditos>
+            },
+            <...>
+        ]
+
+3.  Carga de sugestões para o mobile:
+        Url+'/alunos/getAluno/login=<usuário>&senha=<senha>'
+    Resposta esperada:
+        [   {   "codDisc":      <código>,
+                "prioridade":   <prioridade>,
+                "nomeDisc":     <nome>,
+                "motivo":       <motivo>,
+                "turma":        {}
+            },
+            {   "codDisc":      <código>,
+                "prioridade":   <prioridade>,
+                "nomeDisc":     <nome>,
+                "motivo":       <motivo>,
+                "turma":        {   "codTurma": <letra>,
+                                    "profNome": <nome do prof>
+                                    "horario":  [   {   "dia":    <dia>,
+                                                        "horarioInicio": <horário início>,
+                                                        "horarioFim":   <horário fim>
+                                                    },
+                                                    {   "dia":    <dia>,
+                                                        "horarioInicio": <horário início>,
+                                                        "horarioFim":   <horário fim>
+                                                    }
+                                                    <...>
+                                                ]
+                                }
+            },
+            <...>
+        ]
+
+4.  Login no apricativo:
+        Url+'/alunos/getAluno/login=<usuário>&senha=<senha>'
+    Respostas esperadas
+    sucesso:
+        {   "usrNome":  <nome>,
+            "usrMat":   <matrícula>,
+            "token":    <token>
+        }
+    falha:
+        Erro 483 (atualmente qualquer erro retornado pelo servidor nessa url é tratado como usuário não autenticado.)
+
+5.  Cadastro de usuário:
+        Url+'/alunos/setAluno/'
+    Dados enviados via POST:
+        {       nome:      <nome completo>,
+                matricula: <matrícula>,
+                login: {
+                  accessKey: <nome>,
+                  password:  <senha codificada>
+                }
+        }
+    Respostas esperadas:
+    sucesso:
+        200 OK
+    conta existente:
+        Erro 483 conta já existe
+
+6.  Busca de turmas:
+        Url + '/turmas/getTurmas/disciplina=<código da disciplina>'
+    Respostas esperadas:
+    sucesso:
+        {   "codDisc":      <código>,
+            "nomeDisc":     <nome>,
+            "turmas":   [   {   "codTurma": <letra>,
+                                "profNome": <nome do prof>
+                                "horario":  [   {   "dia":    <dia>,
+                                                    "horarioInicio": <horário início>,
+                                                    "horarioFim":   <horário fim>
+                                                },
+                                                {   "dia":    <dia>,
+                                                    "horarioInicio": <horário início>,
+                                                    "horarioFim":   <horário fim>
+                                                }
+                                                <...>
+                                            ]
+                            },
+                            {   "codTurma": <letra>,
+                                "profNome": <nome do prof>
+                                "horario":  [   {   "dia":    <dia>,
+                                                    "horarioInicio": <horário início>,
+                                                    "horarioFim":   <horário fim>
+                                                },
+                                                {   "dia":    <dia>,
+                                                    "horarioInicio": <horário início>,
+                                                    "horarioFim":   <horário fim>
+                                                }
+                                                <...>
+                                            ]
+                            }
+                            <...>
+                        ]
+        }
+    não existe turma(s) para disciplina pesquisada
+        Erro 404 Not Found
+
+7.  Envio de dados de perfil do usuário:
+        Url+'/disciplinasCursadas/setHist'
+    Dados enviados via POST:
+        {   "htmlHist": <HTML do Histórico>,
+            "htmlQR":   <HTML do Quadro Resumo>
+        }
+    Resposta esperada:
+        200 OK
